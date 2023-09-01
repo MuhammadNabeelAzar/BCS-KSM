@@ -6,7 +6,7 @@
     </head>
     <body>
         <!--      navbar-->
-        <nav class="navbar navbar-expand-sm navbar-light bg-light"style="height:fit-content">
+        <nav class="navbar navbar-expand-sm navbar-light bg-light"style="height:70px">
             <div class="container-fluid">
                 <div class="d-flex flex-column datetime m-2">
                     <div class="date">
@@ -40,17 +40,34 @@
                 </div>
             </div>
         </nav>
+        <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            <i class="bi bi-list"></i>
+        </a>
         <hr>
         <!--user navigation-->
-        <div class="container-fluid"style="background-color:black">
-            <div class="btn-group" role="group" aria-label="module navigation buttons">
-                <a href="../module/user-management/user-management.php" ><button id="" type="button"style="">User Management</button></a>
-                <a href="../module/menu-management/menu-management.php" ><button id="" type="button"style="">Menu Management</button></a>
-                <a href="../module/ingredients-management/ingredients-management.php" ><button id="" type="button"style="">Ingredients Management</button></a>
-                <a href="../module/billing-and-transactions/billing-and-transactions.php" ><button id="" type="button"style="">Billing and Transactions</button></a>
-                <a href="" ><button id="" type="button"style="">Dashboard</button></a>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offCanvasExample" aria-labelledby="offcanvas" style="width:fit-content">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title"></h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
+            <div class="offcanvas-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="#" data-bs-toggle="collapse" data-bs-target="#customerSubMenu">Customer Management</a>
+                        <!-- Sublist -->
+                        <div id="customerSubMenu" class="collapse">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="../../module/cashier/customer-management/customer.php">Customers Details</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
         </div>
+        <!--user navigation-->
+
 
 
 

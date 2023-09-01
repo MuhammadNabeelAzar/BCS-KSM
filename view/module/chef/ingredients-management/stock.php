@@ -6,7 +6,7 @@
     </head>
     <body>
         <!--      navbar-->
-        <nav class="navbar navbar-expand-sm navbar-light bg-light"style="height:fit-content">
+        <nav class="navbar navbar-expand-sm navbar-light bg-light"style="height:70px">
             <div class="container-fluid">
                 <div class="d-flex flex-column datetime m-2">
                     <div class="date">
@@ -40,14 +40,50 @@
                 </div>
             </div>
         </nav>
+        <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            <i class="bi bi-list"></i>
+        </a>
         <hr>
         <!--user navigation-->
-        <div class="container-fluid"style="background-color:black">
-            <div class="btn-group" role="group" aria-label="module navigation buttons">
-                <a href="../module/ingredients-management/ingredients-management.php" ><button id="" type="button"style="">Ingredients Management</button></a>
-                <a href="" ><button id="" type="button"style="">Dashboard</button></a>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width:fit-content">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel"></h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
+            <div class="offcanvas-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="#" data-bs-toggle="collapse" data-bs-target="#menuManagementSubMenu">Menu Management</a>
+                        <!-- Sublist -->
+                        <div id="menuManagementSubMenu" class="collapse">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="../../module/chef/menu-management/categories.php" >Categories</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/menu-management/items.php">Items</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/menu-management/pricing.php">Pricing</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/menu-management/availability.php">Availability</a></li> 
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#" data-bs-toggle="collapse" data-bs-target="#ingredientsManagementSubMenu">Ingredients Management</a>
+                        <!-- Sublist -->
+                        <div id="ingredientsManagementSubMenu" class="collapse">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="../../module/chef/ingredients-management/ingredients.php">Ingredients</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/ingredients-management/stock.php">Stock</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="../../dashboards/dashboard.php">Dashboard</a>
+                    </li>
+
+                </ul>
+            </div>
+
         </div>
+        <!--user navigation-->
+
 
 
 
