@@ -7,7 +7,6 @@
     </head>
     <body>
             <!--      navbar-->
-        <div class="container-fluid">
             <nav  class="navbar navbar-expand-sm navbar-light bg-light ">
             <div class="container-fluid">
                 <div class="d-flex flex-column datetime m-2">
@@ -42,7 +41,6 @@
                 </div>
             </div>
         </nav>
-        </div>
              
         <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
             <i class="bi bi-list"></i>
@@ -120,6 +118,88 @@
   <div class="input-group-append">
       <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
   </div>
+  <button type="button" class="btn bi bi-plus" data-bs-toggle="modal" data-bs-target="#add-userModal"></button>
+   <div class=" modal fade" id="add-userModal" tabindex="-1" aria-labelledby="add_user" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class=" modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="adduser_Modal"  style="text-align:center">Add User</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Fname">Firsttt Name</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="firstName" placeholder="User's First Name" aria-label="First Name" aria-describedby="Fname" maxlength="30" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Lname">Last Name</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="lastName" placeholder="User's Last Name" aria-label="Last Name" aria-describedby="Lname" maxlength="30" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Email">Email</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Email" placeholder="User's Email" aria-label="User Email" aria-describedby="Email" maxlength="100" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Unic">NIC</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Nic" placeholder="User's Nic" aria-label="User Nic" aria-describedby="Unic" maxlength="20" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Userdob">Date of Birth</span>
+                                                    </div>
+                                                    <input type="Date" class="form-control" id="user_Dob"  aria-label="User Date of Birth" aria-describedby="Userdob"  required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Contact">Contact Number</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Contact" placeholder="User's Contact Number" aria-label="User Contact" aria-describedby="Contact" maxlength="15" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Username">Username</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="userName" placeholder="Set Username" aria-label="Username" aria-describedby="Username" maxlength="20" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Password">Password</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="userPassword" placeholder="Set Password" aria-label="User Password" aria-describedby="Password" maxlength="35" required>
+                                                </div>
+                                            </div>
+                                            <div class=" d-flex flex-column">
+                                                <select class="forms-select mb-3" id="userRole" aria-label="Users Role" required>
+                                                    <option  disabled selected value="">Select</option>
+                                                    <option value="1">Admin</option>
+                                                    <option value="2">Cashier</option>
+                                                    <option value="3">Chef</option>
+                                                    <option value="4">Stock Manager</option>
+                                                </select>
+                                                <div class="mb-3">
+
+                                                    <input class="form-control " type="file"  id="formFile" required>
+                                                </div>
+                                            </div>
+                                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </div
         </div>
             
@@ -171,33 +251,70 @@
                         </div>
                         <div class="modal-body">
                             <form>
-                                <div class="col">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="Fname">First Name</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="firstName" placeholder="User's First Name" aria-label="First Name" aria-describedby="Fname" maxlength="30" required>
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="Lname">Last Name</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="lastName" placeholder="User's Last Name" aria-label="Last Name" aria-describedby="Lname" maxlength="30" required>
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="Email">Email</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="user_Email" placeholder="User's Email" aria-label="User Email" aria-describedby="Email" maxlength="100" required>
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="Unic">NIC</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="user_Nic" placeholder="User's Nic" aria-label="User Nic" aria-describedby="Unic" maxlength="20" required>
-                                    </div>                                   
-                                </div>
-                            </form>
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Fname">First Name</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="firstName" placeholder="User's First Name" aria-label="First Name" aria-describedby="Fname" maxlength="30" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Lname">Last Name</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="lastName" placeholder="User's Last Name" aria-label="Last Name" aria-describedby="Lname" maxlength="30" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Email">Email</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Email" placeholder="User's Email" aria-label="User Email" aria-describedby="Email" maxlength="100" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Unic">NIC</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Nic" placeholder="User's Nic" aria-label="User Nic" aria-describedby="Unic" maxlength="20" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Userdob">Date of Birth</span>
+                                                    </div>
+                                                    <input type="Date" class="form-control" id="user_Dob"  aria-label="User Date of Birth" aria-describedby="Userdob"  required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Contact">Contact Number</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Contact" placeholder="User's Contact Number" aria-label="User Contact" aria-describedby="Contact" maxlength="15" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Username">Username</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="userName" placeholder="Set Username" aria-label="Username" aria-describedby="Username" maxlength="20" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Password">Password</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="userPassword" placeholder="Set Password" aria-label="User Password" aria-describedby="Password" maxlength="35" required>
+                                                </div>
+                                            </div>
+                                            <div class=" d-flex flex-column">
+                                                <select class="forms-select mb-3" id="userRole" aria-label="Users Role" required>
+                                                    <option  disabled selected value="">Select</option>
+                                                    <option value="1">Admin</option>
+                                                    <option value="2">Cashier</option>
+                                                    <option value="3">Chef</option>
+                                                    <option value="4">Stock Manager</option>
+                                                </select>
+                                                <div class="mb-3">
+
+                                                    <input class="form-control " type="file"  id="formFile" required>
+                                                </div>
+                                            </div>
+                                        </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

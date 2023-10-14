@@ -12,8 +12,8 @@
               <div><h1 align="center"">Restaurant Management System</h1></div>
           </div>
           <hr>
-          <div class="row" style="justify-content:center;">
-              <form action="" method="" style="width:fit-content;">
+          <div class="row" style="justify-content:center;">            
+              <form action="../../controller/login_controller.php?status=login" method="POST" style="width:fit-content;">
               <div class="panel" style="height:500px;box-shadow:10px 10px 10px #888888;width:500px;">
                   <div class="panel-body">
                               <div class="row">
@@ -27,7 +27,7 @@
                                   <span class="input-group-addon">
                                       <i class="bi bi-person"></i>
                                   </span>
-                                  <input type="email" placeholder="Username"class="form-control" style="height: 40px" id="username" name="username"></input>
+                                  <input type="username" placeholder="Username"class="form-control" style="height: 40px" id="username" name="username"></input>
                               </div>
                           </div>
                       </div>
