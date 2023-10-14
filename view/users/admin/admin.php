@@ -34,7 +34,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#"><Span><i class="bi bi-lock"></i></Span>Settings</a></li>
-                                <li><a class="dropdown-item" href="#"><span><i class="bi bi-box-arrow-right"></i></span>Logout</a></li>
+                                <li><a class="dropdown-item" href="../../../controller/logout_controller.php"><span><i class="bi bi-box-arrow-right"></i></span>Logout</a></li>
                             </ul>
                         </li>
                     </ul>

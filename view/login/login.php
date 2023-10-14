@@ -12,13 +12,27 @@
               <div><h1 align="center"">Restaurant Management System</h1></div>
           </div>
           <hr>
-          <div class="row" style="justify-content:center;">            
-              <form action="../../controller/login_controller.php?status=login" method="POST" style="width:fit-content;">
+          <div class="row" style="justify-content:center;"> 
+              <form action="../../controller/login_controller.php?status=login" method="POST" style="width:fit-content;">                 
               <div class="panel" style="height:500px;box-shadow:10px 10px 10px #888888;width:500px;">
                   <div class="panel-body">
                               <div class="row">
                                   <h2 align="center">Login</h2>
                               </div>
+                      <div class="row">
+                      <?php
+                        if (isset($_GET["msg"])) {
+                            $msg = base64_decode($_GET["msg"]);
+                            ?>
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <p><?php echo $msg; ?></p>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                  </div>
                       <div class="inputs" style="margin-top:70px">
                           <div class="container"style="width:fit-content;">
                         <div class="row">
@@ -27,7 +41,7 @@
                                   <span class="input-group-addon">
                                       <i class="bi bi-person"></i>
                                   </span>
-                                  <input type="username" placeholder="Username"class="form-control" style="height: 40px" id="username" name="username"></input>
+                                  <input type="text" placeholder="Username"class="form-control" style="height: 40px" id="username" name="username"></input>
                               </div>
                           </div>
                       </div>
@@ -40,7 +54,7 @@
                                   <span class="input-group-addon">
                                       <i class="bi bi-lock"></i>
                                   </span>
-                                  <input type="password" placeholder="Password"class="form-control" style="height: 40px" id="password" name="password"></input>
+                                  <input type="text" placeholder="Password"class="form-control" style="height: 40px" id="password" name="password"></input>
                               </div>
                           </div>
                       </div>
