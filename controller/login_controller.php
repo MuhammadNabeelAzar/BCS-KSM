@@ -48,7 +48,7 @@ switch ($status) {
                     throw new Exception("Unknown Role");
                 }
             } else {    
-                throw new Exception ("Login Invalid");
+                throw new Exception ("Invalid Login");
             }
         }
         catch (Exception $ex) {

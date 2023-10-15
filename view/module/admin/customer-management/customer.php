@@ -1,3 +1,8 @@
+<?php 
+include_once '../../../../model/customer_model.php';
+$customerObj = new customer();
+$customerResult = $customerObj->getcustomerdetails();
+?>
 <html>
     <head>
         <title>Restaurant Management System</title>
@@ -117,6 +122,7 @@
   <div class="input-group-append">
       <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
   </div>
+    <button type="button" class="btn bi bi-plus" data-bs-toggle="modal" data-bs-target="#addcustomerModal"></button>
 </div
         </div>
             
@@ -125,33 +131,38 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
+                            <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Contact Number</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Remove</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                       <?php
+                          While($customerrow=$customerResult->fetch_assoc())
+                          {
+                              $customer_id=$customerrow["customer_id"];
+                              $customer_id= base64_encode($customer_id)
+                          ?>
                         <tr>
-                            <td>12</td>
-                            <td>fnadme</td>
-                            <td>lnadme</td>
-                            <td>tessddsail@email.com</td>
-                            <td>sdsddsdsdV</td>
-                            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">1</button></td>
-                            <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-remove">1</button></td>
+                            <td><?php echo $customerrow["customer_id"] ?></td>
+                            <td><?php echo $customerrow["customer_fname"]."".$customerrow["customer_lname"] ?></td>
+                            <td><?php echo $customerrow["customer_email"] ?></td>
+                            <td><?php echo $customerrow["contact_number"] ?></td>
+                            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editcustomerModal">1</button></td>
                         </tr>
+                        <?php
+                          }
+                          ?>
                     </tbody>
                 </table>
+                
             </div>
-            <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class=" modal fade" id="editcustomerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class=" modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"  style="text-align:center">Edit</h5>
+                            <h5 class="modal-title" id="editcustomerModalLabel"  style="text-align:center">Edit</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -190,24 +201,51 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal" tabindex="-1" id="modal-remove">
+            </div>           
+            <div class=" modal fade" id="addcustomerModal" tabindex="-1" aria-labelledby="addcustomerModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class=" modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Remove User</h5>
+                            <h5 class="modal-title" id="addcustomerModalLabel"  style="text-align:center">Edit</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Are you sure?</p>
+                            <form>
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="Fname">First Name</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="cfirstName" placeholder="" aria-label="Customer First Name" aria-describedby="Customer Fname" maxlength="30" required>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="Lname">Last Name</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="clastName" placeholder="" aria-label="CLast Name" aria-describedby="Customer Lname" maxlength="30" required>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="Email">Email</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="cus_Email" placeholder="" aria-label="customer Email" aria-describedby="customers email" maxlength="100" required>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="Unic">Contact Number</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="cus_Contact" placeholder="" aria-label="Customer contact" aria-describedby="customercont" maxlength="20" required>
+                                    </div>                                   
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
-                            <button type="button" class="btn btn-primary">Confirm</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Add</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>           
         </div>
          
 

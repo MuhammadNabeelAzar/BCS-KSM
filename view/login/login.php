@@ -41,7 +41,7 @@
                                   <span class="input-group-addon">
                                       <i class="bi bi-person"></i>
                                   </span>
-                                  <input type="text" placeholder="Username"class="form-control" style="height: 40px" id="username" name="username"></input>
+                                  <input type="text" placeholder="Email"class="form-control" style="height: 40px" id="username" name="username"></input>
                               </div>
                           </div>
                       </div>

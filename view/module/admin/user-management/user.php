@@ -1,3 +1,10 @@
+<?php 
+include_once '../../../../model/user_model.php';
+$userObj = new user();
+$userResult = $userObj->getUserdetails();
+?>
+
+
 <html>
     <head>
         <title>Restaurant Management System</title>
@@ -34,7 +41,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#"><Span><i class="bi bi-lock"></i></Span>Settings</a></li>
-                                <li><a class="dropdown-item" href="#"><span><i class="bi bi-box-arrow-right"></i></span>Logout</a></li>
+                                <li><a class="dropdown-item" href="../../../../controller/logout_controller.php"><span><i class="bi bi-box-arrow-right"></i></span>Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -131,129 +138,6 @@
                                             <div class="col">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Fname">Firsttt Name</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="firstName" placeholder="User's First Name" aria-label="First Name" aria-describedby="Fname" maxlength="30" required>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Lname">Last Name</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="lastName" placeholder="User's Last Name" aria-label="Last Name" aria-describedby="Lname" maxlength="30" required>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Email">Email</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="user_Email" placeholder="User's Email" aria-label="User Email" aria-describedby="Email" maxlength="100" required>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Unic">NIC</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="user_Nic" placeholder="User's Nic" aria-label="User Nic" aria-describedby="Unic" maxlength="20" required>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Userdob">Date of Birth</span>
-                                                    </div>
-                                                    <input type="Date" class="form-control" id="user_Dob"  aria-label="User Date of Birth" aria-describedby="Userdob"  required>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Contact">Contact Number</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="user_Contact" placeholder="User's Contact Number" aria-label="User Contact" aria-describedby="Contact" maxlength="15" required>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Username">Username</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="userName" placeholder="Set Username" aria-label="Username" aria-describedby="Username" maxlength="20" required>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Password">Password</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="userPassword" placeholder="Set Password" aria-label="User Password" aria-describedby="Password" maxlength="35" required>
-                                                </div>
-                                            </div>
-                                            <div class=" d-flex flex-column">
-                                                <select class="forms-select mb-3" id="userRole" aria-label="Users Role" required>
-                                                    <option  disabled selected value="">Select</option>
-                                                    <option value="1">Admin</option>
-                                                    <option value="2">Cashier</option>
-                                                    <option value="3">Chef</option>
-                                                    <option value="4">Stock Manager</option>
-                                                </select>
-                                                <div class="mb-3">
-
-                                                    <input class="form-control " type="file"  id="formFile" required>
-                                                </div>
-                                            </div>
-                                        </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-</div
-        </div>
-            
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">NIC</th>
-                            <th scope="col">Contact Number</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Password</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-
-                            <td>1</td>
-                            <td>fname</td>
-                            <td>lname</td>
-                            <td>testemail@email.com</td>
-                            <td>95659585V</td>
-                            <td>+9475123456 </td>
-                            <td>username </td>
-                            <td>password123</td>
-                            <td>role1 </td>
-                            <td>image</td>
-                            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">1</button></td>
-                            <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-remove">1</button></td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class=" modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"  style="text-align:center">Edit</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                            <div class="col">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
                                                         <span class="input-group-text" id="Fname">First Name</span>
                                                     </div>
                                                     <input type="text" class="form-control" id="firstName" placeholder="User's First Name" aria-label="First Name" aria-describedby="Fname" maxlength="30" required>
@@ -288,26 +172,11 @@
                                                     </div>
                                                     <input type="text" class="form-control" id="user_Contact" placeholder="User's Contact Number" aria-label="User Contact" aria-describedby="Contact" maxlength="15" required>
                                                 </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Username">Username</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="userName" placeholder="Set Username" aria-label="Username" aria-describedby="Username" maxlength="20" required>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="Password">Password</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="userPassword" placeholder="Set Password" aria-label="User Password" aria-describedby="Password" maxlength="35" required>
-                                                </div>
                                             </div>
                                             <div class=" d-flex flex-column">
                                                 <select class="forms-select mb-3" id="userRole" aria-label="Users Role" required>
                                                     <option  disabled selected value="">Select</option>
-                                                    <option value="1">Admin</option>
-                                                    <option value="2">Cashier</option>
-                                                    <option value="3">Chef</option>
-                                                    <option value="4">Stock Manager</option>
+                                                    <option value="1">1</option>
                                                 </select>
                                                 <div class="mb-3">
 
@@ -323,19 +192,111 @@
                     </div>
                 </div>
             </div>
-            <div class="modal" tabindex="-1" id="modal-remove">
+</div
+        </div>
+            
+            <div class="table-responsive" style="height:400px">
+                <table class="table" >
+                    <thead>
+                    <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date of Birth</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">NIC</th>
+                            <th scope="col">Contact Number</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Action</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                          <?php
+                          While($userrow=$userResult->fetch_assoc())
+                          {
+                              $user_id=$userrow["user_id"];
+                              $user_id= base64_encode($user_id)
+                          ?>
+                        <tr>
+
+                            <td><?php echo $userrow["user_id"] ?></td>
+                            <td><?php echo $userrow["Fname"]." ".$userrow["Lname"]?></td>
+                            <td><?php echo $userrow["user_dob"] ?></td>
+                            <td><?php echo $userrow["user_email"] ?></td>
+                            <td><?php echo $userrow["user_nic"] ?></td>
+                            <td><?php echo $userrow["user_contactNo"] ?></td>
+                            <td><?php echo $userrow["role_name"] ?></td>
+                            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUserModal">1</button></td>
+
+                        </tr>
+                        <?php
+                          }
+                         ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class=" modal fade" id="editUserModal" tabindex="-1" aria-labelledby="edituserModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class=" modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Remove User</h5>
+                            <h5 class="modal-title" id="Modaltitle"  style="text-align:center">Edit</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Are you sure?</p>
+                            <form>
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="F-name">First Name</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="firstName" placeholder="User's First Name" aria-label="First Name" aria-describedby="Fname" maxlength="30" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="L-name">Last Name</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="lastName" placeholder="User's Last Name" aria-label="Last Name" aria-describedby="Lname" maxlength="30" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Email">Email</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Email" placeholder="User's Email" aria-label="User Email" aria-describedby="Email" maxlength="100" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Unic">NIC</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Nic" placeholder="User's Nic" aria-label="User Nic" aria-describedby="Unic" maxlength="20" required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Userdob">Date of Birth</span>
+                                                    </div>
+                                                    <input type="Date" class="form-control" id="user_Dob"  aria-label="User Date of Birth" aria-describedby="Userdob"  required>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="Contact">Contact Number</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="user_Contact" placeholder="User's Contact Number" aria-label="User Contact" aria-describedby="Contact" maxlength="15" required>
+                                                </div>
+                                            </div>
+                                            <div class=" d-flex flex-column">
+                                                <select class="forms-select mb-3" id="userRole" aria-label="Users Role" required>
+                                                    <option  disabled selected value="">Select</option>
+                                                    <option value="1">1</option>
+                                                </select>
+                                                <div class="mb-3">
+                                                    <input class="form-control " type="file"  id="formFile" required>
+                                                </div>
+                                            </div>
+                                        </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
-                            <button type="button" class="btn btn-primary">Confirm</button>
+                            <button type="button" class="btn btn-Danger">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
