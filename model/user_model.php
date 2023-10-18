@@ -12,4 +12,13 @@ class user{
         
         return $result;
     }
+    Public function getroles(){
+        $con = $GLOBALS["con"];
+        $sql = " SELECT * FROM role";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    
 }
+
