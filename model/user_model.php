@@ -19,6 +19,12 @@ class user{
         
         return $result;
     }
-    
-}
+    public function addUser($firstname,$lastname,$dob,$email,$nic,$cno,$role){
+        $con = $GLOBALS["con"];
+        $sql = " INSERT INTO user(Fname,Lname,user_email,user_dob,user_nic,user_contactNo,role_id) values('$firstname','$lastname','$email','$dob','$nic','$cno','$role')";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }   
 
+}

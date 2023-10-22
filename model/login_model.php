@@ -17,5 +17,5 @@ class Login{
         $result = $con->query($sql) or die($con->error);
         
         return $result;
-    }  
+    }     
 }

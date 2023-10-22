@@ -151,17 +151,20 @@ $editroleResult = $userObj->getroles();
                 <div class="modal-dialog">
                     <div class=" modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="adduser_Modal" style="text-align:center">Add User</h5>
+                            <h5 class="modal-title" id="adduser_Modal" style="text-align:center">Add User</h5>                                                                                                          
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="../../../../controller/user_controller.php?status=add-user" enctype="multipart/form-data" method="post">
+                            <form id="adduserform" action="../../../../controller/user_controller.php" enctype="multipart/form-data" method="post">             
                                 <div class="col">
+                               <div id="response">
+                               
+                               </div>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="Fname">First Name</span>
                                         </div>
-                                        <input type="text" class="form-control" id="firstName"
+                                        <input type="text" class="form-control" name="Fname" id="firstName"
                                             placeholder="User's First Name" aria-label="First Name"
                                             aria-describedby="Fname" maxlength="30" required>
                                     </div>
@@ -169,65 +172,62 @@ $editroleResult = $userObj->getroles();
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="Lname">Last Name</span>
                                         </div>
-                                        <input type="text" class="form-control" id="lastName"
+                                        <input type="text" class="form-control" name="Lname" id="lastName"
                                             placeholder="User's Last Name" aria-label="Last Name"
                                             aria-describedby="Lname" maxlength="30" required>
-                                    </div>
+                                    </div> 
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="Email">Email</span>
                                         </div>
-                                        <input type="text" class="form-control" id="user_Email"
+                                        <input type="text" class="form-control" name="Email" id="user_Email"
                                             placeholder="User's Email" aria-label="User Email" aria-describedby="Email"
                                             maxlength="100" required>
-                                    </div>
+                                    </div>                                 
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="Unic">NIC</span>
                                         </div>
-                                        <input type="text" class="form-control" id="user_Nic" placeholder="User's Nic"
+                                        <input type="text" class="form-control" name="Unic" id="user_Nic" placeholder="User's Nic"
                                             aria-label="User Nic" aria-describedby="Unic" maxlength="20" required>
                                     </div>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="Userdob">Date of Birth</span>
                                         </div>
-                                        <input type="Date" class="form-control" id="user_Dob"
+                                        <input type="Date" class="form-control" name="Userdob" id="user_Dob"
                                             aria-label="User Date of Birth" aria-describedby="Userdob" required>
-                                    </div>
+                                    </div>                                    
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="Contact">Contact Number</span>
                                         </div>
-                                        <input type="text" class="form-control" id="user_Contact"
+                                        <input type="text" class="form-control" name="Contact" id="user_Contact"
                                             placeholder="User's Contact Number" aria-label="User Contact"
                                             aria-describedby="Contact" maxlength="15" required>
                                     </div>
                                 </div>
                                 <div class=" d-flex flex-column">
-                                    <select class="forms-select mb-3" id="userRole" aria-label="Users Role" required>
+                                    <select class="forms-select mb-3" name="userRole" id="userRole" aria-label="Users Role" required>
                                         <option disabled selected value="">Select</option>
                                         <?php
                                         while ($role = $addroleResult->fetch_assoc()) {
                                             echo '<option value=' . $role['role_id'] . '>' . $role['role_name'] . '</option>';
                                         }
                                         ?>
-                                    </select>
-                                    <div class="mb-3">
-
-                                        <input class="form-control " type="file" id="formFile" required>
-                                    </div>
+                                    </select>                                                               
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
+                                <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Add User</button>
+                            <button id="adduserButton" type="submit" class="btn btn-primary">Add User</button>
+                            </form>
+                            
                         </div>
+                        </div>                       
                     </div>
                 </div>
             </div>
-                                    </div </div>
+                                     </div>
 
         <div class="table-responsive" style="height:400px">
             <table class="table">
@@ -283,17 +283,17 @@ $editroleResult = $userObj->getroles();
                 </tbody>
             </table>
         </div>
-        <div class=" modal fade" id="editUserModal" tabindex="-1" aria-labelledby="edituserModalLabel"
-            aria-hidden="true">
+        <div class=" modal fade" id="editUserModal" tabindex="-1" aria-labelledby="edituserModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class=" modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="Modaltitle" style="text-align:center">Edit</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form  action="../../../../controller/user_controller.php?status=edit-user" enctype="multipart/form-data" method="post">
-                            <div class="col">
+                    <div class="modal-body">                        
+                        <form  action="../../../../controller/user_controller.php?status=edit-user" enctype="multipart/form-data" method="post">                         
+                        
+                            <div class="col">                                                                                                 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="F-name">First Name</span>
@@ -348,14 +348,11 @@ $editroleResult = $userObj->getroles();
                                     }
                                     ?>
                                 </select>
-                                <div class="mb-3">
-                                    <input class="form-control " type="file" id="formFile" required>
-                                </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-Danger">Delete</button>
+                        <button type="submit" class="btn btn-Danger">Delete</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
@@ -363,16 +360,10 @@ $editroleResult = $userObj->getroles();
             </div>
         </div>
     </div>
-
-
-
-
+    <script type="text/javascript" src="adduser.js"></script>
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
-
 </body>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-
 </html>
