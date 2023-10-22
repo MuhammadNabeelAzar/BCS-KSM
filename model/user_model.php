@@ -25,6 +25,20 @@ class user{
         $result = $con->query($sql) or die($con->error);
         
         return $result;
-    }   
+    } 
+    public function getaspecificuser($user_id){
+        $con = $GLOBALS["con"];     
+        $sql = "SELECT * FROM user WHERE user_id='$user_id'";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    public function updateUser($firstname,$lastname,$email,$nic,$cno,$role,$user_id){
+        $con = $GLOBALS["con"];
+        $sql = " UPDATE user SET Fname = '$firstname',Lname = '$lastname' ,user_email = '$email' ,user_nic = '$nic',user_contactNo = '$cno' ,role_id = '$role' WHERE user_id = '$user_id'";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    } 
 
 }
