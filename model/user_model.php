@@ -40,5 +40,12 @@ class user{
         
         return $result;
     } 
+    public function removeUser($user_id){
+        $con = $GLOBALS["con"];     
+        $sql = "DELETE FROM user WHERE user_id='$user_id'";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
 
 }

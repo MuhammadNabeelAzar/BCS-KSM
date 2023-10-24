@@ -11,7 +11,7 @@ class Login{
         $loginpassword = sha1($loginpassword);
         
         $sql = "SELECT u.Fname,u.Lname,u.user_email, u.user_id, u.role_id FROM user u,"
-                . "login l WHERE u.user_id = l.user_id AND l.login_username='$loginusername'"
+                . "login l WHERE u.user_id = l.user_id AND l.login_email='$loginusername'"
                 . "AND l.login_password='$loginpassword'";
         
         $result = $con->query($sql) or die($con->error);

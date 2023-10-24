@@ -77,7 +77,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
             }
 
             $userObj->updateUser($firstname, $lastname,$email, $nic, $cno, $role,$user_id);
-         $msg="User Added Succesfully updated!!!";
+         $msg="User Succesfully updated!";
         $msg= base64_encode($msg);    
         header("location:../view/module/admin/user-management/user.php?msg=$msg");     
     } catch (Exception $ex) 
@@ -89,5 +89,12 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
     }
         
 }  
-}       
+}  
+if (isset($_GET['status']) && $_GET['status'] === 'delete-user') {
+    $user_id = $_GET['userid'];
+    $userObj->removeUser($user_id);
+    $msg="User Successfully Deleted!";
+    $msg= base64_encode($msg);
+    header("location:../view/module/admin/user-management/user.php?msg=$msg");
+}     
 ?>

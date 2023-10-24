@@ -62,6 +62,25 @@ $editroleResult = $userObj->getroles();
         aria-controls="offcanvasExample">
         <i class="bi bi-list"></i>
     </a>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <p>
+            <?php
+            if (isset($_GET["msg"])) {
+                $msg = base64_decode($_GET["msg"]);
+                ?>
+            <div class="row">
+                <p>
+                    <?php echo $msg; ?>
+                </p>
+            </div>
+            <?php
+            }
+            ?>
+        </p>
+        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <hr>
     <!--user navigation-->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
@@ -138,6 +157,7 @@ $editroleResult = $userObj->getroles();
         </div>
 
     </div>
+
     <!--user navigation end-->
     <div class="container  justify-content-center align-items-center" style="width:100%;">
         <div class="input-group mb-3">
@@ -233,6 +253,7 @@ $editroleResult = $userObj->getroles();
             </div>
         </div>
     </div>
+
     <div class="table-responsive" style="height:400px">
         <table class="table">
             <thead>
@@ -244,8 +265,7 @@ $editroleResult = $userObj->getroles();
                     <th scope="col">NIC</th>
                     <th scope="col">Contact Number</th>
                     <th scope="col">Role</th>
-                    <th scope="col">Edit</th>
-
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -277,8 +297,7 @@ $editroleResult = $userObj->getroles();
                         <td>
                             <?php echo $userrow["role_name"] ?>
                         </td>
-                        <td><a  class="btn btn-primary" 
-                                href="edit-user.php?id=<?php echo $userrow["user_id"] ?>">1</a></td>                           
+                        <td><a class="btn btn-primary" href="edit-user.php?id=<?php echo $userrow["user_id"] ?>">1</a></td>
                     </tr>
                     <?php
                 }
