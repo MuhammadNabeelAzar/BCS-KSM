@@ -3,6 +3,9 @@ include_once '../../../../model/ingredients_model.php';
 $ingredientObj = new ingredient();
 $ingResult = $ingredientObj->getAllingredients();
 
+$ingg_id = $_GET['ingid'];
+$ingredientResult = $ingredientObj->getaspecificIngredient($ingg_id);
+$ingredientrow = $ingredientResult->fetch_assoc();
 ?>
 <html>
 
@@ -148,7 +151,7 @@ $ingResult = $ingredientObj->getAllingredients();
                             $ing_id = $ingrow["ing_id"];
                             // $ing_id = base64_encode($ing_id);
                             ?>
-                            <a type="button" class="list-group-item" href="edit-ingredients.php?status=edit-ingredient&ingid=<?php echo $ing_id ?>">
+                            <a type="button" class="list-group-item" href="edit-ingredients.php?ingid=<?php echo $ing_id ?>">
                                 <?php echo $ingrow["ing_name"] ?>
                         </a> 
                         <?php } ?>
@@ -156,40 +159,42 @@ $ingResult = $ingredientObj->getAllingredients();
                 </div>
             </div>
         </div>
-        <div class="col" style="background-color:yellow">
+        <div class="col" style="background-color:blue">
             <div class="row">
-                <form action="../../../../controller/ingredients_controller.php?status=add-ingredient"
+                <form action="../../../../controller/ingredients_controller.php?status=edit-ingredient"
                     enctype="multipart/form-data" method="post">
                     <div class="row" id="errormsg">
                         <?php
-                        if (isset($_GET["addmsg"])) {
-                            $addmsg = base64_decode($_GET["addmsg"]);
+                        if (isset($_GET["msg"])) {
+                            $msg = base64_decode($_GET["msg"]);
                             ?>
                             <div class="row">
                                 <p>
-                                    <?php echo $addmsg; ?>
+                                    <?php echo $msg; ?>
                                 </p>
                             </div>
                             <?php
                         }
                         ?>
                     </div>
+                    <input type="text" name="ing_id" value="<?php echo $ingg_id?>"/>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Ingredient Name</span>
                         </div>
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                            name="ing_Name">
+                            name="ing_Name" value="<?php echo $ingredientrow ["ing_name"] ?>" >
                     </div>
                     <div class="input-group">
                         <label for="exampleFormControlTextarea1">Description</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            name="ing_descript"></textarea>
+                            name="ing_descript"><?php echo $ingredientrow ["ing_description"] ?> </textarea>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                                name="ing_image">
+                                name="ing_image"> <img src="<?php echo $ingredientrow["img_path"] ?>" alt="Uploaded Image">
+
                         </div>
 
                     </div>
