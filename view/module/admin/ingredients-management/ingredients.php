@@ -1,3 +1,9 @@
+<?php
+include_once '../../../../model/ingredients_model.php';
+$ingredientObj = new ingredient();
+$ingResult = $ingredientObj->getAllingredients();
+
+?>
 <html>
 
 <head>
@@ -136,92 +142,54 @@
                         <button class="btn btn-outline-success " type="submit">Search</button>
 
                     </form>
-                </div>
-                <div class="row">
-                    <div class="col" style="background-color:green">
-                        <div class="card-header" id="headingOne">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                    aria-expanded="true" aria-controls="collapseOne">
-                                    Collapsible Group Item #1
-                                </button>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="col" style="background-color:blue">
-                        <div class="card-header" id="headingTwo">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Collapsible Group Item #2
-                                </button>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="col" style="background-color:aqua">
-                        <div class="card-header" id="headingThree">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Collapsible Group Item #3
-                                </button>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                            data-parent="#accordion">
-                            <div class="card-body" style="background-color:lightblue">
-                                this is the first one
-                            </div>
-                        </div>
-
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="max-height: 200px; overflow-y: auto;">
-                            <div class="card-body" style="background-color:lightgreen">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it
-                                squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-                                craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                                
-                            </div>
-                        </div>
-
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                            data-parent="#accordion">
-                            <div class="card-body" style="background-color:grey">
-                                3rd one
-                            </div>
-                        </div>
-                    </div>
+                    <ul class="list-group">
+                        <?php
+                        while ($ingrow = $ingResult->fetch_assoc()) {
+                            $ing_id = $ingrow["ing_id"];
+                            // $ing_id = base64_encode($ing_id);
+                            ?>
+                            <a type="button" data-bs-toggle="modal" data-bs-target="#editIngredientsModal" class="list-group-item" href="ingredients.php?status=edit-ingredient&ingid=<?php echo $ing_id ?>">
+                                <?php echo $ingrow["ing_name"] ?>
+                        </a> 
+                        <?php } ?>
+                    </ul>
                 </div>
             </div>
         </div>
         <div class="col" style="background-color:yellow">
             <div class="row">
-                <form>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup">
+                <form action="../../../../controller/ingredients_controller.php?status=add-ingredient"
+                    enctype="multipart/form-data" method="post">
+                    <div class="row" id="errormsg">
+                        <?php
+                        if (isset($_GET["msg"])) {
+                            $msg = base64_decode($_GET["msg"]);
+                            ?>
+                            <div class="row">
+                                <p>
+                                    <?php echo $msg; ?>
+                                </p>
+                            </div>
+                            <?php
+                        }
+                        ?>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                            <span class="input-group-text" id="inputGroup-sizing-default">Ingredient Name</span>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect01">
-                            <option selected>Choose...</option>
-                        </select>
+                        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
+                            name="ing_Name">
                     </div>
                     <div class="input-group">
-                        <label for="exampleFormControlTextarea1">Example textarea</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <label for="exampleFormControlTextarea1">Description</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            name="ing_descript"></textarea>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup">
+                            <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
+                                name="ing_image">
                         </div>
 
                     </div>
@@ -232,6 +200,60 @@
             </div>
         </div>
     </div>
+    <<div class="modal fade" id="editIngredientsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Ingredient</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form action="../../../../controller/ingredients_controller.php?status=update-ingredient"
+                    enctype="multipart/form-data" method="post">
+                    <div class="row" id="errormsg">
+                        <?php
+                        if (isset($_GET["msg"])) {
+                            $msg = base64_decode($_GET["msg"]);
+                            ?>
+                            <div class="row">
+                                <p>
+                                    <?php echo $msg; ?>
+                                </p>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Ingredient Name</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
+                            name="ing_Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="exampleFormControlTextarea1">Description</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            name="ing_descript"></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
+                                name="ing_image">
+                        </div>
+
+                    </div>
+                </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
 </body>

@@ -1,7 +1,0 @@
-<?php 
-
-include_once '../commons/dbconnection.php';
-$dbConnectionObj = new dbConnection();
-
-class ingredient{}
-?>
