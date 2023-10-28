@@ -3,7 +3,7 @@ include_once '../../../../model/ingredients_model.php';
 $ingredientObj = new ingredient();
 $ingResult = $ingredientObj->getAllingredients();
 
-$ingg_id = $_GET['ingid'];
+$ingg_id = base64_decode($_GET['ingid']);
 $ingredientResult = $ingredientObj->getaspecificIngredient($ingg_id);
 $ingredientrow = $ingredientResult->fetch_assoc();
 ?>
@@ -59,6 +59,7 @@ $ingredientrow = $ingredientResult->fetch_assoc();
         aria-controls="offcanvasExample">
         <i class="bi bi-list"></i>
     </a>
+    <a  class="btn btn-primary" href="ingredients.php" >Back</a>
     <hr>
     <!--user navigation-->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
@@ -177,7 +178,7 @@ $ingredientrow = $ingredientResult->fetch_assoc();
                         }
                         ?>
                     </div>
-                    <input type="text" name="ing_id" value="<?php echo $ingg_id?>"/>
+                    <input type="hidden" name="ing_id" value="<?php echo $ingg_id?>"/>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Ingredient Name</span>

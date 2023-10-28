@@ -147,7 +147,7 @@ $ingResult = $ingredientObj->getAllingredients();
                         <?php
                         while ($ingrow = $ingResult->fetch_assoc()) {
                             $ing_id = $ingrow["ing_id"];
-                            // $ing_id = base64_encode($ing_id);
+                            $ing_id = base64_encode($ing_id);
                             ?>
                             <a type="button" class="list-group-item" href="edit-ingredients.php?status=edit-ingredient&ingid=<?php echo $ing_id ?>">
                                 <?php echo $ingrow["ing_name"] ?>
