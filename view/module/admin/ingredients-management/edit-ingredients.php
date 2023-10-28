@@ -149,7 +149,7 @@ $ingredientrow = $ingredientResult->fetch_assoc();
                         <?php
                         while ($ingrow = $ingResult->fetch_assoc()) {
                             $ing_id = $ingrow["ing_id"];
-                            // $ing_id = base64_encode($ing_id);
+                            $ing_id = base64_encode($ing_id);
                             ?>
                             <a type="button" class="list-group-item" href="edit-ingredients.php?ingid=<?php echo $ing_id ?>">
                                 <?php echo $ingrow["ing_name"] ?>
@@ -193,7 +193,10 @@ $ingredientrow = $ingredientResult->fetch_assoc();
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                                name="ing_image"> <img src="<?php echo $ingredientrow["img_path"] ?>" alt="Uploaded Image">
+                                name="ing_image" onchange="readUrl(this);" value="" > 
+                                <div class="col-md-3">
+                                <img id="imgprev" src="<?php echo "../../../" .  $ingredientrow["img_path"] ?>" alt="Uploaded Image" width="60px" height="60px">
+                                </div>
 
                         </div>
 
@@ -209,6 +212,24 @@ $ingredientrow = $ingredientResult->fetch_assoc();
 </div>
 
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+        </script>
+    <script type="text/javascript">
+        function readUrl(input){
+            if(input.files && input.files[0]){
+                console.log(input.files[0]);
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    $("#imgprev")
+                            .attr('src', e.target.result)
+                            .height(70)
+                            .width(80);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

@@ -23,9 +23,9 @@ class ingredient{
         
         return $result;
     }
-    public function updateingredients($ingName,$ingDescription,$newpath,$ing_id){
+    public function updateingredients($ingName,$ingDescription,$path,$ing_id){
         $con = $GLOBALS["con"];
-        $sql = " UPDATE ingredients SET ing_name = '$ingName',ing_description = '$ingDescription' ,img_path = '$newpath' WHERE ing_id = '$ing_id'";
+        $sql = " UPDATE ingredients SET ing_name = '$ingName',ing_description = '$ingDescription' ,img_path = '$path' WHERE ing_id = '$ing_id'";
         $result = $con->query($sql) or die($con->error);
         
         return $result;

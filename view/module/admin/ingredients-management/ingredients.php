@@ -14,6 +14,7 @@ $ingResult = $ingredientObj->getAllingredients();
 </head>
 
 <body>
+
     <!--      navbar-->
     <nav class="navbar navbar-expand-sm navbar-light bg-light" style="height:70px">
         <div class="container-fluid">
@@ -189,8 +190,11 @@ $ingResult = $ingredientObj->getAllingredients();
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                                name="ing_image">
+                                name="ing_image" id="ing_image" >
                         </div>
+                        <div class="col-md-3">
+                        <img id="imgprev" src="" alt="Image Preview" style="height: 100px; width: 100px;">
+                                </div>
 
                     </div>
                     <button type="submit" class="btn btn-primary">
@@ -204,6 +208,24 @@ $ingResult = $ingredientObj->getAllingredients();
 </div>
 
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+        </script>
+    <script>
+            $(document).ready(() => {
+                $("#ing_image").change(function () {
+                    const file = this.files[0];
+                    if (file) {
+                        let reader = new FileReader();
+                        reader.onload = function (event) {
+                            $("#imgprev")
+                              .attr("src", event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
