@@ -13,12 +13,28 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-ingredient') {
             if ($ingName == '') {
                 throw new Exception("Ingredient Name cannot be empty!");
             }
-                                  
-                $ingredientObj->addIngredient($ingName, $ingDescription,);
-            
+            $path = ''; // Initialize path as an empty string
+
+            if ($_FILES["ing_image"]["name"]) {
+                // A new image file has been uploaded
+                // Define the uploaded file based on the input field name (ing_image)
+                $imgname = time() . "_" . $_FILES["ing_image"]["name"];
+                $path = "../images/ing_img/$imgname";
+
+                if (move_uploaded_file($_FILES["ing_image"]["tmp_name"], $path)) {
+                    // Image upload was successful
+                } else {
+                    $error = error_get_last();
+                    throw new Exception("Cannot upload due to image upload error: " . $error['message']);
+                }
+                                         
+            }
+            $ingredientObj->addIngredient($ingName, $ingDescription,$path);
                 $addmsg = "Ingredient added successfully!";
                 $addmsg = base64_encode($addmsg);
                 header("location:../view/module/admin/ingredients-management/ingredients.php?addmsg=$addmsg");
+            
+
                                         
         } catch (Exception $ex) {
             $addmsg = $ex->getMessage();  

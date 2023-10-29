@@ -4,10 +4,10 @@ include_once(__DIR__ . "/../commons/dbconnection.php");
 $dbConnectionObj = new dbConnection();
 
 class ingredient{
-    public function addIngredient($ingName,$ingDescription){
+    public function addIngredient($ingName,$ingDescription,$path){
         $con = $GLOBALS["con"];
         
-        $sql = "INSERT INTO ingredients(ing_name,ing_description) values('$ingName','$ingDescription')";
+        $sql = "INSERT INTO ingredients(ing_name,ing_description,img_path) values('$ingName','$ingDescription','$path')";
         
         $result = $con->query($sql) or die($con->error);
         
