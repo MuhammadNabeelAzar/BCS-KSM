@@ -95,7 +95,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-ingredient') {
         } catch (Exception $ex) {
             $msg = $ex->getMessage();  
             $msg = base64_encode($msg);
-            header("location:../view/module/admin/ingredients-management/edit-ingredients.php?msg=$msg&ingid=$ingg_id"); 
+            header("location:../view/module/admin/ingredients-management/edit-ingredients.php?msg=$msg"); 
         }
     }
 }
@@ -124,6 +124,32 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-ingredient-qty') {
 
         header('Content-Type: application/json');
         echo json_encode($response);
+    } else {
+        echo "failed to retrieve";
+    }
+}
+
+if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+       $ing_id = $_POST['ingredient_id'];
+       $updateqty =  $_POST['updatestockvalue'];
+       $calculate = $_POST['calculation-selector'];
+
+       if($calculate  === 'add' ){
+        $ingredientObj->addstock($ing_id,$updateqty);
+        $msg="Ingredient qty succesfully added!";
+        $msg= base64_encode($msg);    
+        header("location:../view/module/admin/ingredients-management/stock.php?msg=$msg");
+       } elseif($calculate  === 'subtract'){
+        $ingredientObj->subtractstock($ing_id,$updateqty);
+        $msg="Ingredient qty succesfully subtracted!";
+        $msg= base64_encode($msg);    
+        header("location:../view/module/admin/ingredients-management/stock.php?msg=$msg");
+       }
+       else {
+        echo "error in calculation selector";
+       }
+
     } else {
         echo "failed to retrieve";
     }

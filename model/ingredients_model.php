@@ -65,5 +65,19 @@ class ingredient{
         
         return $result;
     }
+    Public function addstock($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET remaining_qty = remaining_qty + $updateqty WHERE ing_id  = $ing_id  ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function subtractstock($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET remaining_qty = remaining_qty - $updateqty WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
 }
 ?>

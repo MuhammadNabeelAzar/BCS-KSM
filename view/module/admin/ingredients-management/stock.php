@@ -150,6 +150,14 @@ $ingResult = $ingredientObj->getAllingredients();
             </div>
     </div>
     </div>
+    <div id="errormsg">
+        <?php 
+        if (isset($_GET["msg"])) {
+            $msg = base64_decode($_GET["msg"]);
+        echo $msg;
+        }
+        ?>
+    </div>
     <?php
     while ($ingrow = $ingResult->fetch_assoc()){
         $ing_id = $ingrow["ing_id"];
@@ -161,10 +169,19 @@ $ingResult = $ingredientObj->getAllingredients();
         <div class="card" style="width: 18rem;margin:2px;">
             <img class="card-img-top" src="../../../<?php echo $ingrow["img_path"] ?>" alt="Card image cap">
             <div class="card-body">
-                <div type="hidden" class="row" value="<?php echo $ingrow["ing_id"] ?>"></div>
+                <input type="hidden" value="<?php echo $ingrow["ing_id"] ?>">
                 <div class="row"><p class="card-title"><?php echo $ingrow["ing_name"] ?></p></div>
                 <div class="row"><p class="card-title"><?php echo $ingrow["ing_description"] ?></p></div>
-                <div class="row"><p class="card-title">Remaining: <?php echo $ingrow["remaining_qty"] . " " .$ingrow["factorsf"]?></p> 
+                <div class="row"><p class="card-title">Remaining: <?php 
+                $remainingQty = $ingrow["remaining_qty"];
+                $factorsf = $ingrow["factorsf"];
+
+                if ($factorsf === 'nos'  || $factorsf === 'c'  || $factorsf === 'tbsp'  || $factorsf === 'tsp') {
+                    echo intval($remainingQty) ." " . $factorsf ; // Display as an integer
+                } else {
+                    echo $remainingQty . " " . $factorsf; // Display as it is
+                }
+                ?></p> 
                 <button type="button" class="btn btn-primary"  id="editremQtybtn" onclick="editIng('<?php echo $ing_id ?>')">
   Launch demo modal
     </button></div>
@@ -184,23 +201,24 @@ $ingResult = $ingredientObj->getAllingredients();
         </button>
       </div>
       <div class="modal-body">
-      <form action="" enctype="multipart/form-data" method="post" >
+      <form action="../../../../controller/ingredients_controller.php?status=update-stock" enctype="multipart/form-data" method="post" >
       <div class="input-group">
-  <input type="hidden" class="form-control" aria-label="Text input with dropdown button" id="ingredient_id" >
-  <input type="text" class="form-control" aria-label="Text input with dropdown button" id="remaining" >
+  <input type="hidden" class="form-control" aria-label="Text input with dropdown button" name="ingredient_id" id="ingredient_id" >
+  <input type="text" class="form-control" aria-label="Text input with dropdown button" name="updatestockvalue" id="updatestockvalue" >
   <div class="input-group-append">
-    <select id="quantity-selector">
+    <select name="calculation-selector" id="calculation-selector">
   <option value="add">&#43; Add <i class="bi bi-plus"></i></option>
   <option value="subtract">&#45; Subtract <i class="bi bi-dash"></i></option>
 </select>
 
   </div>
 </div>
+<button type="submit" class="btn btn-primary">Save changes</button>
       </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        
       </div>
     </div>
   </div>

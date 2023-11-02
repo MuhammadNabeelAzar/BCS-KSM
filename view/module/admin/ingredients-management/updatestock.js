@@ -15,7 +15,6 @@
                 console.log('Remaining Quantity:', remainingQty);
                 $('#exampleModalLabel').text('Update ' + ingName);
                 $('#ingredient_id').val(ingId);
-                $('#remaining').val(remainingQty);
                 }
             })
         });
