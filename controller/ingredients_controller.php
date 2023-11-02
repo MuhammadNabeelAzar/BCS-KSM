@@ -8,6 +8,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-ingredient') {
         // Getting the ingredient details from the add-ingredient form
         $ingName = $_POST['ing_Name'];
         $ingDescription = $_POST['ing_descript']; 
+        $factorId = $_POST['factors'];
 
         try {
             if ($ingName == '') {
@@ -29,7 +30,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-ingredient') {
                 }
                                          
             }
-            $ingredientObj->addIngredient($ingName, $ingDescription,$path);
+            $ingredientObj->addIngredient($ingName, $ingDescription,$path,$factorId);
                 $addmsg = "Ingredient added successfully!";
                 $addmsg = base64_encode($addmsg);
                 header("location:../view/module/admin/ingredients-management/ingredients.php?addmsg=$addmsg");
@@ -50,6 +51,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-ingredient') {
         $ingName = $_POST['ing_Name'];
         $ingDescription = $_POST['ing_descript']; 
         $ingg_id = $_POST['ing_id'];
+        $factor_id = $_POST['factors'];
 
         try {
             if ($ingName == '') {
@@ -73,7 +75,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-ingredient') {
             }
 
             // Update the ingredient information, including the image path if a new image was uploaded
-            $ingredientObj->updateingredients($ingName, $ingDescription, $ingg_id);
+            $ingredientObj->updateingredients($ingName, $ingDescription, $ingg_id,$factor_id);
 
             $msg = "Ingredient updated successfully!";
             $msg = base64_encode($msg);
@@ -97,4 +99,34 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-ingredient') {
         }
     }
 }
+if (isset($_GET['status']) && $_GET['status'] === 'remove-ingredient') {
+    $ing_id = base64_decode($_GET['ingid']);
+    $ingredientObj->removeIngredient($ing_id);
+    $msg="Ingredient Removed Successfully !";
+    // $msg= base64_encode($msg);
+    header("location:../view/module/admin/ingredients-management/ingredients.php?msg=$msg");
+}
+if (isset($_GET['status']) && $_GET['status'] === 'update-ingredient-qty') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $ingg_id = $_POST['data'];
+        $ingg_id = base64_decode($ingg_id);
+
+        // Retrieve the data you want to send
+        $ingredientqtyResult = $ingredientObj->getIngredienttoUpdate($ingg_id);
+        $ingqtyrow = $ingredientqtyResult->fetch_assoc();
+
+        // Create a response with the remaining quantity
+        $response = array(
+            'ing_id' => $ingqtyrow['ing_id'],
+            'ing_name' => $ingqtyrow['ing_name'],
+            'remaining_qty' => $ingqtyrow['remaining_qty'],
+        );
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } else {
+        echo "failed to retrieve";
+    }
+}
+
 ?>

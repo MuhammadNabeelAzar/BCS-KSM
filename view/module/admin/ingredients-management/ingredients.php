@@ -2,6 +2,7 @@
 include_once '../../../../model/ingredients_model.php';
 $ingredientObj = new ingredient();
 $ingResult = $ingredientObj->getAllingredients();
+$ingfactorResult = $ingredientObj->getfactors();
 
 ?>
 <html>
@@ -191,7 +192,16 @@ $ingResult = $ingredientObj->getAllingredients();
                         <div class="input-group-prepend">
                             <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
                                 name="ing_image" id="ing_image" >
-                        </div>
+                        </div>   
+                        <select class="forms-select mb-3" name="factors" id="factors" aria-label="factors" required>
+    <option disabled selected value="">Select</option>
+    <?php
+    while ($factor = $ingfactorResult->fetch_assoc()) {
+        echo '<option value="' . $factor['factor_id'] . '">' . $factor['factorsf'] . '</option>';
+    }
+    ?>
+</select>
+      
                         <div class="col-md-3">
                         <img id="imgprev" src="" alt="Image Preview" style="height: 100px; width: 100px;">
                                 </div>
@@ -208,8 +218,8 @@ $ingResult = $ingredientObj->getAllingredients();
 </div>
 
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
-    <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
         </script>
     <script>
             $(document).ready(() => {

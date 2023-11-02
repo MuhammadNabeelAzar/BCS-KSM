@@ -6,6 +6,7 @@ $ingResult = $ingredientObj->getAllingredients();
 $ingg_id = base64_decode($_GET['ingid']);
 $ingredientResult = $ingredientObj->getaspecificIngredient($ingg_id);
 $ingredientrow = $ingredientResult->fetch_assoc();
+$ingfactorResult = $ingredientObj->getfactors();
 ?>
 <html>
 
@@ -59,7 +60,7 @@ $ingredientrow = $ingredientResult->fetch_assoc();
         aria-controls="offcanvasExample">
         <i class="bi bi-list"></i>
     </a>
-    <a  class="btn btn-primary" href="ingredients.php" >Back</a>
+    <a class="btn btn-primary" href="ingredients.php">Back</a>
     <hr>
     <!--user navigation-->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
@@ -152,9 +153,10 @@ $ingredientrow = $ingredientResult->fetch_assoc();
                             $ing_id = $ingrow["ing_id"];
                             $ing_id = base64_encode($ing_id);
                             ?>
-                            <a type="button" class="list-group-item" href="edit-ingredients.php?ingid=<?php echo $ing_id ?>">
+                            <a type="button" class="list-group-item"
+                                href="edit-ingredients.php?ingid=<?php echo $ing_id ?>">
                                 <?php echo $ingrow["ing_name"] ?>
-                        </a> 
+                            </a>
                         <?php } ?>
                     </ul>
                 </div>
@@ -178,26 +180,44 @@ $ingredientrow = $ingredientResult->fetch_assoc();
                         }
                         ?>
                     </div>
-                    <input type="hidden" name="ing_id" value="<?php echo $ingg_id?>"/>
+                    <input type="hidden" name="ing_id" value="<?php echo $ingg_id ?>" />
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Ingredient Name</span>
                         </div>
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                            name="ing_Name" value="<?php echo $ingredientrow ["ing_name"] ?>" >
+                            name="ing_Name" value="<?php echo $ingredientrow["ing_name"] ?>">
                     </div>
                     <div class="input-group">
                         <label for="exampleFormControlTextarea1">Description</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            name="ing_descript"><?php echo $ingredientrow ["ing_description"] ?> </textarea>
+                            name="ing_descript"><?php echo $ingredientrow["ing_description"] ?> </textarea>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                                name="ing_image" onchange="readUrl(this);" value="" > 
-                                <div class="col-md-3">
-                                <img id="imgprev" src="<?php echo "../../../" .  $ingredientrow["img_path"] ?>" alt="Uploaded Image" width="60px" height="60px">
-                                </div>
+                                name="ing_image" onchange="readUrl(this);" value="">
+
+                                <select class="forms-select mb-3" id="factors" aria-label="factors" name="factors" required>
+                        <option value="">----</option>
+                        <?php
+                        while ($factorrow = $ingfactorResult->fetch_assoc()) {
+                            ?>
+                            <option name="factor_selected" value="<?php echo $factorrow["factor_id"]; ?>" <?php
+                               if ($ingredientrow["factor_id"] == $factorrow["factor_id"]) {
+                                   ?> selected="selected" <?php
+                               }
+                               ?>>
+                                <?php echo $factorrow["factorsf"]; ?>
+                            </option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                            <div class="col-md-3">
+                                <img id="imgprev" src="<?php echo "../../../" . $ingredientrow["img_path"] ?>"
+                                    alt="Uploaded Image" width="60px" height="60px">
+                            </div>
 
                         </div>
 
@@ -205,27 +225,51 @@ $ingredientrow = $ingredientResult->fetch_assoc();
                     <button type="submit" class="btn btn-primary">
                         Add
                     </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#removeIngredientModal">Remove Ingredient
+                    </button>
                 </form>
             </div>
         </div>
     </div>
-  </div>
-</div>
+    </div>
+    </div>
+    <div class="modal fade" id="removeIngredientModal" tabindex="-1" role="dialog"
+        aria-labelledby="RemoveingredientmodalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removeingtitle">Remove Ingredient</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove this ingredient ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a type="button" class="btn btn-primary"
+                        href="../../../../controller/ingredients_controller.php?status=remove-ingredient&ingid=<?php echo $ing_id ?>">Remove
+                        ingredient</a>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script type="text/javascript" src="../../../../commons/clock.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <script type="text/javascript" src="../../../../commons/clock.js"></script>
-    <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
-        </script>
     <script type="text/javascript">
-        function readUrl(input){
-            if(input.files && input.files[0]){
+        function readUrl(input) {
+            if (input.files && input.files[0]) {
                 console.log(input.files[0]);
                 var reader = new FileReader();
-                reader.onload = function(e){
+                reader.onload = function (e) {
                     $("#imgprev")
-                            .attr('src', e.target.result)
-                            .height(70)
-                            .width(80);
+                        .attr('src', e.target.result)
+                        .height(70)
+                        .width(80);
                 };
                 reader.readAsDataURL(input.files[0]);
             }

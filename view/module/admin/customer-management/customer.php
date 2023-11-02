@@ -123,8 +123,8 @@ $customerResult = $customerObj->getcustomerdetails();
       <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
   </div>
     <button type="button" class="btn bi bi-plus" data-bs-toggle="modal" data-bs-target="#addcustomerModal"></button>
-</div
-        </div>
+</div>
+        <div>
             
             <div class="table-responsive">
                 <table class="table">
