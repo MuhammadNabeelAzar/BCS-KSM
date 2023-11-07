@@ -67,5 +67,19 @@ class menu{
         
         return $result;
     }
+    public function getfooditemtosetprice($food_id){
+        $con = $GLOBALS["con"];     
+        $sql = "SELECT * FROM food_items WHERE food_itemId='$food_id'";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function setprice($food_id,$price){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE food_items SET `price` = $price  WHERE food_itemId  = $food_id  ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
 }
 ?>

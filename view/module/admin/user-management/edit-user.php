@@ -63,6 +63,7 @@ $userrow = $userResult->fetch_assoc();
         aria-controls="offcanvasExample">
         <i class="bi bi-list"></i>
     </a>
+    <a class="btn btn-primary" href="user.php">Back</a>
     <hr>
     <!--user navigation-->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
@@ -137,8 +138,10 @@ $userrow = $userResult->fetch_assoc();
 
             </ul>
         </div>
+        
 
     </div>
+    
     <!--user navigation end-->
     <div class="container">
         <div class="row justify-content-center">
@@ -190,6 +193,13 @@ $userrow = $userResult->fetch_assoc();
                         </div>
                         <input type="text" class="form-control" id="user_Nic" name="users_nic"
                             value="<?php echo $userrow['user_nic'] ?>">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="Udob">Date of birth</span>
+                        </div>
+                        <input type="date" class="form-control" id="user_dob" name="users_dob"
+                            value="<?php echo $userrow['user_dob'] ?>">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

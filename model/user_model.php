@@ -33,9 +33,9 @@ class user{
         
         return $result;
     }
-    public function updateUser($firstname,$lastname,$email,$nic,$cno,$role,$user_id){
+    public function updateUser($firstname,$lastname,$email,$nic,$dob,$cno,$role,$user_id){
         $con = $GLOBALS["con"];
-        $sql = " UPDATE user SET Fname = '$firstname',Lname = '$lastname' ,user_email = '$email' ,user_nic = '$nic',user_contactNo = '$cno' ,role_id = '$role' WHERE user_id = '$user_id'";
+        $sql = " UPDATE user SET Fname = '$firstname',Lname = '$lastname' ,user_email = '$email' ,user_nic = '$nic',user_dob = '$dob' ,user_contactNo = '$cno' ,role_id = '$role' WHERE user_id = '$user_id'";
         $result = $con->query($sql) or die($con->error);
         
         return $result;

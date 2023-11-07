@@ -163,7 +163,7 @@ $fooditemrow = $fooditem->fetch_assoc();
                         }
                         ?>
                     </div>
-                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
+                    <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup"
                             name="food_id" value="<?php echo $fooditemrow['food_itemId'] ?>">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

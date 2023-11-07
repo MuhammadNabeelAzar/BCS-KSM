@@ -149,6 +149,43 @@ if (isset($_GET['status']) && $_GET['status'] === 'remove-foodItem') {
         }
                     
 }
+if (isset($_GET['status']) && $_GET['status'] === 'get-foodItem') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $food_id = $_POST['data'];
+        $food_id = base64_decode($food_id);
 
+        
+        $foodItemResult = $menuObj->getfooditemtosetprice($food_id);
+        $foodrow = $foodItemResult->fetch_assoc();
+
+        
+        $response = array(
+            'food_Id' => $foodrow['food_itemId'],
+            'item_name' => $foodrow['item_name'],
+            'price' => $foodrow['price'],
+        );
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    } else {
+        echo "failed to retrieve";
+    }
+}
+if (isset($_GET['status']) && $_GET['status'] === 'set-price') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+       $food_id = $_POST['food_id'];
+       $price =  $_POST['price'];
+
+        $menuObj->setprice($food_id,$price);
+        $msg="price updated";
+        $msg= base64_encode($msg);    
+        header("location:../view/module/admin/menu-management/pricing.php?msg=$msg");
+       }
+       else {
+        echo "error in price";
+       }
+
+    } 
   
 ?>

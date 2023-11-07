@@ -55,6 +55,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
         $lastname = $_POST['users_lname']; 
         $email = $_POST['users_email'];     
         $nic = $_POST['users_nic'];
+        $dob = $_POST['users_dob'];
         $cno = $_POST['users_cno'];
         $role = $_POST['users_role']; 
         $user_id = $_POST['user_id'];
@@ -76,7 +77,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
                 throw new Exception("Invalid NIC format!");
             }
 
-            $userObj->updateUser($firstname, $lastname,$email, $nic, $cno, $role,$user_id);
+            $userObj->updateUser($firstname, $lastname,$email, $nic,$dob, $cno, $role,$user_id);
          $msg="User Succesfully updated!";
         $msg= base64_encode($msg);    
         header("location:../view/module/admin/user-management/user.php?msg=$msg");     
