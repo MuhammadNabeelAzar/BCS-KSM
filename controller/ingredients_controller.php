@@ -119,7 +119,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-ingredient-qty') {
         $response = array(
             'ing_id' => $ingqtyrow['ing_id'],
             'ing_name' => $ingqtyrow['ing_name'],
-            'remaining_qty' => $ingqtyrow['remaining_qty'],
+            'factor_id' => $ingqtyrow['factor_id'],
         );
 
         header('Content-Type: application/json');
@@ -134,14 +134,75 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
        $ing_id = $_POST['ingredient_id'];
        $updateqty =  $_POST['updatestockvalue'];
        $calculate = $_POST['calculation-selector'];
+       $factor_Id = $_POST['factor_id'];
 
-       if($calculate  === 'add' ){
-        $ingredientObj->addstock($ing_id,$updateqty);
+       if($calculate  === 'add'){
+        if($factor_Id ==='1'){
+        $ingredientObj->addstock_G($ing_id,$updateqty);
+        
+        }
+        elseif($factor_Id ==='2'){
+        $ingredientObj->addstock_Kg($ing_id,$updateqty);
+        
+        }
+        
+        elseif($factor_Id ==='4'){
+        $ingredientObj->addstock_L($ing_id,$updateqty);
+        
+        }
+        elseif($factor_Id ==='5'){
+        $ingredientObj->addstock_Ml($ing_id,$updateqty);
+        
+        }
+        
+        elseif($factor_Id ==='8'){
+        $ingredientObj->addstock_oz($ing_id,$updateqty);
+        
+        }
+        elseif($factor_Id ==='9'){
+        $ingredientObj->addstock_lb($ing_id,$updateqty);
+        
+        }
+        elseif($factor_Id ==='10'){
+        $ingredientObj->addstock_nos($ing_id,$updateqty);
+        
+        }
         $msg="Ingredient qty succesfully added!";
         $msg= base64_encode($msg);    
         header("location:../view/module/admin/ingredients-management/stock.php?msg=$msg");
+        
        } elseif($calculate  === 'subtract'){
-        $ingredientObj->subtractstock($ing_id,$updateqty);
+        if($factor_Id ==='1'){
+            $ingredientObj->subtractstock_G($ing_id,$updateqty);
+            
+            }
+            elseif($factor_Id ==='2'){
+            $ingredientObj->subtractstock_Kg($ing_id,$updateqty);
+            
+            }
+            
+            elseif($factor_Id ==='4'){
+            $ingredientObj->subtractstock_L($ing_id,$updateqty);
+            
+            }
+            elseif($factor_Id ==='5'){
+            $ingredientObj->subtractstock_Ml($ing_id,$updateqty);
+            
+            }
+           
+            elseif($factor_Id ==='8'){
+            $ingredientObj->subtractstock_oz($ing_id,$updateqty);
+            
+            }
+            elseif($factor_Id ==='9'){
+            $ingredientObj->subtractstock_lb($ing_id,$updateqty);
+            
+            }
+            elseif($factor_Id ==='10'){
+            $ingredientObj->subtractstock_nos($ing_id,$updateqty);
+            
+            }
+        
         $msg="Ingredient qty succesfully subtracted!";
         $msg= base64_encode($msg);    
         header("location:../view/module/admin/ingredients-management/stock.php?msg=$msg");

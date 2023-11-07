@@ -11,10 +11,12 @@
                 success: function (response){
                     var ingId = response.ing_id;
                     var ingName = response.ing_name;
-                    var remainingQty = response.remaining_qty;
-                console.log('Remaining Quantity:', remainingQty);
+                    var factorid = response.factor_id;
+                    // var remainingQty = response.remaining_qty;
+                console.log('Remaining Quantity:', ing_id);
                 $('#exampleModalLabel').text('Update ' + ingName);
                 $('#ingredient_id').val(ingId);
+                $('#factor_id').val(factorid);
                 }
             })
         });

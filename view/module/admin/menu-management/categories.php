@@ -142,26 +142,43 @@ $categoryResult = $menuObj->getcategories();
             <span><i class="bi bi-plus"></i></span>
         </a>
     </div>
+    <div class="row">
+        <?php 
+        if(isset($_GET['msg'])){
+            $msg = base64_decode($_GET['msg']); ?>
+            <p><?php echo $msg ?><p>
+           <?php 
+        }
+        ?>
+    </div>
     <div class="row" style="background-color:black">
         <?php
         while ($categoryrow = $categoryResult->fetch_assoc()) {
             $categoryid = $categoryrow["category_id"];
+            $fooditemResult = $menuObj->getfoodItems(); //get all the foodItems
             ?>
             <div class="col-md-3">
                 <div class="card">
                     <h5 class="card-header">
-                    <input type="hidden" id="hiddenField" name="myHiddenField" value="<?php echo $categoryrow['category_id']; ?>">
+                    <input type="hidden" id="hiddenField" name="HiddenFoodID" value="<?php echo $categoryrow['category_id']; ?>">
                         <?php echo $categoryrow['category_name']; ?>
                         <button type="button" class="btn btn-primary" onclick="deletecategory(<?php echo $categoryid ?>)"><i class="bi bi-trash"></i></button>
                     </h5>
                     <div class="card-body">
                     <ul class="list-group">
                     <div class="row">
+                        <?php 
+                        while($foodrow = $fooditemResult->fetch_assoc()){ 
+                            if($foodrow['category_id'] == $categoryid){ //display the food items if the categoryid matches the food item category id
+                            ?>
                     <li class="list-group-item">
-                    
-                    <a>Dashboarddasdas</a><button type="button" class="btn btn-Danger"><i class="bi bi-file-minus"></i></button>
-                    
+                    <form action="../../../../controller/menu_controller.php?status=remove-foodItem" enctype="multipart/form-data" method="post">
+                    <input type="hidden" id="hiddenField" name="HiddenFoodID" value="<?php echo $foodrow['food_itemId']; ?>">
+                    <input type="hidden" id="hiddenField" name="foodname" value="<?php echo $foodrow['item_name']; ?>">
+                    <a><?php echo $foodrow['item_name'] . " " . $foodrow['price'] ." "  ?></a><button type="submit" class="btn btn-Danger"><i class="bi bi-file-minus"></i></button>
+                            </form>
                 </li>
+                     <?php }}  ?>
                     </div>
                     </ul>
                     </div>

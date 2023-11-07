@@ -65,19 +65,104 @@ class ingredient{
         
         return $result;
     }
-    Public function addstock($ing_id,$updateqty){
+    Public function addstock_G($ing_id,$updateqty){
         $con = $GLOBALS["con"];
-        $sql = "UPDATE ingredients SET remaining_qty = remaining_qty + $updateqty WHERE ing_id  = $ing_id  ";
+        $sql = "UPDATE ingredients SET `remaining_qty(g)` = `remaining_qty(g)` + $updateqty WHERE ing_id  = $ing_id  ";
         $result = $con->query($sql) or die($con->error);
         
         return $result;
     }
-    Public function subtractstock($ing_id,$updateqty){
+    Public function addstock_Kg($ing_id,$updateqty){
         $con = $GLOBALS["con"];
-        $sql = "UPDATE ingredients SET remaining_qty = remaining_qty - $updateqty WHERE ing_id  = $ing_id ";
+        $sql = "UPDATE ingredients SET `remaining_qty(kg)` = `remaining_qty(kg)` + $updateqty WHERE ing_id  = $ing_id  ";
         $result = $con->query($sql) or die($con->error);
         
         return $result;
     }
+    Public function addstock_L($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(l)` = `remaining_qty(l)` + $updateqty WHERE ing_id  = $ing_id  ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function addstock_Ml($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(ml)` = `remaining_qty(ml)` + $updateqty WHERE ing_id  = $ing_id  ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function addstock_oz($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(oz)` = `remaining_qty(oz)` + $updateqty WHERE ing_id  = $ing_id  ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function addstock_lb($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(lb)` = `remaining_qty(lb)` + $updateqty WHERE ing_id  = $ing_id  ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function addstock_nos($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(nos)` = `remaining_qty(nos)` + $updateqty WHERE ing_id  = $ing_id  ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function subtractstock_G($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(g)`= `remaining_qty(g)` - $updateqty WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function subtractstock_Kg($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(kg)`= `remaining_qty(kg)` - $updateqty WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function subtractstock_L($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(l)`= `remaining_qty(l)` - $updateqty WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function subtractstock_Ml($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(ml)`= `remaining_qty(ml)` - $updateqty WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function subtractstock_oz($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(oz)`= `remaining_qty(oz)` - $updateqty WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function subtractstock_lb($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(lb)`= `remaining_qty(lb)` - $updateqty WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function subtractstock_nos($ing_id,$updateqty){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(nos)`= `remaining_qty(nos)` - $updateqty WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+
 }
 ?>

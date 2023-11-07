@@ -173,13 +173,34 @@ $ingResult = $ingredientObj->getAllingredients();
                 <div class="row"><p class="card-title"><?php echo $ingrow["ing_name"] ?></p></div>
                 <div class="row"><p class="card-title"><?php echo $ingrow["ing_description"] ?></p></div>
                 <div class="row"><p class="card-title">Remaining: <?php 
-                $remainingQty = $ingrow["remaining_qty"];
+                $remainingG = $ingrow["remaining_qty(g)"];
+                $remainingKg = $ingrow["remaining_qty(kg)"];
+                $remainingL = $ingrow["remaining_qty(l)"];
+                $remainingMl = $ingrow["remaining_qty(ml)"];
+                $remainingOz = $ingrow["remaining_qty(oz)"];
+                $remainingLb = $ingrow["remaining_qty(lb)"];
+                $remainingNos = $ingrow["remaining_qty(nos)"];
                 $factorsf = $ingrow["factorsf"];
 
-                if ($factorsf === 'nos'  || $factorsf === 'c'  || $factorsf === 'tbsp'  || $factorsf === 'tsp') {
-                    echo intval($remainingQty) ." " . $factorsf ; // Display as an integer
-                } else {
-                    echo $remainingQty . " " . $factorsf; // Display as it is
+                if ($factorsf === 'g') {
+                    echo intval($remainingG) ." " . $factorsf ; // Display as an integer
+                } else if ($factorsf ==='kg') {
+                    echo intval($remainingKg) ." " . $factorsf ; // Display as an integer
+                }
+                 else if ($factorsf ==='ml') {
+                    echo intval($remainingMl) ." " . $factorsf ; // Display as an integer
+                }
+                 else if ($factorsf ==='l') {
+                    echo intval($remainingL) ." " . $factorsf ; // Display as an integer
+                }
+                 else if ($factorsf ==='oz') {
+                    echo intval($remainingOz) ." " . $factorsf ; // Display as an integer
+                }
+                 else if ($factorsf ==='lb') {
+                    echo intval($remainingLb) ." " . $factorsf ; // Display as an integer
+                }
+                 else if ($factorsf ==='nos') {
+                    echo intval($remainingNos) ." " . $factorsf ; // Display as an integer
                 }
                 ?></p> 
                 <button type="button" class="btn btn-primary"  id="editremQtybtn" onclick="editIng('<?php echo $ing_id ?>')">
@@ -203,7 +224,8 @@ $ingResult = $ingredientObj->getAllingredients();
       <div class="modal-body">
       <form action="../../../../controller/ingredients_controller.php?status=update-stock" enctype="multipart/form-data" method="post" >
       <div class="input-group">
-  <input type="hidden" class="form-control" aria-label="Text input with dropdown button" name="ingredient_id" id="ingredient_id" >
+  <input type="text" class="form-control" aria-label="Text input with dropdown button" name="ingredient_id" id="ingredient_id" >
+  <input type="text" class="form-control" aria-label="Text input with dropdown button" name="factor_id" id="factor_id" >
   <input type="text" class="form-control" aria-label="Text input with dropdown button" name="updatestockvalue" id="updatestockvalue" >
   <div class="input-group-append">
     <select name="calculation-selector" id="calculation-selector">

@@ -1,8 +1,11 @@
 <?php
 include_once '../../../../model/menu_model.php';
 $menuObj = new menu();
+$foodItem_id = base64_decode($_GET['foodId']);
 $fooditemResult = $menuObj->getfoodItems();
 $categoryResult = $menuObj->getcategories();
+$fooditem = $menuObj->getaspecificfoodItem($foodItem_id);
+$fooditemrow = $fooditem->fetch_assoc();
 ?>
 <html>
     <head>
@@ -50,6 +53,7 @@ $categoryResult = $menuObj->getcategories();
         <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
             <i class="bi bi-list"></i>
         </a>
+        <a class="btn btn-primary" href="items.php">Back</a>
         <hr>
         <!--user navigation-->
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width:fit-content">
@@ -141,9 +145,9 @@ $categoryResult = $menuObj->getcategories();
                 </div>
             </div>
         </div>
-        <div class="col" style="background-color:yellow">
+        <div class="col" style="background-color:blue">
             <div class="row">
-                <form action="../../../../controller/menu_controller.php?status=add-fooditem"
+                <form action="../../../../controller/menu_controller.php?status=edit-fooditem"
                     enctype="multipart/form-data" method="post">
                     <div class="row" id="errormsg">
                         <?php
@@ -159,60 +163,96 @@ $categoryResult = $menuObj->getcategories();
                         }
                         ?>
                     </div>
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
+                            name="food_id" value="<?php echo $fooditemrow['food_itemId'] ?>">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Food Item</span>
                         </div>
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                            name="food_Name" required>
+                            name="food_Name" value="<?php echo $fooditemrow['item_name'] ?>">
                     </div>
                     <div class="input-group">
                         <label for="exampleFormControlTextarea1">Description</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            name="food_descript"> </textarea>
+                            name="food_descript" > <?php echo $fooditemrow['food_description'] ?></textarea>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                                name="food_image" id="food_image" >
+                                name="food_image" id="food_image" onchange="readUrl(this);" >
                         </div>   
-                        <select class="forms-select mb-3" id="categories" aria-label="categories" name="categories" required>
-                        <option disabled selected value="">Select</option>
-                                        <?php
-                                        while ($category = $categoryResult->fetch_assoc()) {
-                                            echo '<option value=' . $category['category_id'] . '>' . $category['category_name'] . '</option>';
-                                        }
-                                        ?>
+                        <select class="forms-select mb-3" id="category" aria-label="category" name="category" required>
+                        <option value="">----</option>
+                        <?php
+                        while ($categoryrow = $categoryResult->fetch_assoc()) {
+                            ?>
+                            <option name="category_selected" value="<?php echo $categoryrow["category_id"]; ?>" <?php
+                               if ($fooditemrow["category_id"] == $categoryrow["category_id"]) {
+                                   ?> selected="selected" <?php
+                               }
+                               ?>>
+                                <?php echo $categoryrow["category_name"]; ?>
+                            </option>
+                            <?php
+                        }
+                        ?>
                     </select>
       
                         <div class="col-md-3">
-                        <img id="imgprev" src="" alt="Image Preview" style="height: 100px; width: 100px;">
+                        <img id="imgprev" src="<?php echo "../../../" . $fooditemrow["img_path"] ?>" alt="Image Preview" style="height: 100px; width: 100px;">
                                 </div>
 
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        Add
+                        update
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#removeFooditemModal">Remove Item
                     </button>
                 </form>
             </div>
         </div>
     </div>
   </div>
-  <script>
-            $(document).ready(() => {
-                $("#food_image").change(function () {
-                    const file = this.files[0];
-                    if (file) {
-                        let reader = new FileReader();
-                        reader.onload = function (event) {
-                            $("#imgprev")
-                              .attr("src", event.target.result);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            });
-        </script>
+
+  <div class="modal fade" id="removeFooditemModal" tabindex="-1" role="dialog"
+        aria-labelledby="removeFooditemModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removeingtitle">Remove Food item</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove this this food item ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a type="button" class="btn btn-primary"
+                        href="../../../../controller/menu_controller.php?status=delete-fooditem&foodId=<?php echo $foodid ?>">Remove
+                        food item</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function readUrl(input) {
+            if (input.files && input.files[0]) {
+                console.log(input.files[0]);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#imgprev")
+                        .attr('src', e.target.result)
+                        .height(70)
+                        .width(80);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 
         <script type="text/javascript" src="../../../../commons/clock.js"></script>
     </body>
