@@ -87,6 +87,8 @@ $ingResult = $ingredientObj->getAllingredients();
                                     href="../../admin/menu-management/categories.php">Categories</a></li>
                             <li class="list-group-item"><a href="../../admin/menu-management/items.php">Items</a>
                             </li>
+                            <li class="list-group-item"><a href="../../admin/menu-management/recipie.php">Recipies</a>
+                            </li>
                             <li class="list-group-item"><a
                                     href="../../admin/menu-management/pricing.php">Pricing</a></li>
                             <li class="list-group-item"><a
