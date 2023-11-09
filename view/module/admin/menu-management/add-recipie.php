@@ -1,8 +1,15 @@
 <?php
 include_once '../../../../model/menu_model.php';
+include_once '../../../../model/ingredients_model.php';
 $menuObj = new menu();
-
+$foodItem_id = base64_decode($_GET['foodId']);
 $fooditemResult = $menuObj->getfoodItems();
+$categoryResult = $menuObj->getcategories();
+$fooditem = $menuObj->getaspecificfoodItem($foodItem_id);
+$fooditemrow = $fooditem->fetch_assoc();
+
+$ingredientObj = new ingredient();
+$ingResult = $ingredientObj->getAllingredients();
 ?>
 
 <html>
@@ -58,6 +65,7 @@ $fooditemResult = $menuObj->getfoodItems();
         aria-controls="offcanvasExample">
         <i class="bi bi-list"></i>
     </a>
+    <a class="btn btn-primary" href="recipie.php">Back</a>
     <hr>
     <!--user navigation-->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
@@ -161,6 +169,78 @@ $fooditemResult = $menuObj->getfoodItems();
                     </div>
                 </div>
             </div>
+            <div class="col" style="background-color:">
+                <div class="row">
+                    <div class="row" id="errormsg">
+                        <?php
+                        if (isset($_GET["msg"])) {
+                            $msg = base64_decode($_GET["msg"]);
+                            ?>
+                            <div class="row">
+                                <p>
+                                    <?php echo $msg; ?>
+                                </p>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup"
+                        name="food_id" value="<?php echo $fooditemrow['food_itemId'] ?>">
+                    <div class="input-group mb-3">
+                        <div class="row">
+                            <h1>
+                                <?php echo $fooditemrow['item_name'] ?>
+                                <h1>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color:;">
+                        <form action="../../../../controller/menu_controller.php?status=add-recipie" enctype="multipart/form-data" method="post">
+                            <div class="col" id="selected-ingredients">
+                            </div>
+                            <button type="submit" class="col-md-2 btn btn-primary">
+                                set
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="row bg-light" style="background-color:">
+                    <div class="col" id="list" style="background-color:">
+                    <h3>Ingredients</h3>
+                        <?php
+                        while ($ingrow = $ingResult->fetch_assoc()) {
+                            $ing_id = $ingrow['ing_id'];
+                            ?>
+
+                            <div class=" form-check form-check-inline ml-1" id="checkitem">
+
+                                <input class="form-check-input" type="checkbox" value="<?php echo $ing_id ?>"
+                                    id="flexCheckDefault">
+                                <p>
+                                    <?php echo $ingrow['ing_name']; ?>
+                                </p>
+                            </div>
+
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+
+                    <div class="col-md-3">
+                        <img id="imgprev" src="<?php echo "../../../" . $fooditemrow["img_path"] ?>" alt="Image Preview"
+                            style="height: 100px; width: 100px;">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    update
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#removeFooditemModal">Remove Item
+                </button>
+            </div>
         </div>
 
 
@@ -202,6 +282,7 @@ $fooditemResult = $menuObj->getfoodItems();
     </script>
 
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
+    <script type="text/javascript" src="recipie.js"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
