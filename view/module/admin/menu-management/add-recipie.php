@@ -17,6 +17,8 @@ $ingResult = $ingredientObj->getAllingredients();
 <head>
     <title>Restaurant Management System</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -195,17 +197,21 @@ $ingResult = $ingredientObj->getAllingredients();
                         </div>
                     </div>
                     <div class="row" style="background-color:;">
-                        <form action="../../../../controller/menu_controller.php?status=add-recipie" enctype="multipart/form-data" method="post">
+                    <?php 
+                    if(isset($_GET['foodId'])){
+                        $food_id = $_GET['foodId'];
+                    
+                    ?>
+                        <form id="addrecipe" action="../../../../controller/menu_controller.php?status=add-recipie&foodId=<?php echo $food_id ?>" enctype="multipart/form-data" method="post" onsubmit="return submitValidation()">
                             <div class="col" id="selected-ingredients">
                             </div>
-                            <button type="submit" class="col-md-2 btn btn-primary">
-                                set
-                            </button>
+                            
+                            <button  id="addrecipiebtn" type="" class="btn btn-primary " onclick="submitvalidation" >
+                    update
+                    </button>
+                    
                         </form>
-
-                    </div>
-                </div>
-                <div class="row bg-light" style="background-color:">
+                        <div class="row bg-light" style="background-color:">
                     <div class="col" id="list" style="background-color:">
                     <h3>Ingredients</h3>
                         <?php
@@ -213,10 +219,12 @@ $ingResult = $ingredientObj->getAllingredients();
                             $ing_id = $ingrow['ing_id'];
                             ?>
 
-                            <div class=" form-check form-check-inline ml-1" id="checkitem">
+                            <div class=" form-check form-check-inline ml-1" id="checkitem" >
 
+                                <input  type="hidden" value="<?php echo $ing_id ?>"
+                                    id="ing_id" name="ing_id[]" >
                                 <input class="form-check-input" type="checkbox" value="<?php echo $ing_id ?>"
-                                    id="flexCheckDefault">
+                                    id="flexCheckDefault" >
                                 <p>
                                     <?php echo $ingrow['ing_name']; ?>
                                 </p>
@@ -227,19 +235,19 @@ $ingResult = $ingredientObj->getAllingredients();
                         ?>
                     </div>
                 </div>
-                <div class="input-group mb-3">
+                        <?php } ?>
+                        <div class="input-group mb-3">
 
                     <div class="col-md-3">
                         <img id="imgprev" src="<?php echo "../../../" . $fooditemrow["img_path"] ?>" alt="Image Preview"
                             style="height: 100px; width: 100px;">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    update
-                </button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#removeFooditemModal">Remove Item
-                </button>
+
+                    </div>
+                </div>
+                
+                
             </div>
         </div>
 

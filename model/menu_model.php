@@ -53,6 +53,20 @@ class menu{
         
         return $result;
     }
+    public function setrecipe($food_id, $ing_id, $quantity, $factor){
+        $con = $GLOBALS["con"];
+        
+        $values = array();
+        for($i = 0; $i < count($ing_id); $i++){
+            $values[] = "('" . $ing_id[$i] . "', '$food_id', '" . $quantity[$i] . "', '" . $factor[$i] . "')";
+        }
+        $sql = "INSERT INTO ingredients_food_items (ing_id, food_itemId, `qty_required(g)`, factor) VALUES " . implode(', ', $values);
+
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    
     public function deletecategory($categoryid){
         $con = $GLOBALS["con"];     
         $sql = "DELETE FROM categories WHERE category_id='$categoryid'";
