@@ -95,5 +95,18 @@ class menu{
         
         return $result;
     }
+    
+    Public function getrecipe($food_id){
+        $con = $GLOBALS["con"];
+        $sql = "SELECT ingredients_food_items.*, ingredients.ing_name
+        FROM ingredients_food_items
+        JOIN ingredients ON ingredients_food_items.ing_id = ingredients.ing_id
+        WHERE ingredients_food_items.food_itemId = $food_id;
+        ";
+        $result = $con->query($sql) or die($con->error);
+        return $result;
+
+    }
+    
 }
 ?>

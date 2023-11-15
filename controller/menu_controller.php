@@ -181,17 +181,18 @@ if (isset($_GET['status']) && $_GET['status'] === 'set-price') {
 
 }
 if (
-    isset($_GET['status']) && $_GET['status'] === 'add-recipie') {
+    isset($_GET['status']) && $_GET['status'] === 'add-recipie'
+) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $food_id = $_GET['foodId'];
         $food_id = base64_decode($_GET['foodId']);
         $ing_id = $_POST['ing_id'];
         $quantity = $_POST['required_quantity'];
         $factor = $_POST['factor'];
-        
-        
+
+
         $menuObj->setrecipe($food_id, $ing_id, $quantity, $factor);
-        
+
         $msg = "recipie added";
         $food_id = base64_encode($food_id);
         $msg = base64_encode($msg);
@@ -201,5 +202,38 @@ if (
     }
 
 }
+
+if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
+    $food_id = $_GET['foodId'];
+    $result = $menuObj->getrecipe($food_id);
+
+    if ($result && $result->num_rows > 0) {
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[] = array(
+                'id' => $row['ing_id'],  
+                'ingname' => $row['ing_name'],  
+                'requiredqtyG' => $row['qty_required(g)'],  
+                'requiredqtyMl' => $row['qty_required(ml)'],   
+                
+            );
+        }
+
+        $response = array(
+            'status' => 'success',
+            'data' => $data,
+        );
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } else {
+        echo json_encode(array('status' => 'error', 'message' => 'Error in getting recipe'));
+    }
+} else {
+    echo json_encode(array('status' => 'error', 'message' => 'Invalid request method'));
+}
+
+ 
+
+
 
 ?>
