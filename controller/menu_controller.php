@@ -187,11 +187,10 @@ if (
         $food_id = $_GET['foodId'];
         $food_id = base64_decode($_GET['foodId']);
         $ing_id = $_POST['ing_id'];
-        $quantity = $_POST['required_quantity'];
-        $factor = $_POST['factor'];
+        $quantity = $_POST['qtyrequired'];
+        $factors = $_POST['factor'];
 
-
-        $menuObj->setrecipe($food_id, $ing_id, $quantity, $factor);
+        $menuObj->setrecipe($food_id, $ing_id, $quantity, $factors);
 
         $msg = "recipie added";
         $food_id = base64_encode($food_id);
@@ -210,13 +209,14 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
     if ($result && $result->num_rows > 0) {
         $data = array();
         while ($row = $result->fetch_assoc()) {
-            $data[] = array(
+            $ingredient = array(
                 'id' => $row['ing_id'],  
                 'ingname' => $row['ing_name'],  
                 'requiredqtyG' => $row['qty_required(g)'],  
                 'requiredqtyMl' => $row['qty_required(ml)'],   
                 
             );
+            $data[] = $ingredient;
         }
 
         $response = array(
@@ -232,7 +232,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
     echo json_encode(array('status' => 'error', 'message' => 'Invalid request method'));
 }
 
- 
+
 
 
 

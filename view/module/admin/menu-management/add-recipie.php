@@ -28,6 +28,7 @@ if (isset($_GET['foodId'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../../../style.css">
 </head>
 
 <body>
@@ -194,7 +195,7 @@ if (isset($_GET['foodId'])) {
                         ?>
                     </div>
                     <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                    id="food_id" name="food_id" value="<?php echo $fooditemrow['food_itemId'] ?>">
+                        id="food_id" name="food_id" value="<?php echo $fooditemrow['food_itemId'] ?>">
                     <div class="input-group mb-3">
                         <div class="row">
                             <h1>
@@ -223,10 +224,17 @@ if (isset($_GET['foodId'])) {
                                     <h3>Ingredients</h3>
                                     <?php
                                     $selected_ingredients = array();
+                                    $selected_quantities = array();
+                                    $selected_factor = array();
+
 
                                     // Loop through the selected ingredients to store them in an array
                                     while ($reciperow = $recipeResult->fetch_assoc()) {
                                         $selected_ingredients[] = $reciperow['ing_id'];
+                                        $selected_quantitiesg[$reciperow['ing_id']] = $reciperow['qty_required(g)']; // Store quantity by ingredient ID
+                                        $selected_quantitiesml[$reciperow['ing_id']] = $reciperow['qty_required(ml)'];
+                                        $selected_factor[$reciperow['ing_id']] = $reciperow['factor'];
+
                                     }
 
                                     // Reset the result set pointer for the ingredient loop
@@ -239,10 +247,42 @@ if (isset($_GET['foodId'])) {
                                         <div class="form-check form-check-inline ml-1" id="checkitem">
                                             <input type="hidden" value="<?php echo $ing_id; ?>" id="ing_id" name="ing_id[]">
                                             <input class="form-check-input" type="checkbox" value="<?php echo $ing_id; ?>"
-                                                id="flexCheckDefault" <?php echo in_array($ing_id, $selected_ingredients) ? 'checked' : ''; ?>>
+                                                name="ingidcheck" id="flexCheckDefault" <?php echo in_array($ing_id, $selected_ingredients) ? 'checked' : ''; ?>>
                                             <p>
                                                 <?php echo $ingrow['ing_name']; ?>
                                             </p>
+                                            <input type="text"
+                                                value="<?php
+                                                $quantity =  '';
+                                                if ($selected_factor[$ing_id] == '8' || $selected_factor[$ing_id] == '9') {
+                                                    $quantity = isset($selected_quantitiesml[$ing_id]) ? $selected_quantitiesml[$ing_id] : '';
+                                                } else{
+                                                $quantity  = isset($selected_quantitiesg[$ing_id]) ? $selected_quantitiesg[$ing_id] : '';
+                                                }
+                                                echo $quantity; ?>"
+                                                id="qtyrequired_<?php echo $ing_id; ?>" name="qtyrequired[]"
+                                                class="qtyrequired">
+                                            <select id="factorSelect" name="factor[]">
+                                                <?php
+                                                $options = array(
+                                                
+                                                    '1' => 'g',
+                                                    '2' => 'kg',
+                                                    '3' => 'c',
+                                                    '4' => 'tbsp',
+                                                    '5' => 'tsp',
+                                                    '6' => 'oz',
+                                                    '7' => 'lb',
+                                                    '8' => 'ml',
+                                                    '9' => 'l'
+                                                );
+
+                                                foreach ($options as $value => $text) {
+                                                    $selected = ($selected_factor[$ing_id] == $value) ? 'selected' : '';
+                                                    echo "<option value='{$value}' {$selected}>{$text}</option>";
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
 
                                         <?php
