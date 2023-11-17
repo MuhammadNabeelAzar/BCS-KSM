@@ -46,3 +46,48 @@ var requiredqty = document.createElement('input');
                 l.text = 'l';
                 factor.appendChild(l);
     
+
+
+
+                BEGIN
+    
+    IF NEW.factor = '8' THEN
+        SET NEW.`qty_required(ml)` = NEW.`qty_required(g)`;
+    END IF;
+    IF NEW.factor = '9' THEN
+        SET NEW.`qty_required(ml)` = NEW.`qty_required(g)` / 1000;
+    END IF;
+END
+
+BEGIN
+IF NEW.factor = '1' THEN
+        SET NEW.`qty_required(g)` = NEW.`qty_required(g)`;
+        END IF;
+
+    IF NEW.factor = '2' THEN
+        SET NEW.`qty_required(g)` = NEW.`qty_required(g)` * 1000;
+        END IF;
+        IF NEW.factor = '3' THEN
+        SET NEW.`qty_required(g)` = NEW.`qty_required(g)` * 250;
+    END IF;
+    IF NEW.factor = '4' THEN
+        SET NEW.`qty_required(g)` = NEW.`qty_required(g)` * 14.175;
+    END IF;
+    IF NEW.factor = '5' THEN
+        SET NEW.`qty_required(g)` = NEW.`qty_required(g)` * 5.69;
+    END IF;
+    IF NEW.factor = '6' THEN
+        SET NEW.`qty_required(g)` = NEW.`qty_required(g)` * 28.3495;
+    END IF;
+    IF NEW.factor = '7' THEN
+        SET NEW.`qty_required(g)` = NEW.`qty_required(g)` * 453.592;
+    END IF;
+    IF NEW.factor = '8' THEN
+        SET NEW.`qty_required(ml)` = NEW.`qty_required(g)`;
+    END IF;
+    IF NEW.factor = '9' THEN
+        SET NEW.`qty_required(ml)` = NEW.`qty_required(g)` * 1000 ;
+    END IF;
+   
+END
+

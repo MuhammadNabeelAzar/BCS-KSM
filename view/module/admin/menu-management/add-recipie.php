@@ -251,21 +251,50 @@ if (isset($_GET['foodId'])) {
                                             <p>
                                                 <?php echo $ingrow['ing_name']; ?>
                                             </p>
-                                            <input type="text"
-                                                value="<?php
-                                                $quantity =  '';
-                                                if ($selected_factor[$ing_id] == '8' || $selected_factor[$ing_id] == '9') {
-                                                    $quantity = isset($selected_quantitiesml[$ing_id]) ? $selected_quantitiesml[$ing_id] : '';
-                                                } else{
-                                                $quantity  = isset($selected_quantitiesg[$ing_id]) ? $selected_quantitiesg[$ing_id] : '';
+                                            <input type="text" value="<?php
+                                            $quantity = '';
+                                            if (isset($selected_factor[$ing_id]) && ($selected_factor[$ing_id] == '8' || $selected_factor[$ing_id] == '9')) {
+                                                $quantity = $selected_quantitiesml[$ing_id] ?? '';
+                                                if ($selected_factor[$ing_id] == '9') {
+                                                    $quantity = $quantity / 1000;
                                                 }
-                                                echo $quantity; ?>"
-                                                id="qtyrequired_<?php echo $ing_id; ?>" name="qtyrequired[]"
-                                                class="qtyrequired">
+
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '1') {
+                                                $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                                //display grams
+                                    
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '2') {
+                                                $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                                $quantity = $quantity / 1000; // Convert grams to kilograms
+                                    
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '3') {
+                                                $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                                $quantity = $quantity / 250; // Convert g to c
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '4') {
+                                                $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                                $quantity = $quantity / 14.175; // Convert g to tbsp
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '5') {
+                                                $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                                $quantity = $quantity / 5.69; // Convert g to tsp
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '6') {
+                                                $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                                $quantity = $quantity / 28.3495; // Convert g to oz
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '7') {
+                                                $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                                $quantity = $quantity / 453.592; // Convert g to lb
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '8') {
+                                                $quantity = $selected_quantitiesml[$ing_id] ?? '';
+                                                // display ml
+                                            } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '9') {
+                                                $quantity = $selected_quantitiesml[$ing_id] ?? '';
+                                                $quantity = $quantity / 1000; // Convert ml to l
+                                            }
+                                            echo $quantity; ?>" id="qtyrequired_<?php echo $ing_id; ?>" name="qtyrequired[]" class="qtyrequired" required>
+
                                             <select id="factorSelect" name="factor[]">
                                                 <?php
                                                 $options = array(
-                                                
+
                                                     '1' => 'g',
                                                     '2' => 'kg',
                                                     '3' => 'c',
