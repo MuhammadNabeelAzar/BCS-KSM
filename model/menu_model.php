@@ -127,6 +127,14 @@ class menu
         return $result;
 
     }
+    public function deleterecipeIng($ing_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "DELETE FROM ingredients_food_items WHERE ing_id = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        return $result;
+
+    }
 
 }
 ?>

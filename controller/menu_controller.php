@@ -233,6 +233,20 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
 }
 
 
+if (isset($_GET['status']) && $_GET['status'] === 'remove-ingredient') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //
+        $ing_id = $_GET['ing_id'];
+
+
+        $menuObj->deleterecipeIng($ing_id);
+        $response = "Ingredient removed Succesfully";
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } 
+
+}
+
 
 
 

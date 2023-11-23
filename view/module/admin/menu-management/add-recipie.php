@@ -219,7 +219,7 @@ if (isset($_GET['foodId'])) {
                                 </button>
 
                             </form>
-                            <div class="row bg-light" style="background-color:">
+                            <div class="row bg-light ing-list" style="background-color:">
                                 <div class="col" id="list" style="background-color:">
                                     <h3>Ingredients</h3>
                                     <?php
@@ -246,8 +246,8 @@ if (isset($_GET['foodId'])) {
 
                                         <div class="form-check form-check-inline ml-1" id="checkitem">
                                             <input type="hidden" value="<?php echo $ing_id; ?>" id="ing_id" name="ing_id[]">
-                                            <input class="form-check-input" type="checkbox" value="<?php echo $ing_id; ?>"
-                                                name="ingidcheck" id="flexCheckDefault" <?php echo in_array($ing_id, $selected_ingredients) ? 'checked' : ''; ?>>
+                                            <input class="form-check-input specific-checkbox " type="checkbox" value="<?php echo $ing_id; ?> "
+                                                name="ingidcheck" id="selectedIngs" <?php echo in_array($ing_id, $selected_ingredients) ? 'checked' : ''; ?>>
                                             <p>
                                                 <?php echo $ingrow['ing_name']; ?>
                                             </p>
@@ -272,23 +272,24 @@ if (isset($_GET['foodId'])) {
                                                 $quantity = $quantity / 250; // Convert g to c
                                             } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '4') {
                                                 $quantity = $selected_quantitiesg[$ing_id] ?? '';
-                                                $quantity = $quantity / 14.175; // Convert g to tbsp
+                                                $quantity = number_format($quantity / 14.175 , 2); // Convert g to tbsp
                                             } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '5') {
                                                 $quantity = $selected_quantitiesg[$ing_id] ?? '';
-                                                $quantity = $quantity / 5.69; // Convert g to tsp
+                                                $quantity = number_format($quantity / 5.69 , 2); // Convert g to tsp
                                             } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '6') {
                                                 $quantity = $selected_quantitiesg[$ing_id] ?? '';
-                                                $quantity = $quantity / 28.3495; // Convert g to oz
+                                                $quantity = number_format($quantity / 28.3495 , 2); // Convert g to oz
                                             } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '7') {
                                                 $quantity = $selected_quantitiesg[$ing_id] ?? '';
-                                                $quantity = $quantity / 453.592; // Convert g to lb
+                                                $quantity = number_format($quantity / 453.592 ,2); // Convert g to lb
                                             } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '8') {
                                                 $quantity = $selected_quantitiesml[$ing_id] ?? '';
                                                 // display ml
                                             } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '9') {
                                                 $quantity = $selected_quantitiesml[$ing_id] ?? '';
-                                                $quantity = $quantity / 1000; // Convert ml to l
+                                                $quantity = number_format($quantity / 1000, 2); // Convert ml to l
                                             }
+                                            
                                             echo $quantity; ?>" id="qtyrequired_<?php echo $ing_id; ?>" name="qtyrequired[]" class="qtyrequired" required>
 
                                             <select id="factorSelect" name="factor[]">
@@ -372,7 +373,26 @@ if (isset($_GET['foodId'])) {
                 };
             }
         </script>
-
+<div class="modal" id="removeIngredientModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <input type="hidden" id="ingId" >
+        <p>Confirming this will remove the ingredient</p>
+      </div>
+      <div class="modal-footer">
+        <button id="removeIngBtn" onclick=" removeingHandler(this)" type="button" class="btn btn-danger">Remove</button>
+        <button type="button" onclick=" closeRemoveIngmodal(this)" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
         <script type="text/javascript" src="../../../../commons/clock.js"></script>
         <script type="text/javascript" src="recipie.js"></script>
 </body>
