@@ -163,6 +163,13 @@ class ingredient{
         
         return $result;
     }
+    Public function resetingredientstock($ing_id){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE ingredients SET `remaining_qty(g)`= '0', `remaining_qty(ml)`='0' WHERE ing_id  = $ing_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
 
 }
 ?>

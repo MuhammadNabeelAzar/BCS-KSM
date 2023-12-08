@@ -108,6 +108,8 @@ $editroleResult = $userObj->getroles();
                             <li class="list-group-item"><a
                                     href="../../admin/menu-management/categories.php">Categories</a></li>
                             <li class="list-group-item"><a href="../../admin/menu-management/items.php">Items</a></li>
+                            <li class="list-group-item"><a href="../../admin/menu-management/recipe.php">Recipes</a>
+                            </li>
                             <li class="list-group-item"><a href="../../admin/menu-management/pricing.php">Pricing</a>
                             </li>
                             <li class="list-group-item"><a

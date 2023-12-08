@@ -135,6 +135,31 @@ class menu
         return $result;
 
     }
+    public function deactivatefoodAvailability($food_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE food_items SET tmp_deactivate_availability = 1 WHERE food_itemID = $food_id";
+        $result = $con->query($sql) or die($con->error);
+        return $result;
 
+    }
+    public function activatefoodAvailability($food_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE food_items SET tmp_deactivate_availability = 0 WHERE food_itemID = $food_id";
+        $result = $con->query($sql) or die($con->error);
+        return $result;
+
+    }
+    public function getfoodItemswithcategory($category_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "SELECT * FROM food_items WHERE  category_id = $category_id";
+        
+        $result = $con->query($sql) or die($con->error);
+        return $result;
+
+    }
+    
 }
 ?>

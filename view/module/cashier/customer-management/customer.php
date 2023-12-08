@@ -51,6 +51,12 @@
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
+            <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="../../../users/cashier/cashier.php" >Cashier</a>
+                    </li>
+
+                </ul>
                 <ul class="list-group">
                     <li class="list-group-item">
                         <a href="#" data-bs-toggle="collapse" data-bs-target="#customerSubMenu">Customer Management</a>

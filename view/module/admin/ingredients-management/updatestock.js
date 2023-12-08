@@ -22,3 +22,18 @@
         });
     }
 
+    function resetstock(){
+        $(document).ready(function () {
+            var ing_id = $('#ingredient_id').val();
+            console.log(ing_id);
+            $.ajax({
+                type: 'POST',
+                url: '../../../../controller/ingredients_controller.php?status=reset-ingredient-qty',
+                data: {ing_id: ing_id},
+                success: function (response){
+                    location.reload();
+                } 
+            })
+        });
+    }
+

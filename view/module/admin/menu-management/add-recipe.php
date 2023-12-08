@@ -102,6 +102,8 @@ if (isset($_GET['foodId'])) {
                             <li class="list-group-item"><a
                                     href="../../admin/menu-management/categories.php">Categories</a></li>
                             <li class="list-group-item"><a href="../../admin/menu-management/items.php">Items</a></li>
+                            <li class="list-group-item"><a href="../../admin/menu-management/recipe.php">Recipes</a>
+                            </li>
                             <li class="list-group-item"><a href="../../admin/menu-management/pricing.php">Pricing</a>
                             </li>
                             <li class="list-group-item"><a
@@ -170,7 +172,7 @@ if (isset($_GET['foodId'])) {
                                 $foodid = base64_encode($foodid);
                                 ?>
                                 <a type="button" class="list-group-item"
-                                    href="add-recipie.php?foodId=<?php echo $foodid ?>">
+                                    href="add-recipe.php?foodId=<?php echo $foodid ?>">
                                     <?php echo $foodrow['item_name']; ?>
                                 </a>
                             <?php } ?>
@@ -373,12 +375,12 @@ if (isset($_GET['foodId'])) {
                 };
             }
         </script>
-<div class="modal" id="removeIngredientModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+<div class="modal" id="removeIngredientModal" tabindex="-1" role="dialog" data-bs-keyboard="false" data-bs-backdrop="static">
+  <div class="modal-dialog" role="document" >
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick=" closeRemoveIngmodal(this)">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

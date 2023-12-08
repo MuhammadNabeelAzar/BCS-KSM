@@ -195,13 +195,55 @@ if (
         $msg = "recipie added";
         $food_id = base64_encode($food_id);
         $msg = base64_encode($msg);
-        header("location:../view/module/admin/menu-management/add-recipie.php?msg=$msg&foodId=$food_id");
+        header("location:../view/module/admin/menu-management/add-recipe.php?msg=$msg&foodId=$food_id");
     } else {
         echo "error in addin recipe";
     }
 
 }
 
+
+
+
+if (isset($_GET['status']) && $_GET['status'] === 'remove-ingredient') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //
+        $ing_id = $_GET['ing_id'];
+
+
+        $menuObj->deleterecipeIng($ing_id);
+        $response = "Ingredient removed Succesfully";
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } 
+
+}
+if (isset($_GET['status']) && $_GET['status'] === 'deactivate-food-availability') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //
+        $food_id = $_POST['food_id'];
+
+
+        $menuObj->deactivatefoodAvailability($food_id);
+        $response = "Food item deactivated Succesfully";
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } 
+
+}
+if (isset($_GET['status']) && $_GET['status'] === 'activate-food-availability') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //
+        $food_id = $_POST['food_id'];
+
+
+        $menuObj->activatefoodAvailability($food_id);
+        $response = "Food item deactivated Succesfully";
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } 
+
+}
 if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
     $food_id = $_GET['foodId'];
     $result = $menuObj->getrecipe($food_id);
@@ -228,26 +270,23 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
     } else {
         echo json_encode(array('status' => 'error', 'message' => 'Error in getting recipe'));
     }
-} else {
-    echo json_encode(array('status' => 'error', 'message' => 'Invalid request method'));
-}
+} 
 
-
-if (isset($_GET['status']) && $_GET['status'] === 'remove-ingredient') {
+if (isset($_GET['status']) && $_GET['status'] === 'get-fooditems') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //
-        $ing_id = $_GET['ing_id'];
+        $category_id = $_POST['category'];
 
-
-        $menuObj->deleterecipeIng($ing_id);
-        $response = "Ingredient removed Succesfully";
+        $result = $menuObj->getfoodItemswithcategory($category_id);
+        while($fooditems = $result->fetch_all(MYSQLI_ASSOC)){
+            $response = $fooditems;
+        }
+        
         header('Content-Type: application/json');
         echo json_encode($response);
     } 
 
 }
-
-
 
 
 ?>

@@ -128,6 +128,18 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-ingredient-qty') {
         echo "failed to retrieve";
     }
 }
+if (isset($_GET['status']) && $_GET['status'] === 'reset-ingredient-qty') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $ing_id = $_POST['ing_id'];
+
+       
+        $ingredientObj->resetingredientstock($ing_id);
+        $msg="Ingredient qty succesfully resetted!";
+        $msg= base64_encode($msg);    
+        header("location:../view/module/admin/ingredients-management/stock.php?msg=$msg");
+    } 
+    
+}
 
 if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

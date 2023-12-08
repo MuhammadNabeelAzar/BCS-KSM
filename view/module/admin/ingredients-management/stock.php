@@ -87,7 +87,7 @@ $ingResult = $ingredientObj->getAllingredients();
                                     href="../../admin/menu-management/categories.php">Categories</a></li>
                             <li class="list-group-item"><a href="../../admin/menu-management/items.php">Items</a>
                             </li>
-                            <li class="list-group-item"><a href="../../admin/menu-management/recipie.php">Recipies</a>
+                            <li class="list-group-item"><a href="../../admin/menu-management/recipe.php">Recipes</a>
                             </li>
                             <li class="list-group-item"><a
                                     href="../../admin/menu-management/pricing.php">Pricing</a></li>
@@ -226,9 +226,9 @@ $ingResult = $ingredientObj->getAllingredients();
       <div class="modal-body">
       <form action="../../../../controller/ingredients_controller.php?status=update-stock" enctype="multipart/form-data" method="post" >
       <div class="input-group">
-  <input type="text" class="form-control" aria-label="Text input with dropdown button" name="ingredient_id" id="ingredient_id" >
-  <input type="text" class="form-control" aria-label="Text input with dropdown button" name="factor_id" id="factor_id" >
-  <input type="text" class="form-control" aria-label="Text input with dropdown button" name="updatestockvalue" id="updatestockvalue" >
+  <input type="hidden" class="form-control" aria-label="Text input with dropdown button" name="ingredient_id" id="ingredient_id" >
+  <input type="hidden" class="form-control" aria-label="Text input with dropdown button" name="factor_id" id="factor_id" >
+  <input type="text" class="form-control" aria-label="Text input with dropdown button" name="updatestockvalue" id="updatestockvalue" required >
   <div class="input-group-append">
     <select name="calculation-selector" id="calculation-selector">
   <option value="add">&#43; Add <i class="bi bi-plus"></i></option>
@@ -238,6 +238,7 @@ $ingResult = $ingredientObj->getAllingredients();
   </div>
 </div>
 <button type="submit" class="btn btn-primary">Save changes</button>
+<button type="button" class="btn btn-danger" onclick="resetstock()">Reset</button>
       </form>
       </div>
       <div class="modal-footer">
