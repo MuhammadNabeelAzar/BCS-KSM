@@ -287,6 +287,21 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-fooditems') {
     } 
 
 }
+if (isset($_GET['status']) && $_GET['status'] === 'get-all-fooditems') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //
+       
+
+        $result = $menuObj->getfoodItems();
+        while($fooditems = $result->fetch_all(MYSQLI_ASSOC)){
+            $response = $fooditems;
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } 
+
+}
 
 
 ?>

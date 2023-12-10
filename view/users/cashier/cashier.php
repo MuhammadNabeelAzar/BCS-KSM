@@ -89,12 +89,12 @@ $categoryResult = $menuObj->getcategories();
 
     </div>
     <!--user navigation-->
-    <div class="container-fluid">
-        <div class="row" style="background-color:gray;">
-            <div class="col" style="background-color:blue;">
-                <div class="row" style="background-color:green;" id="categories">
+    <div class="container-fluid" >
+        <div class="row" style=""> 
+            <div class="col" >
+                <div class="row"  id="categories">
                     <div class="card col-md-2" style="margin:2px;">
-                        <a class="card-link" onclick="">
+                        <a class="card-link" onclick="showallfoodItems()">
                             <div class="card-body">
                                 <div class="row">
                                     <h3 class="card-title">
@@ -126,8 +126,8 @@ $categoryResult = $menuObj->getcategories();
 
                     <?php } ?>
                 </div>
-                <div class="row" style="background-color:aqua;" id="fooditems-container">  </div>
-                <div class="row " style="background-color:black;">orderlist</div>
+                <div class="row" style="background-color:aqua;" id="fooditems-container" style="height:700px;"> </div>
+                <div class="row" style="background-color:black;">orderlist</div>
             </div>
             <div class="col-md-2" style="background-color:yellow;">cart
                 <div class="row" style="background-color:blue;">name</div>
