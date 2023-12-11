@@ -33,7 +33,7 @@ function filteritems(category_id){
           '<div class="col">' +
             '<button class="subtract-btn" onclick="increaseDecreasefooditemqty(this)"><i class="bi bi-dash"></i></button>' +
           '</div>' +
-          '<input class="col qty-box" type="number" value="0" >' +
+          '<input class="col qty-box" type="number" value="0" onchange="increaseDecreasefooditemqtymanually(this.value)">' +
           '<div class="col" >' +
             '<button class="add-btn" onclick="increaseDecreasefooditemqty(this)"><i class="bi bi-plus"></i></button>' +
           '</div>' +
@@ -81,7 +81,7 @@ function showallfoodItems(){
           '<div class="col">' +
             '<button class="subtract-btn" onclick="increaseDecreasefooditemqty(this)"><i class="bi bi-dash"></i></button>' +
           '</div>' +
-          '<input class="col qty-box" type="number" value="0"; >' +
+          '<input class="col qty-box" type="number" value="0" onchange="increaseDecreasefooditemqtymanually(this.value)">' +
           '<div class="col">' +
             '<button class="add-btn" onclick="increaseDecreasefooditemqty(this)"><i class="bi bi-plus"></i></button>' +
           '</div>' +
@@ -114,5 +114,16 @@ $(document).ready(function () {
     }
  
     qtyInput.value = qty;
+ }
+  function increaseDecreasefooditemqtymanually(value) {
+    var inputvalue = value;
+    console.log(inputvalue);
+    var card = document.activeElement.closest('.card'); // Go up three levels to the main container
+    console.log(card);
+   var clonedcard = card.cloneNode(true);
+   var itemsContainer = document.getElementById('fooditems');
+
+   itemsContainer.appendChild(clonedcard);
+    
  }
  

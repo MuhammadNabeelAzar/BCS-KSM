@@ -131,7 +131,7 @@ $categoryResult = $menuObj->getcategories();
             </div>
             <div class="col-md-2" style="background-color:yellow;">cart
                 <div class="row" style="background-color:blue;">name</div>
-                <div class="row" style="background-color:white;">items</div>
+                <div class="row " id="fooditems" style="background-color:white;">items</div>
                 <div class="row" style="background-color:green;">checkout</div>
             </div>
         </div>
