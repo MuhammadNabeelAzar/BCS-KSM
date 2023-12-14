@@ -91,3 +91,31 @@ IF NEW.factor = '1' THEN
    
 END
 
+
+function increaseDecreasefooditemqty(button) {
+    var card = button.parentElement.parentElement.parentElement; // Go up three levels to the main container
+    var qtyInput = card.querySelector('.qty-box');
+    var qty = parseInt(qtyInput.value) || 0;
+  
+    if (button.classList.contains('add-btn')) {
+       qty += 1;
+    } else if (button.classList.contains('subtract-btn')) {
+       qty = Math.max(0, qty - 1);
+    }
+ 
+    qtyInput.value = qty;
+ }
+  function increaseDecreasefooditemqtymanually(value) {
+    var inputvalue = value;
+    console.log(inputvalue);
+    var card = document.activeElement.closest('.card'); // Go up three levels to the main container
+    console.log(card);
+   var clonedcard = card.cloneNode(true);
+   var itemsContainer = document.getElementById('fooditems');
+
+    
+ }
+ 
+function addFooditemtoCart(){
+
+}
