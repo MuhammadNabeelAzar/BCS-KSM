@@ -89,15 +89,15 @@ $categoryResult = $menuObj->getcategories();
 
     </div>
     <!--user navigation-->
-    <div class="container-fluid" >
-        <div class="row" style=""> 
-            <div class="col" >
-                <div class="row"  id="categories">
-                    <div class="card col-md-2" style="margin:2px;">
+    <div class="container-fluid">
+        <div class="row" style="background-color:;">
+            <div class="col">
+                <div class="row justify-content-center" id="categories">
+                    <div class="card col" style="margin:2px;">
                         <a class="card-link" onclick="showallfoodItems()">
                             <div class="card-body">
                                 <div class="row">
-                                    <h3 class="card-title">
+                                    <h3 class="card-title text-center">
                                         All
                                     </h3>
                                 </div>
@@ -110,12 +110,12 @@ $categoryResult = $menuObj->getcategories();
                         $categoryId = $categories['category_id'];
                         ?>
 
-                        <div class="card col-md-2" style="margin:2px;">
+                        <div class="card col" style="margin:2px;">
                             <a class="card-link" onclick="filteritems(<?php echo $categoryId; ?>)">
                                 <div class="card-body">
                                     <input type="hidden" id="category-id" value="<?php echo $categories['category_id']; ?>">
                                     <div class="row">
-                                        <h3 class="card-title">
+                                        <h3 class="card-title text-center">
                                             <?php echo $categories["category_name"] ?>
                                         </h3>
                                     </div>
@@ -126,13 +126,47 @@ $categoryResult = $menuObj->getcategories();
 
                     <?php } ?>
                 </div>
-                <div class="row" style="background-color:aqua;" id="fooditems-container" style="height:700px;"> </div>
+                <div class="row justify-content-center" id="fooditems-container" style="height:;"> </div>
                 <div class="row" style="background-color:black;">orderlist</div>
             </div>
-            <div class="col-md-2" style="background-color:yellow;">cart
-                <div class="row" style="background-color:blue;">name</div>
+            <div class="col-md-2 bg-light" style="background-color:;">
+                <div class="row" style="background-color:;">
+                    <h4>Order Details</h4>
+                    <div class="row">
+                        <div class="col-md-2"> Date:</div>
+                        <div class="col" id="datediv"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Customer Name:</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Contact No: </div>
+                        <div class="col" id="ContactNoDiv"></div>
+                    </div>
+                </div>
                 <div class="row " id="fooditemslistcontainer" style="background-color:white;"></div>
-                <div class="row" style="background-color:green;">checkout</div>
+                <div class="row justify-content-center" style="background-color:">
+                    <div class="row">
+                        <div class="row">
+                        <div class="col checkitem">
+                        <label for="discountCheckbox">Discount</label>
+                            <input type="checkbox" id="discountCheckbox" onclick="showDiscountInput()" >                          
+                        </div>
+                        <div class="col" id="discountinput"></div> 
+                        </div>
+                        <div class="row">
+                        <div class="col">
+                            <h5>Total :</h5>
+                        </div>
+                        <div class="col" id="totalDiv">
+                            <h5 id="totalAmount"></h5>
+                        </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary col-md-8" onclick="placeOrder()">
+                        <h7>Place Order</h7>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

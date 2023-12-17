@@ -125,78 +125,150 @@ function addfooditemtoCart(foodId) {
       console.log(response);
       var fooditemContainer = $("#fooditemslistcontainer");
       var existingfoodItemsinCart = checkItemsExistence(response.item_name);
-      
-      if (!existingfoodItemsinCart){
+
+      if (!existingfoodItemsinCart) {
         fooditemContainer.append(
-          ' <div class="row fooditemRow" > ' +
-          ' <div class="col ml-auto"> ' +
-            '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>'+
-            ' </div> ' +
+          '<form method="post" enctype="multipart/form-data" href="">' +
+            ' <div class="row fooditemRow" > ' +
+            ' <div class="col ml-auto"> ' +
+            '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>' +
+            " </div> " +
             '<h6 class="food_item_name">' +
             response.item_name +
-            '</h6>' +
+            "</h6>" +
             ' <div class="row"> ' +
             ' <div class="col"> ' +
-            '<p>' +
+            '<p class="pricePeritem">' +
+            "Rs." +
             response.price +
-            '</p>' +
-            ' </div> ' +
+            "</p>" +
+            " </div> " +
             ' <div class="col"> ' +
-            '<div class="input-group"> '+
+            '<div class="input-group"> ' +
             ' <div class="col"> ' +
-            '<button type="button" class="btn bi-file-minus btn-secondary btn-sm" onclick="decreaseCounter(this)" ></button>'+
-            ' </div> ' +
-            '<input style="width:10px;" class="col" type="number"  id="inputQuantitySelectorSm"   value="0" min="0">'+
+            '<button type="button" class="btn bi-file-minus btn-secondary btn-sm" onclick="decreaseCounter(this)" ></button>' +
+            " </div> " +
+            '<input style="width:10px;" class="col foodItemqty" type="number"  id="inputQuantitySelectorSm"   value="0" min="0">' +
             ' <div class="col"> ' +
-            '<button type="button" class="btn bi-plus btn-secondary btn-sm" onclick="increaseCounter(this)"></button>'+
-            ' </div> ' +
-            '</div>'+
-            ' </div> ' +
-            '</div>'+ 
-            '</div>'
+            '<button type="button" class="btn bi-plus btn-secondary btn-sm" onclick="increaseCounter(this)"></button>' +
+            " </div> " +
+            "</div>" +
+            " </div> " +
+            "</div>" +
+            "</div>" +
+            "</form>"
         );
       } else {
-        console.log('Item already exists. Cannot append.');
+        console.log("Item already exists. Cannot append.");
       }
     },
   });
 }
 
-function  checkItemsExistence(itemName){
+function checkItemsExistence(itemName) {
   var fooditemNamesinCart = $(".food_item_name");
 
-  for (var i= 0; i < fooditemNamesinCart.length; i++){
+  for (var i = 0; i < fooditemNamesinCart.length; i++) {
     var currentName = $(fooditemNamesinCart[i]).text();
 
-    if (currentName  === itemName) {
+    if (currentName === itemName) {
       return true;
     }
   }
-  return false; 
+  return false;
 }
 
 function increaseCounter(button) {
   var inputElement = button.parentNode.previousElementSibling;
   x = parseInt($(inputElement).val());
   x++;
-$(inputElement).val(x);
-  
-  
+  $(inputElement).val(x);
+  console.log(x);
+  AddTotal(button);
 }
 
 function decreaseCounter(button) {
-
   var inputElement = button.parentNode.nextElementSibling;
   x = parseInt($(inputElement).val());
- if (x > 0){
-  x--;
- }
-$(inputElement).val(x);
+  if (x > 0) {
+    x--;
+    SubtractTotal(button);
+  }
+  $(inputElement).val(x);
+  console.log(x);
+    
+      
+    
   
 }
 function removeItem(deletebtn) {
- var fooditemRowtodelete = $(deletebtn).closest('.fooditemRow');
- 
- fooditemRowtodelete.remove();
+  var fooditemRowtodelete = $(deletebtn).closest(".fooditemRow");
+
+  fooditemRowtodelete.remove();
 }
 
+function displayDate() {
+  var dateDiv = document.getElementById("datediv");
+
+  var currentDate = date();
+
+  dateDiv.innerHTML = currentDate;
+}
+
+function date() {
+  return new Date().toLocaleDateString();
+}
+
+$(document).ready(function () {
+  displayDate();
+});
+
+function showDiscountInput() {
+  if (document.getElementById("discountCheckbox").checked) {
+  
+    var inputDiv = document.getElementById("discountinput");
+
+    var discountInput = document.createElement("input");
+    discountInput.classList.add("input");
+    discountInput.id = "discountpercentageinput";
+    discountInput.type = "number";
+    discountInput.min = "0";
+    discountInput.max = "100";
+    discountInput.placeholder = "%";
+
+    inputDiv.appendChild(discountInput);
+  } else {
+    $('#discountpercentageinput').remove();
+  }
+}
+var sum = 0;
+
+function updateTotal(btn, operation) {
+  var priceperitem = $(btn).closest('.fooditemRow').find('.pricePeritem').text();
+  priceperitem = parseFloat(priceperitem.replace('Rs.', '').trim());
+  //var quantityInput = $(btn).closest('.fooditemRow').find('.foodItemqty').val();
+
+  if (operation === 'add') {
+    sum += priceperitem;
+    console.log("Accumulated Total (Add): " + sum);
+    displayTotal(sum);
+  } else if (operation === 'subtract') {
+    sum -= priceperitem;
+    console.log("Accumulated Total (Subtract): " + sum);
+    displayTotal(sum);
+  }
+}
+
+function AddTotal(btn) {
+  updateTotal(btn, 'add');
+}
+
+function SubtractTotal(btn) {
+  updateTotal(btn, 'subtract');
+}
+function displayTotal(sum){
+  console.log(sum);
+  var TotalDiv = $('#totalAmount');
+  TotalDiv.html('Rs.'+sum);
+
+}
