@@ -205,6 +205,7 @@ function removeItem(deletebtn) {
   var fooditemRowtodelete = $(deletebtn).closest(".fooditemRow");
 
   fooditemRowtodelete.remove();
+  removepricefromtotal(fooditemRowtodelete);
 }
 
 function displayDate() {
@@ -229,7 +230,7 @@ function showDiscountInput() {
     var inputDiv = document.getElementById("discountinput");
 
     var discountInput = document.createElement("input");
-    discountInput.classList.add("input");
+    discountInput.classList.add("discountinput");
     discountInput.id = "discountpercentageinput";
     discountInput.type = "number";
     discountInput.min = "0";
@@ -237,6 +238,7 @@ function showDiscountInput() {
     discountInput.placeholder = "%";
 
     inputDiv.appendChild(discountInput);
+    calculatediscount(discountInput);
   } else {
     $('#discountpercentageinput').remove();
   }
@@ -266,9 +268,34 @@ function AddTotal(btn) {
 function SubtractTotal(btn) {
   updateTotal(btn, 'subtract');
 }
-function displayTotal(sum){
+function displayTotal(sum2){
   console.log(sum);
+  console.log(sum2);
   var TotalDiv = $('#totalAmount');
-  TotalDiv.html('Rs.'+sum);
+  TotalDiv.html('Rs.'+sum2);
+
+}
+
+function removepricefromtotal(fooditemrow){
+  
+  var priceperitem  = $(fooditemrow).find('.pricePeritem').text();
+  priceperitem = parseFloat(priceperitem.replace('Rs.', '').trim());
+  var quantityInput = $(fooditemrow).find('.foodItemqty').val();
+  quantityInput = parseInt(quantityInput);
+  sum -= priceperitem * quantityInput ;
+  displayTotal(sum);
+}
+
+
+function calculatediscount(input){
+  
+  $(input).on('keyup',function(){
+     discount = $(this).val();
+    console.log(discount);
+    discountamount = (sum * discount) / 100; 
+    console.log('discount is :' +  discountamount);
+    var sum2 = sum -discountamount;
+    displayTotal(sum2);
+  });
 
 }
