@@ -43,9 +43,11 @@ function filteritems(category_id) {
             "<p>Rs." +
             item.price +
             "</p>" +
-            '<button class="btn btn-primary" onclick="addfooditemtoCart(' +
-            item.food_itemId +
-            ')" >Add to Cart</button>' +
+            (item.availability === "1"
+              ? '<button class="btn btn-primary" onclick="addfooditemtoCart(' +
+                item.food_itemId +
+                ')" >Add to Cart</button>'
+              : '<button class="btn btn-danger">Unavailable</button>') +
             "</div>"
         );
 
@@ -97,9 +99,12 @@ function showallfoodItems() {
             "<p>Rs." +
             item.price +
             "</p>" +
-            '<button class="btn btn-primary" onclick="addfooditemtoCart(' +
-            item.food_itemId +
-            ')" >Add to Cart</button>' +
+            (item.availability === "1" &&
+            item.tmp_deactivate_availability === "0"
+              ? '<button class="btn btn-primary" onclick="addfooditemtoCart(' +
+                item.food_itemId +
+                ')" >Add to Cart</button>'
+              : '<button class="btn btn-danger">Unavailable</button>') +
             "</div>"
         );
 
@@ -128,8 +133,7 @@ function addfooditemtoCart(foodId) {
 
       if (!existingfoodItemsinCart) {
         fooditemContainer.append(
-          '<form method="post" enctype="multipart/form-data" href="">' +
-            ' <div class="row fooditemRow" > ' +
+          ' <div class="row fooditemRow" > ' +
             ' <div class="col ml-auto"> ' +
             '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>' +
             " </div> " +
@@ -148,15 +152,14 @@ function addfooditemtoCart(foodId) {
             ' <div class="col"> ' +
             '<button type="button" class="btn bi-file-minus btn-secondary btn-sm" onclick="decreaseCounter(this)" ></button>' +
             " </div> " +
-            '<input style="width:10px;" class="col foodItemqty" type="number"  id="inputQuantitySelectorSm"   value="0" min="0">' +
+            '<input style="width:10px;" class="col foodItemqty" type="number"  id="inputQuantitySelectorSm"  value="0" min="0" readonly>' +
             ' <div class="col"> ' +
             '<button type="button" class="btn bi-plus btn-secondary btn-sm" onclick="increaseCounter(this)"></button>' +
             " </div> " +
             "</div>" +
             " </div> " +
             "</div>" +
-            "</div>" +
-            "</form>"
+            "</div>"
         );
       } else {
         console.log("Item already exists. Cannot append.");
@@ -196,10 +199,6 @@ function decreaseCounter(button) {
   }
   $(inputElement).val(x);
   console.log(x);
-    
-      
-    
-  
 }
 function removeItem(deletebtn) {
   var fooditemRowtodelete = $(deletebtn).closest(".fooditemRow");
@@ -226,7 +225,6 @@ $(document).ready(function () {
 
 function showDiscountInput() {
   if (document.getElementById("discountCheckbox").checked) {
-  
     var inputDiv = document.getElementById("discountinput");
 
     var discountInput = document.createElement("input");
@@ -240,21 +238,25 @@ function showDiscountInput() {
     inputDiv.appendChild(discountInput);
     calculatediscount(discountInput);
   } else {
-    $('#discountpercentageinput').remove();
+    $("#discountpercentageinput").remove();
+    RemoveDiscount();
   }
 }
 var sum = 0;
 
 function updateTotal(btn, operation) {
-  var priceperitem = $(btn).closest('.fooditemRow').find('.pricePeritem').text();
-  priceperitem = parseFloat(priceperitem.replace('Rs.', '').trim());
+  var priceperitem = $(btn)
+    .closest(".fooditemRow")
+    .find(".pricePeritem")
+    .text();
+  priceperitem = parseFloat(priceperitem.replace("Rs.", "").trim());
   //var quantityInput = $(btn).closest('.fooditemRow').find('.foodItemqty').val();
 
-  if (operation === 'add') {
+  if (operation === "add") {
     sum += priceperitem;
     console.log("Accumulated Total (Add): " + sum);
     displayTotal(sum);
-  } else if (operation === 'subtract') {
+  } else if (operation === "subtract") {
     sum -= priceperitem;
     console.log("Accumulated Total (Subtract): " + sum);
     displayTotal(sum);
@@ -262,40 +264,98 @@ function updateTotal(btn, operation) {
 }
 
 function AddTotal(btn) {
-  updateTotal(btn, 'add');
+  updateTotal(btn, "add");
 }
 
 function SubtractTotal(btn) {
-  updateTotal(btn, 'subtract');
+  updateTotal(btn, "subtract");
 }
-function displayTotal(sum2){
+function displayTotal(sum) {
   console.log(sum);
-  console.log(sum2);
-  var TotalDiv = $('#totalAmount');
-  TotalDiv.html('Rs.'+sum2);
-
+  var TotalDiv = $("#totalAmount");
+  TotalDiv.html("Rs." + sum);
 }
 
-function removepricefromtotal(fooditemrow){
-  
-  var priceperitem  = $(fooditemrow).find('.pricePeritem').text();
-  priceperitem = parseFloat(priceperitem.replace('Rs.', '').trim());
-  var quantityInput = $(fooditemrow).find('.foodItemqty').val();
+function removepricefromtotal(fooditemrow) {
+  var priceperitem = $(fooditemrow).find(".pricePeritem").text();
+  priceperitem = parseFloat(priceperitem.replace("Rs.", "").trim());
+  var quantityInput = $(fooditemrow).find(".foodItemqty").val();
   quantityInput = parseInt(quantityInput);
-  sum -= priceperitem * quantityInput ;
+  sum -= priceperitem * quantityInput;
   displayTotal(sum);
 }
 
-
-function calculatediscount(input){
-  
-  $(input).on('keyup',function(){
-     discount = $(this).val();
+function calculatediscount(input) {
+  $(input).on("keyup", function () {
+    discount = $(this).val();
+    if (discount > 100) {
+      $(this).val(100); // Set the value to the maximum allowed
+      alert("Discount cannot be more than 100%");
+    } else if (isNaN(discount)) {
+      $(this).val(""); // Clear the input if the entered value is not a number
+    }
     console.log(discount);
-    discountamount = (sum * discount) / 100; 
-    console.log('discount is :' +  discountamount);
-    var sum2 = sum -discountamount;
+    discountamount = (sum * discount) / 100;
+    console.log("discount is :" + discountamount);
+    var sum2 = sum - discountamount;
     displayTotal(sum2);
   });
+}
+function RemoveDiscount() {
+  discount = 0;
+  console.log(discount);
+  discountamount = (sum * discount) / 100;
+  console.log("discount is :" + discountamount);
+  var sum2 = sum - discountamount;
+  displayTotal(sum2);
+}
 
+function placeOrder() {
+  var customerFName = $("#customerFName").val();
+  if (customerFName === "") {
+    alert("Please enter the customer's first name ! ");
+  } else {
+    var customerLname = $("#customerLName").val();
+    var customerEmail = $("#customerEmail").val();
+    var customercontactNo = $("#customerCno").val();
+    var foodItemsList = $(".fooditemRow");
+    var total = $("#totalAmount").text();
+    $.ajax({
+      type: "POST",
+      url: "../../../controller/customer_controller.php?status=add-customer",
+      data: {
+        customerFname: customerFName,
+        customerLname: customerLname,
+        customerEmail: customerEmail,
+        customercontactNo: customercontactNo,
+      },
+      dataType: "text",
+      success: function (response) {
+        console.log(response);
+      },
+    });
+  }
+}
+
+function getcustomerdetails() {
+  console.log("fetching");
+  var customerNo = $("#customerCno").val();
+
+  console.log(customerNo);
+  $.ajax({
+    type: "POST",
+    url: "../../../controller/customer_controller.php?status=get-customer-details",
+    data: { customerNo: customerNo },
+    dataType: "JSON",
+    success: function (response) {
+      console.log(response);
+      var customerFName = response.customer_fname;
+      var customerLName = response.customer_lname;
+      var customerEmail = response.customer_email;
+
+      $("#customerFName").val(customerFName);
+      $("#customerLName").val(customerLName);
+      $("#customerEmail").val(customerEmail);
+    },
+  });
 }

@@ -133,15 +133,24 @@ $categoryResult = $menuObj->getcategories();
                 <div class="row" style="background-color:;">
                     <h4>Order Details</h4>
                     <div class="row">
-                        <div class="col-md-2"> Date:</div>
+                        <div class="col-md-2"> Date</div>
                         <div class="col" id="datediv"></div>
                     </div>
                     <div class="row">
-                        <div class="col">Customer Name:</div>
+                        <div class="col">First Name</div>
+                        <input class="col" type="text" id="customerFName" required>
                     </div>
                     <div class="row">
-                        <div class="col">Contact No: </div>
-                        <div class="col" id="ContactNoDiv"></div>
+                        <div class="col">Last Name</div>
+                        <input class="col" type="text" id="customerLName">
+                    </div>
+                    <div class="row">
+                        <div class="col">Email</div>
+                        <input class="col" type="text" id="customerEmail">
+                    </div>
+                    <div class="row">
+                        <div class="col">Contact No </div>
+                        <input class="col" type="text" id="customerCno"  onchange="getcustomerdetails()">
                     </div>
                 </div>
                 <div class="row " id="fooditemslistcontainer" style="background-color:white;"></div>
