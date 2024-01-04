@@ -146,6 +146,10 @@ if (isset($_GET['foodId'])) {
                     </div>
                 </li>
                 <li class="list-group-item">
+                        <a href="../../module/chef/orders/orders.php" data-bs-toggle="collapse" >Orders</a>
+                        
+                    </li>
+                <li class="list-group-item">
                     <a href="../../dashboards/dashboard.php">Dashboard</a>
                 </li>
 

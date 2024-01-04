@@ -127,7 +127,7 @@ $categoryResult = $menuObj->getcategories();
                     <?php } ?>
                 </div>
                 <div class="row justify-content-center" id="fooditems-container" style="height:;"> </div>
-                <div class="row" style="background-color:black;">orderlist</div>
+                <div class="row customerPendingorderList bg-dark overflow-auto" style="width:100%;height:200px"></div>
             </div>
             <div class="col-md-2 bg-light" style="background-color:;">
                 <div class="row" style="background-color:;">
@@ -137,6 +137,7 @@ $categoryResult = $menuObj->getcategories();
                         <div class="col" id="datediv"></div>
                     </div>
                     <div class="row">
+                    <input class="col" type="hidden" id="customer_id" >
                         <div class="col">First Name</div>
                         <input class="col" type="text" id="customerFName" required>
                     </div>
@@ -179,6 +180,68 @@ $categoryResult = $menuObj->getcategories();
             </div>
         </div>
     </div>
+    
+    <div class="modal finishOrderconfirmationmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="confirmation-modal-title">Finish Order</h5>
+        <button type="button" class="close finishOrderconfirmationmodal-close-button"  aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="">
+        <p>Are you sure you want to complete and close the order?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary finishOrderconfirmationmodal-close-button" >Close</button>
+        <button type="button" class="btn btn-success finishOrderconfirmation-button">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="modal confirmationmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="confirmation-modal-title">Cancel Order</h5>
+        <button type="button" class="close close-confirmation-modal-button"  aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="">
+        <p>Are you sure you want to cancel this order?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary close-confirmation-modal-button" >Close</button>
+        <button type="button" class="btn btn-danger cancel-order-button">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="Modal" id="orderDetailsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="order-details-modal-body">
+        <p id="fooditems"></p>
+      </div>
+      <div class="modal-footer ">
+      <button type="button" class="btn btn-danger" onclick="cancelorder()">Cancel Order</button>
+      <button type="button" class="btn btn-success" id="finishOrderButton" onclick="finishorder()">Finish Order</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <script type="text/javascript" src="cashier.js"></script>
     <script type="text/javascript" src="../../../commons/clock.js"></script>
 </body>

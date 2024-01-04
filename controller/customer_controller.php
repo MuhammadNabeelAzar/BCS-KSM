@@ -6,12 +6,13 @@ $customerObj = new customer();
 if (isset($_GET['status']) && $_GET['status'] === 'add-customer') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //
+        $cus_id = $_POST['customer_id'];
         $cusFname = $_POST['customerFname'];
         $cusLname = $_POST['customerLname'];
         $cusEmail = $_POST['customerEmail'];
         $cusContactNo = $_POST['customercontactNo'];
 
-        $customerObj->insertorUpdatecustomerdetails($cusFname,$cusLname,$cusEmail,$cusContactNo);
+        $customerObj->insertorUpdatecustomerdetails($cus_id,$cusFname,$cusLname,$cusEmail,$cusContactNo);
 
         $response = "sucessfully inserted";
     

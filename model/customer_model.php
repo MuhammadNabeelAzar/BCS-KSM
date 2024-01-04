@@ -12,16 +12,20 @@ class customer{
         
         return $result;
     }
-    Public function insertorUpdatecustomerdetails($cusFname,$cusLname,$cusEmail,$cusContactNo){
+    Public function insertorUpdatecustomerdetails($cus_id,$cusFname,$cusLname,$cusEmail,$cusContactNo){
         $con = $GLOBALS["con"];
-        $sql = "INSERT INTO customer (customer_fname, customer_lname, contact_number, customer_email)
-        VALUES ('$cusFname','$cusLname','$cusContactNo','$cusEmail')
-        ON DUPLICATE KEY UPDATE
-        customer_fname = VALUES(customer_fname),
-          customer_lname = VALUES(customer_lname),
-          contact_number = VALUES(contact_number),
-          customer_email = VALUES(customer_email)
-        ";
+        if ($cus_id === '' && !isset($cus_id)) {
+            $sql = "INSERT INTO customer (customer_fname, customer_lname, contact_number, customer_email)
+                    VALUES ('$cusFname', '$cusLname', '$cusContactNo', '$cusEmail')";
+        } else {
+            $sql = "INSERT INTO customer (customer_id, customer_fname, customer_lname, contact_number, customer_email)
+                    VALUES ('$cus_id', '$cusFname', '$cusLname', '$cusContactNo', '$cusEmail')
+                    ON DUPLICATE KEY UPDATE
+                    customer_fname = VALUES(customer_fname),
+                    customer_lname = VALUES(customer_lname),
+                    contact_number = VALUES(contact_number),
+                    customer_email = VALUES(customer_email)";
+        }
         $result = $con->query($sql) or die($con->error);
         
         return $result;

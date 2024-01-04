@@ -1,8 +1,10 @@
 <html>
     <head>
         <title>Restaurant Management System</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"> 
     </head>
     <body>
         <!--      navbar-->
@@ -53,25 +55,14 @@
             <div class="offcanvas-body">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <a href="#" data-bs-toggle="collapse" data-bs-target="#userManagementSubMenu">User Management</a>
-                        <!-- Sublist -->
-                        <div id="userManagementSubMenu" class="collapse">
-                            <ul class="list-group">
-                                <li class="list-group-item"><a href="../../module/admin/user-management/user.php">Users</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
                         <a href="#" data-bs-toggle="collapse" data-bs-target="#menuManagementSubMenu">Menu Management</a>
                         <!-- Sublist -->
                         <div id="menuManagementSubMenu" class="collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><a href="../../module/admin/menu-management/categories.php" >Categories</a></li>
-                                <li class="list-group-item"><a href="../../module/admin/menu-management/items.php">Items</a></li>
-                                <li class="list-group-item"><a href="../../admin/menu-management/recipe.php">Recipes</a>
-                            </li>
-                                <li class="list-group-item"><a href="../../module/admin/menu-management/pricing.php">Pricing</a></li>
-                                <li class="list-group-item"><a href="../../module/admin/menu-management/availability.php">Availability</a></li> 
+                                <li class="list-group-item"><a href="../../module/chef/menu-management/categories.php" >Categories</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/menu-management/items.php">Items</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/menu-management/pricing.php">Pricing</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/menu-management/availability.php">Availability</a></li> 
                             </ul>
                         </div>
                     </li>
@@ -80,26 +71,8 @@
                         <!-- Sublist -->
                         <div id="ingredientsManagementSubMenu" class="collapse">
                             <ul class="list-group">
-                                <li class="list-group-item"><a href="../../module/admin/ingredients-management/ingredients.php">Ingredients</a></li>
-                                <li class="list-group-item"><a href="../../module/admin/ingredients-management/stock.php">Stock</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#" data-bs-toggle="collapse" data-bs-target="#financialManagementSubMenu">Financial Management</a>
-                        <!-- Sublist -->
-                        <div id="financialManagementSubMenu" class="collapse">
-                            <ul class="list-group">
-                                <li class="list-group-item"><a href="../../module/admin/financial-management/sales.php">Sales</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#" data-bs-toggle="collapse" data-bs-target="#customerSubMenu">Customer Management</a>
-                        <!-- Sublist -->
-                        <div id="customerSubMenu" class="collapse">
-                            <ul class="list-group">
-                                <li class="list-group-item"><a href="../../module/admin/customer-management/customer.php">Customers Details</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/ingredients-management/ingredients.php">Ingredients</a></li>
+                                <li class="list-group-item"><a href="../../module/chef/ingredients-management/stock.php">Stock</a></li>
                             </ul>
                         </div>
                     </li>
@@ -116,8 +89,8 @@
 
         </div>
         <!--user navigation-->
-
         <script type="text/javascript" src="../../../../commons/clock.js"></script>
+        <script type="text/javascript" src="orders.js"></script>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </html>

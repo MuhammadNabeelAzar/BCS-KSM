@@ -317,6 +317,21 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-fooditem-details') {
     } 
 
 }
+if (isset($_GET['status']) && $_GET['status'] === 'get-food-availability-qty') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //
+        $foodItem_id = $_POST['food_id'];
+
+        $result = $menuObj->getfooditemavaiableqty($foodItem_id);
+        $foodresult = $result->fetch_all(MYSQLI_ASSOC);
+        $response = $foodresult;
+    
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } 
+
+}
 
 
 ?>
