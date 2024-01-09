@@ -71,7 +71,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-fooditem') {
             if ($itemName == '') {
                 throw new Exception("Item Name cannot be empty!");
             }
-            $path = ''; // Initialize path as an empty string
+            $path = $_POST['img_path_name']; // Initialize path 
 
             if ($_FILES["food_image"]["name"]) {
                 // A new image file has been uploaded
@@ -105,6 +105,50 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-fooditem') {
         }
     }
 }
+if (isset($_GET['status']) && $_GET['status'] === 'edit-otherItem') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Getting the ingredient details from the add-ingredient form
+        $itemId = $_POST['itemId'];
+        $itemName = $_POST['item_Name'];
+        $itemDescription = $_POST['item_descript'];
+        $categoryId = $_POST['category'];
+
+        try {
+            if ($itemName == '') {
+                throw new Exception("Item Name cannot be empty!");
+            }
+            $path = $_POST['img_path_name']; // Initialize path
+
+            if ($_FILES["item_image"]["name"]) {
+                // A new image file has been uploaded
+                // Define the uploaded file based on the input field name (food_image)
+                $imgname = time() . "_" . $_FILES["item_image"]["name"];
+                $path = "../images/other_items_img/$imgname";
+
+                if (move_uploaded_file($_FILES["item_image"]["tmp_name"], $path)) {
+                    // Image upload was successful
+                } else {
+                    $error = error_get_last();
+                    throw new Exception("Cannot upload due to image upload error: " . $error['message']);
+                }
+
+            }
+            $menuObj->editItem($itemId, $itemName, $itemDescription, $path, $categoryId);
+            $msg = "Item updated successfully!";
+            $msg = base64_encode($msg);
+            $itemId = base64_encode($itemId);
+            header("location:../view/module/admin/menu-management/edit-otherItems.php?msg=$msg&itemId=$itemId");
+
+
+
+        } catch (Exception $ex) {
+            $msg = $ex->getMessage();
+            $msg = base64_encode($msg);
+            $itemId = base64_encode($itemId);
+            header("location:../view/module/admin/menu-management/edit-otherItems.php?msg=$msg&itemId=$itemId");
+        }
+    }
+}
 if (isset($_GET['status']) && $_GET['status'] === 'delete-category') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Getting the user details from the add-user form
@@ -127,6 +171,15 @@ if (isset($_GET['status']) && $_GET['status'] === 'delete-fooditem') {
     $msg = base64_encode($msg);
     header("location:../view/module/admin/menu-management/items.php?msg=$msg");
 }
+
+if (isset($_GET['status']) && $_GET['status'] === 'delete-item') {
+    $itemId = ($_GET['itemId']);
+    $menuObj->deleteitem($itemId);
+    $msg = " Item deleted Successfully !";
+    $msg = base64_encode($msg);
+    header("location:../view/module/admin/menu-management/items.php?msg=$msg");
+}
+
 if (isset($_GET['status']) && $_GET['status'] === 'remove-foodItem') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Getting the user details from the add-user form
@@ -166,12 +219,44 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-foodItem') {
         echo "failed to retrieve";
     }
 }
+if (isset($_GET['status']) && $_GET['status'] === 'get-Item-details') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $Item_id = $_POST['itemId'];
+
+
+        $itemNameItemResult = $menuObj->getAnItemDetails($Item_id);
+        $itemrow = $itemNameItemResult->fetch_assoc();
+
+
+        $response = $itemrow;
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    } else {
+        echo "failed to retrieve";
+    }
+}
 if (isset($_GET['status']) && $_GET['status'] === 'set-price') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $food_id = $_POST['food_id'];
         $price = $_POST['price'];
 
         $menuObj->setprice($food_id, $price);
+        $msg = "price updated";
+        $msg = base64_encode($msg);
+        header("location:../view/module/admin/menu-management/pricing.php?msg=$msg");
+    } else {
+        echo "error in price";
+    }
+
+}
+if (isset($_GET['status']) && $_GET['status'] === 'set-Item-price') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $itemId = $_POST['food_id'];
+        $price = $_POST['price'];
+
+        $menuObj->setItemprice($itemId, $price);
         $msg = "price updated";
         $msg = base64_encode($msg);
         header("location:../view/module/admin/menu-management/pricing.php?msg=$msg");
@@ -213,6 +298,19 @@ if (isset($_GET['status']) && $_GET['status'] === 'remove-ingredient') {
 
         $menuObj->deleterecipeIng($ing_id);
         $response = "Ingredient removed Succesfully";
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } 
+
+}
+if (isset($_GET['status']) && $_GET['status'] === 'get-Items') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //
+        $category_id = $_POST['category'];
+
+
+        $result = $menuObj->getItemswithcategory($category_id);
+        $response = $result->fetch_all(MYSQLI_ASSOC);
         header('Content-Type: application/json');
         echo json_encode($response);
     } 
@@ -329,9 +427,85 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-food-availability-qty') {
         
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    } }
+    if (isset($_GET['status']) && $_GET['status'] === 'update-otherItems-stock') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //
+            $Item_id = $_POST['itemId'];
+    
+            $result = $menuObj->getAnItemDetails($Item_id);
+            $itemResult = $result->fetch_assoc();
+            $response = $itemResult;
+        
+            
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        } 
+    
+    }
+    if (isset($_GET['status']) && $_GET['status'] === 'update-item-stock') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //
+            $item_Id = $_POST['item_id'];
+            $quantity = $_POST['updatestockvalue'];
+            $operator = $_POST['calculation-selector'];
 
+            if($operator === 'add'){
+                $menuObj->addstock($item_Id,$quantity);
+                $msg = "Increased stock";
+            } else {
+                $menuObj->reduceStock($item_Id, $quantity);
+                $msg = "Reduced stock";
+            }
+    
+            
+            $msg = base64_encode($msg);
+        header("location:../view/module/admin/menu-management/stock.php?msg=$msg");
+        } 
+    
+    }
+    if (isset($_GET['status']) && $_GET['status'] === 'reset-stock') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //
+            $item_Id = $_POST['itemId'];
+        
+                $menuObj->resetStock($item_Id);
+                $response = "Resetted stock";
+          
+    
+            
+                header('Content-Type: application/json');
+                echo json_encode($response);
+        } 
+    
+    }
+if (isset($_GET['status']) && $_GET['status'] === 'add-Item') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Getting the ingredient details from the add-ingredient form
+        $itemName = $_POST['food_Name'];
+        $itemDescription = $_POST['food_descript']?? '';
+        $categoryId = $_POST['categories']?? 1;
+            $path = ''; // Initialize path as an empty string
+
+            if ($_FILES["food_image"]["name"]) {
+                // A new image file has been uploaded
+                // Define the uploaded file based on the input field name (food_image)
+                $imgname = time() . "_" . $_FILES["food_image"]["name"];
+                $path = "../images/other_items_img/$imgname";
+
+                if (move_uploaded_file($_FILES["food_image"]["tmp_name"], $path)) {
+                    // Image upload was successful
+                } else {
+                    $error = error_get_last();
+                    throw new Exception("Cannot upload due to image upload error: " . $error['message']);
+                }
+
+            }
+            $menuObj->addItem($itemName, $itemDescription, $path, $categoryId);
+            $msg = "Item added successfully!";
+            $msg = base64_encode($msg);
+            header("location:../view/module/admin/menu-management/items.php?msg=$msg");
+        
+    }
 }
-
-
 ?>

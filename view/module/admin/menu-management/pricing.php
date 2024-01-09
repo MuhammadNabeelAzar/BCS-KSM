@@ -2,6 +2,7 @@
 include_once '../../../../model/menu_model.php';
 $menuObj = new menu();
 $fooditemResult = $menuObj->getfoodItems();
+$otheritemResult = $menuObj->getOtherItems();
 ?>
 <html>
     <head>
@@ -144,6 +145,26 @@ $fooditemResult = $menuObj->getfoodItems();
         </div>
         <?php } 
         ?>
+            <?php 
+        while($otheritemsrow = $otheritemResult->fetch_assoc()){
+            $item_id = $otheritemsrow['item_id'];
+            $item_id = base64_encode($item_id);
+        ?>
+        <div class="card" style="width: 18rem;margin:2px;">
+            <img class="card-img-top" src="../../../<?php echo $otheritemsrow["img_path"] ?>" alt="Card image cap">
+            <div class="card-body">
+                <input type="hidden" value="<?php echo $otheritemsrow["item_id"] ?>">
+                <div class="row"><p class="card-title"><?php echo $otheritemsrow["item_name"] ?></p></div>
+                <div class="row"><p class="card-title"><?php echo $otheritemsrow["description"] ?></p></div>
+                <div class="row"><p class="card-title"><?php echo  " Price:"." ". $otheritemsrow["price"] ?></p></div>
+                <div class="row"><p class="card-title"></p> 
+                <button type="button" class="btn btn-primary"  id="editremQtybtn" onclick="setItemprice('<?php echo base64_decode($item_id)  ?>')">
+  Change  price
+    </button></div>
+            </div>
+        </div>
+        <?php } 
+        ?>
             </div>
         </div>
         <div class="modal fade" id="setpriceModal" tabindex="-1" role="dialog" aria-labelledby="setpriceModal" aria-hidden="true">
@@ -156,7 +177,7 @@ $fooditemResult = $menuObj->getfoodItems();
         </button>
       </div>
       <div class="modal-body">
-      <form action="../../../../controller/menu_controller.php?status=set-price" enctype="multipart/form-data" method="post" >
+      <form id="set-price-form" action="../../../../controller/menu_controller.php?status=set-price" enctype="multipart/form-data" method="post" >
       <div class="input-group">
   <input type="hidden" class="form-control" aria-label="Text input with dropdown button" name="food_id" id="food_id" >
   <input type="text" class="form-control" aria-label="Text input with dropdown button" name="price" id="price" >

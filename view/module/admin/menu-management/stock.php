@@ -1,9 +1,11 @@
+<!DOCTYPE html>
 <?php
 include_once '../../../../model/menu_model.php';
 $menuObj = new menu();
-$categoryResult = $menuObj->getcategories();
+$otherItemResult = $menuObj->getOtherItems();
 
 ?>
+
 <html>
 
 <head>
@@ -92,6 +94,8 @@ $categoryResult = $menuObj->getcategories();
                                     href="../../admin/menu-management/pricing.php">Pricing</a></li>
                             <li class="list-group-item"><a
                                     href="../../admin/menu-management/availability.php">Availability</a></li>
+                            <li class="list-group-item"><a
+                                    href="../../admin/menu-management/stock.php">Stock</a></li>
                         </ul>
                     </div>
                 </li>
@@ -141,122 +145,99 @@ $categoryResult = $menuObj->getcategories();
 
             </ul>
         </div>
+
     </div>
     <!--user navigation-->
+    
+    <div class="row" style="background-color:yellow;">
     <div class="row">
-        <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-            <span><i class="bi bi-plus"></i></span>
-        </a>
-    </div>
-    <div class="row">
-        <?php 
-        if(isset($_GET['msg'])){
-            $msg = base64_decode($_GET['msg']); ?>
-            <p><?php echo $msg ?><p>
-           <?php 
-        }
-        ?>
-    </div>
-    <div class="row" style="background-color:black">
-        <?php
-        while ($categoryrow = $categoryResult->fetch_assoc()) {
-            $categoryid = $categoryrow["category_id"];
-            $fooditemResult = $menuObj->getfoodItems();
-            $otherItemResult = $menuObj->getOtherItems(); //get all the foodItems
-            ?>
-            <div class="col-md-3">
-                <div class="card">
-                    <h5 class="card-header">
-                    <input type="hidden" id="hiddenField" name="HiddenFoodID" value="<?php echo $categoryrow['category_id']; ?>">
-                        <?php echo $categoryrow['category_name']; ?>
-                        <button type="button" class="btn btn-primary" onclick="deletecategory(<?php echo $categoryid ?>)"><i class="bi bi-trash"></i></button>
-                    </h5>
-                    <div class="card-body">
-                    <ul class="list-group">
-                    <div class="row">
-                        <?php 
-                        while($foodrow = $fooditemResult->fetch_assoc()){ 
-                            if($foodrow['category_id'] == $categoryid){ //display the food items if the categoryid matches the food item category id
-                            ?>
-                    <li class="list-group-item">
-                    <p><?php echo $foodrow['item_name'] . " " . $foodrow['price'] ." "  ?></p>
-
-                </li>
-                     <?php }}  ?>
-                        <?php 
-                        while($itemsrow = $otherItemResult->fetch_assoc()){ 
-                            if($itemsrow['category_id'] == $categoryid){ //display the food items if the categoryid matches the food item category id
-                            ?>
-                    <li class="list-group-item">
-                    
-                    <input type="hidden" id="itemName" name="itemName" value="<?php echo $itemsrow['item_name']; ?>">
-                    <p><?php echo $itemsrow['item_name'] . " " . $itemsrow['price'] ." "  ?></p>
-                    
-                </li>
-                     <?php }}  ?>
-                    </div>
-                    </ul>
-                    </div>
-                </div>
+    <div class="col-md-3">
+    <input type="text" class="form-control" placeholder="Search" aria-label="searchbar"
+                aria-describedby="search">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
             </div>
-        <?php
+    </div>
+    </div>
+    <div id="errormsg">
+        <?php 
+        if (isset($_GET["msg"])) {
+            $msg = base64_decode($_GET["msg"]);
+        echo $msg;
         }
         ?>
     </div>
+    <?php
+    while ($itemsrow = $otherItemResult->fetch_assoc()){
+        $item_id = $itemsrow["item_id"];
+        $item_id = base64_encode($item_id);
 
-    <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="../../../../controller/menu_controller.php?status=add-category" enctype="multipart/form-data" method="post">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="Category"
-                               name="Category" aria-describedby="newCategory" placeholder="Category Name" required> 
-                        </div>
-                        <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-                    </form>
-                </div>
+    //display the items where the
+    
+        ?>
+        <div class="card" style="width: 18rem;margin:2px;">
+            <img class="card-img-top" src="../../../<?php echo $itemsrow["img_path"] ?>" alt="Card image cap">
+            <div class="card-body">
+                <input type="hidden" value="<?php echo $itemsrow["item_id"] ?>">
+                <div class="row"><p class="card-title"><?php echo $itemsrow["item_name"] ?></p></div>
+                <div class="row"><p class="card-title"><?php echo $itemsrow["description"] ?></p></div>
+                <div class="row"><p class="card-title">Remaining: <?php 
+               echo $itemsrow["available_quantity"]; 
                 
+                ?></p> 
+                <button type="button" class="btn btn-primary"  id="editremQtybtn" onclick="updatestock('<?php echo base64_decode($item_id) ?>', '<?php echo $itemsrow['item_name']?>')">
+  Update
+    </button></div>
             </div>
         </div>
+    <?php 
+    }
+    ?>
     </div>
-
-    <div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updatestockModal" tabindex="-1" role="dialog" aria-labelledby="updatestockModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteCategoryModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="../../../../controller/menu_controller.php?status=delete-category" enctype="multipart/form-data" method="post">
-        <input type="hidden" id="CategoryId" name="categoryId" >
-        <p>Are you sure you want  to delete this category ?</p>
-        <div class="modal-footer">
+      <form action="../../../../controller/menu_controller.php?status=update-item-stock" enctype="multipart/form-data" method="post" >
+      <div class="input-group">
+  <input type="hidden" class="form-control" aria-label="Text input with dropdown button" name="item_id" id="item_id" >
+  <input type="text" class="form-control" aria-label="Text input with dropdown button" name="updatestockvalue" id="updatestockvalue" required >
+  <div class="input-group-append">
+    <select name="calculation-selector" id="calculation-selector">
+  <option value="add">&#43; Add <i class="bi bi-plus"></i></option>
+  <option value="subtract">&#45; Subtract <i class="bi bi-dash"></i></option>
+</select>
+
+  </div>
+</div>
+<button type="submit" class="btn btn-primary">Save changes</button>
+<button type="button" class="btn btn-danger" onclick="resetstock()">Reset</button>
+      </form>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Delete</button>
+        
       </div>
-        </form>
-      </div>
-      
     </div>
   </div>
 </div>
+
+
+
+
+
+
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
-    <script type="text/javascript" src="category.js"></script>
+    <script type="text/javascript" src="stock.js"></script>
+    
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>

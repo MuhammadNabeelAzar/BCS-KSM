@@ -4,6 +4,65 @@ function filteritems(category_id) {
   console.log(category_Id);
   $.ajax({
     type: "POST",
+    url: "../../../controller/menu_controller.php?status=get-Items",
+    data: { category: category_Id },
+    dataType: "JSON",
+    success: function (response) {
+      console.log("itscoimng");
+      console.log(response);
+      // Parse the JSON response
+      // Get the container where you want to append the cards
+      var container = $("#fooditems-container");
+
+      for (var i = 0; i < response.length; i++) {
+        var item = response[i];
+
+        // Create a card element
+        var card = $(
+          '<div class="card " style="width: 15rem; margin: 2px;"></div>'
+        );
+
+        // Append card content (customize this part based on your data structure)
+        card.append(
+          '<div class="card row">' +
+            '<img  src="' +
+            "../../" +
+            item.img_path +
+            '" alt="Item Image" style="height:100px;>' +
+            "</div>" +
+            '<div class="card-body">' +
+            '<input class="item_ids" type="hidden" id="itemId" value="' +
+            item.item_id +
+            '">' +
+            '<h6 class="card-title">' +
+            item.item_name +
+            "</h6>" +
+            "<p>" +
+            item.description +
+            "</p>" +
+            "<div class='row'>" +
+            "<div class='col'>" +
+            "<p>Rs." +
+            item.price +
+            "</p>" +
+            "</div>" +
+            "<div class='col availableQty'>Available:"+item.available_quantity+"</div>" +
+            "</div>" +
+            (item.available_quantity >= "1"
+              ? '<button class="btn btn-primary" onclick="additemtoCart(' +
+                item.item_id + 
+                ')" >Add to Cart</button>'
+              : '<button class="btn btn-danger">Unavailable</button>') +
+            "</div>"
+        )
+        // Append the card to the container
+        container.append(card);
+      }
+    },
+  });
+  
+  $.ajax({
+    type: "POST",
     url: "../../../controller/menu_controller.php?status=get-fooditems",
     data: { category: category_Id },
     dataType: "text",
@@ -113,7 +172,7 @@ function showallfoodItems() {
             item.tmp_deactivate_availability === "0"
               ? '<button class="btn btn-primary" onclick="addfooditemtoCart(' +
                 item.food_itemId +
-                ')" >Add to Cart</button>'
+                ');" >Add to Cart</button>'
               : '<button class="btn btn-danger">Unavailable</button>') +
             "</div>"
         );
@@ -130,7 +189,58 @@ $(document).ready(function () {
   showallfoodItems();
 });
 
-function addfooditemtoCart(foodId) {
+function additemtoCart(itemId) {
+  $.ajax({
+    type: "POST",
+    url: "../../../controller/menu_controller.php?status=get-Item-details",
+    data: { itemId: itemId },
+    dataType: "JSON",
+    success: function (response) {
+      console.log(response);
+      var fooditemContainer = $("#fooditemslistcontainer");
+      var existingfoodItemsinCart = checkItemsExistence(response.item_name);
+
+      if (!existingfoodItemsinCart) {
+        fooditemContainer.append(
+          ' <div class="row fooditemRow commonrow" > ' +
+            ' <div class="col ml-auto"> ' +
+            '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>' +
+            " </div> " +
+            '<input class="food_ids" type="hidden" id="itemId" value="' +
+            response.item_id +
+            '">' +
+            '<h6 class="food_item_name">' +
+            response.item_name +
+            "</h6>" +
+            ' <div class="row"> ' +
+            ' <div class="col"> ' +
+            '<p class="pricePeritem">' +
+            "Rs." +
+            response.price +
+            "</p>" +
+            " </div> " +
+            ' <div class="col"> ' +
+            '<div class="input-group"> ' +
+            ' <div class="col"> ' +
+            '<button type="button" class="btn bi-file-minus btn-secondary btn-sm" onclick="decreaseitemCounter(this)" ></button>' +
+            " </div> " +
+            '<input style="width:10px;" class="col foodItemqty" type="number"  id="inputQuantitySelectorSm"  value="0" min="0" readonly>' +
+            ' <div class="col"> ' +
+            '<button type="button" class="btn bi-plus btn-secondary btn-sm" onclick="increaseitemCounter(this,'+response.available_quantity +')"></button>' +
+            " </div> " +
+            "</div>" +
+            " </div> " +
+            "</div>" +
+            "</div>"
+        );
+      } else {
+        console.log("Item already exists. Cannot append.");
+      }
+    },
+  });
+}
+function addfooditemtoCart(foodId,available_qty) {
+  console.log(available_qty);
   $.ajax({
     type: "POST",
     url: "../../../controller/menu_controller.php?status=get-fooditem-details",
@@ -143,7 +253,7 @@ function addfooditemtoCart(foodId) {
 
       if (!existingfoodItemsinCart) {
         fooditemContainer.append(
-          ' <div class="row fooditemRow" > ' +
+          ' <div class="row fooditemRow commonrow" > ' +
             ' <div class="col ml-auto"> ' +
             '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>' +
             " </div> " +
@@ -167,7 +277,7 @@ function addfooditemtoCart(foodId) {
             " </div> " +
             '<input style="width:10px;" class="col foodItemqty" type="number"  id="inputQuantitySelectorSm"  value="0" min="0" readonly>' +
             ' <div class="col"> ' +
-            '<button type="button" class="btn bi-plus btn-secondary btn-sm" onclick="increaseCounter(this)"></button>' +
+            '<button type="button" class="btn bi-plus btn-secondary btn-sm" onclick="increaseCounter(this,'+response.food_itemId+')"></button>' +
             " </div> " +
             "</div>" +
             " </div> " +
@@ -194,16 +304,12 @@ function checkItemsExistence(itemName) {
   return false;
 }
 
-function increaseCounter(button) {
+function increaseitemCounter(button,available_quantity) {
   var inputElement = button.parentNode.previousElementSibling;
+    var maxItemQty = available_quantity;
  
-  var food_id_inCart = $(button)
-    .closest(".fooditemRow")
-    .find(".food_ids")
-    .val();
-  var foodcard = $('.card:has(.food_ids[value="' + food_id_inCart + '"])');
-  var maxItemQty = $(foodcard).find(".availableQty").text();
-  maxItemQty = parseInt(maxItemQty.replace(/\D/g, ""));
+
+  maxItemQty = parseInt(maxItemQty);
   console.log(maxItemQty);
 
   x = parseInt($(inputElement).val());
@@ -215,10 +321,52 @@ function increaseCounter(button) {
   }
   calculateDiscountOnquantityChange();
 }
+function increaseCounter(button,fooditem_id) {
+  var inputElement = button.parentNode.previousElementSibling;
+
+  $.ajax({
+    type: "POST",
+    url: "../../../controller/menu_controller.php?status=get-food-availability-qty",
+    data: { food_id: fooditem_id },
+    dataType: "JSON",
+    success: function (response) {
+      var itemavailableqty = [];
+      for (var i = 0; i < response.length; i++) {
+        var fooditem_id = response[i].food_itemId;
+        var ing_id = response[i].ing_id;
+        var requiredqtyfactor = response[i].factor;
+        var requiredqtyG = response[i]["qty_required(g)"];
+        var requiredqtyML = response[i]["qty_required(ml)"];
+        var remainingqtyG = response[i]["remaining_qty(g)"];
+        var remainingqtyML = response[i]["remaining_qty(ml)"];
+    
+        if (requiredqtyfactor <= 7) {
+          itemavailableqty.push(Math.floor(remainingqtyG / requiredqtyG));
+        } else {
+          itemavailableqty.push(Math.floor(remainingqtyML / requiredqtyML));
+        }
+      }
+      var maxItemQty = Math.min.apply(Math, itemavailableqty);
+      maxItemQty = parseInt(maxItemQty);
+  console.log(maxItemQty);
+
+  x = parseInt($(inputElement).val());
+  if (x < maxItemQty) {
+    x++;
+    $(inputElement).val(x);
+    console.log(x);
+    AddTotal(button);
+    }}
+  });
+
+  
+  calculateDiscountOnquantityChange();
+}
+
+
 
 function decreaseCounter(button) {
   var inputElement = button.parentNode.nextElementSibling;
-
   x = parseInt($(inputElement).val());
   if (x > 0) {
     x--;
@@ -229,9 +377,26 @@ function decreaseCounter(button) {
   calculateDiscountOnquantityChange();
 
 }
+function decreaseitemCounter(button) {
+  var inputElement = button.parentNode.nextElementSibling;
+  x = parseInt($(inputElement).val());
+  if (x > 0) {
+    x--;
+    SubtractTotal(button);
+  }
+  $(inputElement).val(x);
+  console.log(x);
+  calculateDiscountOnquantityChange();
+
+}
+
 function removeItem(deletebtn) {
   var fooditemRowtodelete = $(deletebtn).closest(".fooditemRow");
-
+  if (fooditemRowtodelete.length === 0) {
+    // If no elements with the class .fooditemRow were found,
+    // assign it to .itemRow instead
+    fooditemRowtodelete = $(deletebtn).closest(".itemRow");
+  }
   fooditemRowtodelete.remove();
   removepricefromtotal(fooditemRowtodelete);
 }
@@ -251,10 +416,9 @@ function date() {
 $(document).ready(function () {
   displayDate();
   showAllOrders();
-
-  // setInterval(function () {
-  //   addOrderToList();
-  // }, 15000);
+  setInterval(function () {
+    showAllOrders();
+  }, 15000);
 });
 
 function showDiscountInput() {
@@ -298,14 +462,16 @@ function updateTotal(btn, operation) {
 }
 
 function AddTotal(btn) {
+  var btn = btn;
   updateTotal(btn, "add");
 }
 
 function SubtractTotal(btn) {
+  var btn = btn;
   updateTotal(btn, "subtract");
 }
 function displayTotal(sum) {
-  console.log(sum);
+  console.log("heyyyyy",sum);
   var TotalDiv = $("#totalAmount");
   TotalDiv.html("Rs." + sum);
 }
@@ -337,7 +503,8 @@ function calculatediscount(input) {
 }
 
 function calculateDiscountOnquantityChange(){
-  discount = $('#discountpercentageinput').val();
+  if ($('#discountCheckbox').prop('checked')) {
+    discount = $('#discountpercentageinput').val();
     if (discount > 100) {
       $(this).val(100); // Set the value to the maximum allowed
       alert("Discount cannot be more than 100%");
@@ -349,6 +516,8 @@ function calculateDiscountOnquantityChange(){
     console.log("discount is :" + discountamount);
     var sum2 = sum - discountamount;
     displayTotal(sum2);
+  }
+  
 }
 function RemoveDiscount() {
   discount = 0;
@@ -501,7 +670,7 @@ function placeOrder() {
 
           // Check if there are no problems before calling reduceStock
           if (response.trim() !== "") {
-            // reduceStock(foodItemsList);
+            reduceStock(foodItemsList);
           }
 
           // Reset form and display
@@ -782,4 +951,124 @@ function finishorder() {
     $('.finishOrderconfirmationmodal').modal('hide');
     $("#orderDetailsModal").modal("show");
   });
+}
+function switchToQuickSell(){
+  var placeOrderBtn = $('#placeOrderBtn');
+  var quickSellBtn = $('<button class="btn btn-primary col-md-8" id="QuickSellBtn" onclick="quickSell()">'+
+ ' <h7>Sell</h7>'+
+'</button>')
+
+$(placeOrderBtn).replaceWith(quickSellBtn);
+}
+function switchToOrder(){
+  var quickSellBtn = $('#QuickSellBtn');
+  var placeOrderBtn = $('<button class="btn btn-primary col-md-8" id="placeOrderBtn" onclick="placeOrder()">'+
+ ' <h7>Place Order</h7>'+
+'</button>')
+
+$(quickSellBtn).replaceWith(placeOrderBtn);
+}
+
+function quickSell(){
+  var fooditemqtyselected = $(".foodItemqty").val();
+  var fooditemsinCart = $(".food_item_name");
+  var customerFName = $("#customerFName").val();
+
+  if (fooditemsinCart.length === 0) {
+    alert("Please add a food item!");
+  } else if (customerFName === "") {
+    alert("Please enter the customer's first name!");
+  } else {
+    var hasZeroQuantity = false;
+
+    $(".foodItemqty").each(function () {
+      var quantity = $(this).val();
+
+      // Check if the quantity is 0
+      if (parseInt(quantity) === 0) {
+        hasZeroQuantity = true;
+        return false; // Break out of the loop early since we already found one with 0 quantity
+      }
+    });
+
+    if (hasZeroQuantity) {
+      alert("Add quantities to all items in the cart");
+    } else {
+      var customer_id = $("#customer_id").val();
+      var customerLname = $("#customerLName").val();
+      var customerEmail = $("#customerEmail").val();
+      var customercontactNo = $("#customerCno").val();
+      var foodItemsList = $(".fooditemRow").toArray();
+      var total = $("#totalAmount").text();
+      var customerdetails = [
+        $("#customer_id").val(),
+        $("#customerFName").val(),
+        $("#customerLName").val(),
+        $("#customerEmail").val(),
+        $("#customerCno").val(),
+      ];
+      var fooditems = [];
+      var discount = $(".discountinput").val();
+      for (var i = 0; i < foodItemsList.length; i++) {
+        var item = [];
+        var food_itemId = $(foodItemsList[i]).find(".food_ids").val();
+        var qty = Number($(foodItemsList[i]).find(".foodItemqty").val());
+        var priceperitem = $(foodItemsList[i]).find(".pricePeritem").text();
+        priceperitem = parseFloat(priceperitem.replace("Rs.", "").trim());
+        item.push(food_itemId, qty, priceperitem);
+        fooditems.push(item);
+      }
+      $.ajax({
+        type: "POST",
+        url: "../../../controller/customer_controller.php?status=add-customer",
+        data: {
+          customer_id: customer_id,
+          customerFname: customerFName,
+          customerLname: customerLname,
+          customerEmail: customerEmail,
+          customercontactNo: customercontactNo,
+        },
+        dataType: "text",
+        success: function (response) {
+          console.log(response);
+
+          // Check if there are no problems before calling reduceStock
+          if (response.trim() !== "") {
+            reduceStock(foodItemsList);
+          }
+
+          // Reset form and display
+        },
+      });
+      var currentDate = new Date();
+      var formattedDate = currentDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
+      var currentTime = currentDate.toTimeString().slice(0, 8);
+      $.ajax({
+        type: "POST",
+        url: "../../../controller/order_controller.php?status=add-order",
+        data: {
+          customer_id: customer_id,
+          discount: discount,
+          fooditems: fooditems,
+          date: formattedDate,
+          time: currentTime,
+        },
+        dataType: "text",
+        success: function (response) {
+          alert(response);
+          $(
+            "#customer_id, #customerFName, #customerLName, #customerEmail, #customerCno"
+          ).val("");
+          $("#fooditemslistcontainer").empty();
+          $("#discountCheckbox").prop("checked", false);
+          $("#discountpercentageinput").remove();
+          RemoveDiscount();
+
+          sum = 0;
+          displayTotal(sum);
+          showAllOrders();
+        },
+      });
+    }
+  }
 }

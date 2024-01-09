@@ -136,8 +136,4 @@ ordersRow.append(Ordercard);
 
 // for (var i = 0 ; i < fooditemRowArray.length; i++){ // fooditemRow=fooditemRowArray[i];
     fooditemsDetailsRow.append(fooditemRowArray); // } console.log(); console.log("orders",order); <div class="row">
-    <div class="col"><button type="button" class="btn btn-primary" onclick="">Accept</button>
-    </div>
-    <div class="col"> <button type="button" class="btn btn-success" id=""
-            onclick="">Ready</button></div>
-    </div>
+    

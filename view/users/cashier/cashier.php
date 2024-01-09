@@ -131,7 +131,8 @@ $categoryResult = $menuObj->getcategories();
             </div>
             <div class="col-md-2 bg-light" style="background-color:;">
                 <div class="row" style="background-color:;">
-                    <h4>Order Details</h4>
+                    <h4 class="col">Order Details</h4><button type="button" id="switchToQuickSellBtn" class="col" onclick="switchToQuickSell()">Quick Sell</button>
+                    <button type="button" class="col"  id="switchToPlaceOrderBtn" onclick="switchToOrder()">Orders</button>
                     <div class="row">
                         <div class="col-md-2"> Date</div>
                         <div class="col" id="datediv"></div>
@@ -173,7 +174,7 @@ $categoryResult = $menuObj->getcategories();
                         </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary col-md-8" onclick="placeOrder()">
+                    <button class="btn btn-primary col-md-8" id="placeOrderBtn" onclick="placeOrder()">
                         <h7>Place Order</h7>
                     </button>
                 </div>

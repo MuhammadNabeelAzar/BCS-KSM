@@ -2,6 +2,7 @@
 include_once '../../../../model/menu_model.php';
 $menuObj = new menu();
 $fooditemResult = $menuObj->getfoodItems();
+$otherItemResult = $menuObj->getOtherItems();
 $categoryResult = $menuObj->getcategories();
 ?>
 <html>
@@ -135,12 +136,23 @@ $categoryResult = $menuObj->getcategories();
                     </form>
                     <ul class="list-group">
                         <?php
-                        while($foodrow = $fooditemResult->fetch_assoc()){
+                        while($foodrow = $fooditemResult->fetch_assoc())
+                        {
                             $foodid = $foodrow['food_itemId'];
                             $foodid = base64_encode($foodid);
                             ?>
                             <a type="button" class="list-group-item" href="edit-foodItems.php?status=edit-foodItem&foodId=<?php echo $foodid ?>">
                                 <?php echo $foodrow['item_name'] ;?>
+                        </a> 
+                        <?php } ?>
+                        <?php
+                        while($otherItemRow = $otherItemResult->fetch_assoc())
+                        {
+                            $otherItemId = $otherItemRow['item_id'];
+                            $otherItemId = base64_encode($otherItemId);
+                            ?>
+                            <a type="button" class="list-group-item" href="edit-otherItems.php?status=edit-Item&itemId=<?php echo $otherItemId ?>">
+                                <?php echo $otherItemRow['item_name'] ;?>
                         </a> 
                         <?php } ?>
                     </ul>
@@ -149,7 +161,9 @@ $categoryResult = $menuObj->getcategories();
         </div>
         <div class="col" style="background-color:yellow">
             <div class="row">
-                <form action="../../../../controller/menu_controller.php?status=add-fooditem"
+                <button type="button" class="col btn btn-primary" onclick="switchToAddOtherItemBtn()">Other Item</button>
+                <button type="button" class="col btn btn-primary" onclick="switchToFoodItemBtn()">Food Item</button>
+                <form id="add-item-form" action="../../../../controller/menu_controller.php?status=add-fooditem"
                     enctype="multipart/form-data" method="post">
                     <div class="row" id="errormsg">
                         <?php
@@ -167,23 +181,23 @@ $categoryResult = $menuObj->getcategories();
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Food Item</span>
+                            <span class="input-group-text placeholdername" id="inputGroup-sizing-default">Food Item</span>
                         </div>
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                            name="food_Name" required>
+                        id="food_Name"  name="food_Name" required>
                     </div>
                     <div class="input-group">
                         <label for="exampleFormControlTextarea1">Description</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            name="food_descript"> </textarea>
+                        id="food_descript"  name="food_descript"> </textarea>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
                                 name="food_image" id="food_image" >
                         </div>   
-                        <select class="forms-select mb-3" id="categories" aria-label="categories" name="categories" required>
-                        <option disabled selected value="">Select</option>
+                        <select class="forms-select mb-3" id="categories" aria-label="categories" name="categories" >
+                        <option disabled selected value="0">Select</option>
                                         <?php
                                         while ($category = $categoryResult->fetch_assoc()) {
                                             echo '<option value=' . $category['category_id'] . '>' . $category['category_name'] . '</option>';
@@ -196,9 +210,11 @@ $categoryResult = $menuObj->getcategories();
                                 </div>
 
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        Add
-                    </button>
+                    <div class="row buttonDiv">
+                    <button type="submit" class="btn btn-primary" >
+   Add Food Item
+</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -220,6 +236,7 @@ $categoryResult = $menuObj->getcategories();
             });
         </script>
 
+        <script type="text/javascript" src="items.js"></script>
         <script type="text/javascript" src="../../../../commons/clock.js"></script>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

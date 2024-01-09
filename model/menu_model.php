@@ -21,6 +21,14 @@ class menu
 
         return $result;
     }
+    public function getOtherItems()
+    {
+        $con = $GLOBALS["con"];
+        $sql = " SELECT * FROM other_items";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
     public function getaspecificfoodItem($foodItem_id)
     {
         $con = $GLOBALS["con"];
@@ -29,10 +37,34 @@ class menu
 
         return $result;
     }
+    public function getAnItemDetails($Item_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "SELECT * FROM other_items WHERE item_id='$Item_id'";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
+    public function getanItem($Item_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "SELECT * FROM other_items WHERE item_id='$Item_id'";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
     public function editfoodItem($foodId, $itemName, $itemDescription, $path, $categoryId)
     {
         $con = $GLOBALS["con"];
         $sql = "UPDATE food_items SET item_name = '$itemName',food_description = '$itemDescription' , category_id = '$categoryId', img_path ='$path' WHERE food_itemId = '$foodId'";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
+    public function editItem($itemId, $itemName, $itemDescription, $path, $categoryId)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE other_items SET item_name = '$itemName',`description` = '$itemDescription' , category_id = '$categoryId', img_path ='$path' WHERE item_id = '$itemId'";
         $result = $con->query($sql) or die($con->error);
 
         return $result;
@@ -57,6 +89,14 @@ class menu
     {
         $con = $GLOBALS["con"];
         $sql = " INSERT INTO food_items(item_name,food_description,category_id,img_path) values('$itemName','$itemDescription','$categoryId','$path')";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
+    public function addItem($itemName, $itemDescription, $path, $categoryId)
+    {
+        $con = $GLOBALS["con"];
+        $sql = " INSERT INTO other_items(item_name,`description`,category_id,img_path) values('$itemName','$itemDescription','$categoryId','$path')";
         $result = $con->query($sql) or die($con->error);
 
         return $result;
@@ -98,6 +138,14 @@ class menu
 
         return $result;
     }
+    public function deleteitem($itemId)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "DELETE FROM other_items WHERE item_id='$itemId'";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
     public function getfooditemtosetprice($food_id)
     {
         $con = $GLOBALS["con"];
@@ -110,6 +158,14 @@ class menu
     {
         $con = $GLOBALS["con"];
         $sql = "UPDATE food_items SET `price` = $price  WHERE food_itemId  = $food_id  ";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
+    public function setItemprice($itemId, $price)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE other_items SET `price` = $price  WHERE item_id  = $itemId  ";
         $result = $con->query($sql) or die($con->error);
 
         return $result;
@@ -155,7 +211,16 @@ class menu
     {
         $con = $GLOBALS["con"];
         $sql = "SELECT * FROM food_items WHERE  category_id = $category_id";
-        
+
+        $result = $con->query($sql) or die($con->error);
+        return $result;
+
+    }
+    public function getItemswithcategory($category_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "SELECT * FROM other_items WHERE  category_id = $category_id";
+
         $result = $con->query($sql) or die($con->error);
         return $result;
 
@@ -171,6 +236,31 @@ class menu
         return $result;
 
     }
-    
+    public function addstock($item_Id, $quantity)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE other_items SET available_quantity = available_quantity + $quantity  WHERE item_id  = $item_Id  ";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
+    public function reduceStock($item_Id, $quantity)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE other_items 
+        SET available_quantity = GREATEST(available_quantity - $quantity, 0) 
+        WHERE item_id = $item_Id";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
+    public function resetStock($item_Id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE other_items SET available_quantity = 0  WHERE item_id  = $item_Id  ";
+        $result = $con->query($sql) or die($con->error);
+
+        return $result;
+    }
 }
 ?>

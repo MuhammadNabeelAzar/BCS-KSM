@@ -165,6 +165,22 @@ class order
         
         return $result;
     }
+  public function acceptOrder($order_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE `order` SET status_id = 2 WHERE `order_id` = $order_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+  public function markOrderAsReady($order_id)
+    {
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE `order` SET status_id = 3 WHERE `order_id` = $order_id ";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
 
     
     

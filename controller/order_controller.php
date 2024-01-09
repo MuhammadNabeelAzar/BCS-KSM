@@ -139,5 +139,25 @@ if (isset($_GET['status']) && $_GET['status'] === 'finish-order') {
            echo json_encode($response);
   
 }
+if (isset($_GET['status']) && $_GET['status'] === 'accept-order') {
+  if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $order_id = $_POST['order_id'];
+    $orderObj->acceptOrder($order_id);
+    $response = "Order Accepted";
+  }
+  header('Content-Type: application/json');
+           echo json_encode($response);
+  
+}
+if (isset($_GET['status']) && $_GET['status'] === 'mark-order-as-ready') {
+  if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $order_id = $_POST['order_id'];
+    $orderObj->markOrderAsReady($order_id);
+    $response = "Order completed";
+  }
+  header('Content-Type: application/json');
+           echo json_encode($response);
+  
+}
 
 ?>

@@ -1,12 +1,12 @@
 <?php
 include_once '../../../../model/menu_model.php';
 $menuObj = new menu();
-$foodItem_id = base64_decode($_GET['foodId']);
+$Item_id = base64_decode($_GET['itemId']);
 $fooditemResult = $menuObj->getfoodItems();
 $categoryResult = $menuObj->getcategories();
 $otherItemResult = $menuObj->getOtherItems();
-$fooditem = $menuObj->getaspecificfoodItem($foodItem_id);
-$fooditemrow = $fooditem->fetch_assoc();
+$otherItem = $menuObj->getanItem($Item_id);
+$otherItem = $otherItem->fetch_assoc();
 ?>
 <html>
     <head>
@@ -164,7 +164,7 @@ $fooditemrow = $fooditem->fetch_assoc();
         </div>
         <div class="col" style="background-color:blue">
             <div class="row">
-                <form action="../../../../controller/menu_controller.php?status=edit-fooditem"
+                <form action="../../../../controller/menu_controller.php?status=edit-otherItem"
                     enctype="multipart/form-data" method="post">
                     <div class="row" id="errormsg">
                         <?php
@@ -181,25 +181,25 @@ $fooditemrow = $fooditem->fetch_assoc();
                         ?>
                     </div>
                     <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                            name="food_id" value="<?php echo $fooditemrow['food_itemId'] ?>">
+                            name="itemId" value="<?php echo $otherItem['item_id'] ?>">
                     <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                            name="img_path_name" value="<?php echo $fooditemrow['img_path'] ?>">
+                            name="img_path_name" value="<?php echo $otherItem['img_path'] ?>">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Item</span>
                         </div>
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                            name="food_Name" value="<?php echo $fooditemrow['item_name'] ?>">
+                            name="item_Name" value="<?php echo $otherItem['item_name'] ?>">
                     </div>
                     <div class="input-group">
                         <label for="exampleFormControlTextarea1">Description</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            name="food_descript" > <?php echo $fooditemrow['food_description'] ?></textarea>
+                            name="item_descript" > <?php echo $otherItem['description'] ?></textarea>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                                name="food_image" id="food_image" onchange="readUrl(this);" >
+                                name="item_image" id="item_image" onchange="readUrl(this);" >
                         </div>   
                         <select class="forms-select mb-3" id="category" aria-label="category" name="category" required>
                         <option value="">----</option>
@@ -207,7 +207,7 @@ $fooditemrow = $fooditem->fetch_assoc();
                         while ($categoryrow = $categoryResult->fetch_assoc()) {
                             ?>
                             <option name="category_selected" value="<?php echo $categoryrow["category_id"]; ?>" <?php
-                               if ($fooditemrow["category_id"] == $categoryrow["category_id"]) {
+                               if ($otherItem["category_id"] == $categoryrow["category_id"]) {
                                    ?> selected="selected" <?php
                                }
                                ?>>
@@ -219,7 +219,7 @@ $fooditemrow = $fooditem->fetch_assoc();
                     </select>
       
                         <div class="col-md-3">
-                        <img id="imgprev" src="<?php echo "../../../" . $fooditemrow["img_path"] ?>" alt="Image Preview" style="height: 100px; width: 100px;">
+                        <img id="imgprev" src="<?php echo "../../../" . $otherItem["img_path"] ?>" alt="Image Preview" style="height: 100px; width: 100px;">
                                 </div>
 
                     </div>
@@ -227,7 +227,7 @@ $fooditemrow = $fooditem->fetch_assoc();
                         update
                     </button>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#removeFooditemModal">Remove Item
+                        data-bs-target="#removeItemModal">Remove Item
                     </button>
                 </form>
             </div>
@@ -235,24 +235,24 @@ $fooditemrow = $fooditem->fetch_assoc();
     </div>
   </div>
 
-  <div class="modal fade" id="removeFooditemModal" tabindex="-1" role="dialog"
-        aria-labelledby="removeFooditemModalLabel" aria-hidden="true">
+  <div class="modal fade" id="removeItemModal" tabindex="-1" role="dialog"
+        aria-labelledby="removeitemModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="removeingtitle">Remove Food item</h5>
+                    <h5 class="modal-title" id="removeitemtitle">Remove item</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to remove this this food item ?
+                    Are you sure you want to remove this this item ?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <a type="button" class="btn btn-primary"
-                        href="../../../../controller/menu_controller.php?status=delete-fooditem&foodId=<?php echo $foodid ?>">Remove
-                        food item</a>
+                        href="../../../../controller/menu_controller.php?status=delete-item&itemId=<?php echo $Item_id ?>">Remove
+                         item</a>
                 </div>
             </div>
         </div>
