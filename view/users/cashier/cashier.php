@@ -8,6 +8,8 @@ $categoryResult = $menuObj->getcategories();
 <head>
     <title>Restaurant Management System</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -241,10 +243,32 @@ $categoryResult = $menuObj->getcategories();
     </div>
   </div>
 </div>
+    <div class="Modal" id="quickSellmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="quick-sell-modal-title"></h5>
+        <button type="button closebtn" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="quick-sell-modal-body" id="sales-details-modal-body">
+        <p id="quick-sale-items"></p>
+      </div>
+      <div class="modal-footer ">
+      <button type="button" class="btn btn-success" id="sellButton" >Confirm</button>
+        <button type="button closebtn" class="btn btn-secondary" >Close</button> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
     <script type="text/javascript" src="cashier.js"></script>
     <script type="text/javascript" src="../../../commons/clock.js"></script>
+    
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

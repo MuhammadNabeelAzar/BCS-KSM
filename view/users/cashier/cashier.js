@@ -1,7 +1,6 @@
 function filteritems(category_id) {
   var category_Id = category_id;
   $("#fooditems-container").empty();
-  console.log(category_Id);
   $.ajax({
     type: "POST",
     url: "../../../controller/menu_controller.php?status=get-Items",
@@ -183,6 +182,64 @@ function showallfoodItems() {
       }
     },
   });
+  $.ajax({
+    type: "POST",
+    url: "../../../controller/menu_controller.php?status=get-all-items",
+    dataType: "text",
+    success: function (response) {
+      // Parse the JSON response
+      var parsedResponse = JSON.parse(response);
+
+      // Get the container where you want to append the cards
+      var container = $("#fooditems-container");
+
+      for (var i = 0; i < parsedResponse.length; i++) {
+        var item = parsedResponse[i];
+
+        // Create a card element
+        var card = $(
+          '<div class="card " style="width: 15rem; margin: 2px;"></div>'
+        );
+        // Append card content (customize this part based on your data structure)
+        card.append(
+          '<div class="card row">' +
+            '<img  src="' +
+            "../../" +
+            item.img_path +
+            '" alt="Item Image" style="height:100px;>' +
+            "</div>" +
+            '<div class="card-body">' +
+            '<input class="food_ids" type="hidden" id="fooditemId" value="' +
+            item.item_id +
+            '">' +
+            '<h6 class="card-title">' +
+            item.item_name +
+            "</h6>" +
+            "<p>" +
+            item.description +
+            "</p>" +
+            "<div class='row'>" +
+            "<div class='col'>" +
+            "<p>Rs." +
+            item.price +
+            "</p>" +
+            "</div>" +
+            "<div class='col availableQty'>Available:"+item.available_quantity+"</div>" +
+            "<div class='col availableQty'></div>" +
+            "</div>" +
+            (item.available_quantity > "0" &&
+            item.tmp_deactivate_availability === "0"
+              ? '<button class="btn btn-primary" onclick="additemtoCart(' +
+                item.item_id +
+                ');" >Add to Cart</button>'
+              : '<button class="btn btn-danger">Unavailable</button>') +
+            "</div>"
+        );
+        // Append the card to the container
+        container.append(card);
+      }
+    },
+  });
 }
 
 $(document).ready(function () {
@@ -196,13 +253,12 @@ function additemtoCart(itemId) {
     data: { itemId: itemId },
     dataType: "JSON",
     success: function (response) {
-      console.log(response);
       var fooditemContainer = $("#fooditemslistcontainer");
       var existingfoodItemsinCart = checkItemsExistence(response.item_name);
 
       if (!existingfoodItemsinCart) {
         fooditemContainer.append(
-          ' <div class="row fooditemRow commonrow" > ' +
+          ' <div class="row fooditemRow commonrow itemRow" > ' +
             ' <div class="col ml-auto"> ' +
             '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>' +
             " </div> " +
@@ -253,7 +309,7 @@ function addfooditemtoCart(foodId,available_qty) {
 
       if (!existingfoodItemsinCart) {
         fooditemContainer.append(
-          ' <div class="row fooditemRow commonrow" > ' +
+          ' <div class="row fooditemRow commonrow foodRow" > ' +
             ' <div class="col ml-auto"> ' +
             '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>' +
             " </div> " +
@@ -634,7 +690,8 @@ function placeOrder() {
       var customerLname = $("#customerLName").val();
       var customerEmail = $("#customerEmail").val();
       var customercontactNo = $("#customerCno").val();
-      var foodItemsList = $(".fooditemRow").toArray();
+      var foodItemsList = $(".foodRow").toArray();
+      var itemList = $(".itemRow").toArray();
       var total = $("#totalAmount").text();
       var customerdetails = [
         $("#customer_id").val(),
@@ -643,8 +700,18 @@ function placeOrder() {
         $("#customerEmail").val(),
         $("#customerCno").val(),
       ];
-      var fooditems = [];
+      var items = [];
       var discount = $(".discountinput").val();
+      for (var i = 0; i < itemList.length; i++) {
+        var item = [];
+        var itemId = $(itemList[i]).find(".food_ids").val();
+        var qty = Number($(itemList[i]).find(".foodItemqty").val());
+        var priceperitem = $(itemList[i]).find(".pricePeritem").text();
+        priceperitem = parseFloat(priceperitem.replace("Rs.", "").trim());
+        item.push(itemId, qty, priceperitem);
+        items.push(item);
+      }
+      var fooditems = [];
       for (var i = 0; i < foodItemsList.length; i++) {
         var item = [];
         var food_itemId = $(foodItemsList[i]).find(".food_ids").val();
@@ -670,7 +737,7 @@ function placeOrder() {
 
           // Check if there are no problems before calling reduceStock
           if (response.trim() !== "") {
-            reduceStock(foodItemsList);
+            reduceStock(foodItemsList,items);
           }
 
           // Reset form and display
@@ -686,12 +753,12 @@ function placeOrder() {
           customer_id: customer_id,
           discount: discount,
           fooditems: fooditems,
+          items:items,
           date: formattedDate,
           time: currentTime,
         },
         dataType: "text",
         success: function (response) {
-          alert(response);
           $(
             "#customer_id, #customerFName, #customerLName, #customerEmail, #customerCno"
           ).val("");
@@ -709,7 +776,7 @@ function placeOrder() {
   }
 }
 
-function reduceStock(foodItems) {
+function reduceStock(foodItems,items) {
   for (var i = 0; i < foodItems.length; i++) {
     var foodItem = $(foodItems[i]);
 
@@ -722,10 +789,25 @@ function reduceStock(foodItems) {
       data: { fooditem_id: fooditem_id, fooditem_qty: fooditemqty },
       dataType: "text",
       success: function (response) {
+      },
+    });
+  }
+  for (var i = 0; i < items.length; i++) {
+    var Item = $(items[i]);
+
+    var item_id = Item[0];
+    var qty = Item[1];
+
+    $.ajax({
+      type: "POST",
+      url: "../../../controller/order_controller.php?status=update-other-items-stock",
+      data: { item_id: item_id, qty: qty },
+      dataType: "text",
+      success: function (response) {
         console.log(response);
       },
     });
-    console.log(fooditem_id + "qty:" + fooditemqty);
+    console.log(item + "qty:" + qty);
   }
 }
 
@@ -780,7 +862,6 @@ function showAllOrders() {
           }
 
           orderListDiv.append(orderCard);
-          console.log("order item", orderItems);
         }
       }
     },
@@ -969,13 +1050,15 @@ function switchToOrder(){
 $(quickSellBtn).replaceWith(placeOrderBtn);
 }
 
+
+
 function quickSell(){
   var fooditemqtyselected = $(".foodItemqty").val();
   var fooditemsinCart = $(".food_item_name");
   var customerFName = $("#customerFName").val();
 
   if (fooditemsinCart.length === 0) {
-    alert("Please add a food item!");
+    alert("Please add an item!");
   } else if (customerFName === "") {
     alert("Please enter the customer's first name!");
   } else {
@@ -998,7 +1081,9 @@ function quickSell(){
       var customerLname = $("#customerLName").val();
       var customerEmail = $("#customerEmail").val();
       var customercontactNo = $("#customerCno").val();
-      var foodItemsList = $(".fooditemRow").toArray();
+      var foodItemsList = $(".foodRow").toArray();
+      console.log(foodItemsList);
+      var itemList = $(".itemRow").toArray();
       var total = $("#totalAmount").text();
       var customerdetails = [
         $("#customer_id").val(),
@@ -1007,68 +1092,313 @@ function quickSell(){
         $("#customerEmail").val(),
         $("#customerCno").val(),
       ];
-      var fooditems = [];
-      var discount = $(".discountinput").val();
-      for (var i = 0; i < foodItemsList.length; i++) {
-        var item = [];
-        var food_itemId = $(foodItemsList[i]).find(".food_ids").val();
-        var qty = Number($(foodItemsList[i]).find(".foodItemqty").val());
-        var priceperitem = $(foodItemsList[i]).find(".pricePeritem").text();
-        priceperitem = parseFloat(priceperitem.replace("Rs.", "").trim());
-        item.push(food_itemId, qty, priceperitem);
-        fooditems.push(item);
-      }
-      $.ajax({
-        type: "POST",
-        url: "../../../controller/customer_controller.php?status=add-customer",
-        data: {
-          customer_id: customer_id,
-          customerFname: customerFName,
-          customerLname: customerLname,
-          customerEmail: customerEmail,
-          customercontactNo: customercontactNo,
-        },
-        dataType: "text",
-        success: function (response) {
-          console.log(response);
+    }  
+    var modalBody = $("#sales-details-modal-body");
+  modalBody.empty();
+  sum = 0;
+  var discount = $('#discountpercentageinput').val();
 
-          // Check if there are no problems before calling reduceStock
-          if (response.trim() !== "") {
-            reduceStock(foodItemsList);
-          }
-
-          // Reset form and display
-        },
-      });
-      var currentDate = new Date();
-      var formattedDate = currentDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
-      var currentTime = currentDate.toTimeString().slice(0, 8);
-      $.ajax({
-        type: "POST",
-        url: "../../../controller/order_controller.php?status=add-order",
-        data: {
-          customer_id: customer_id,
-          discount: discount,
-          fooditems: fooditems,
-          date: formattedDate,
-          time: currentTime,
-        },
-        dataType: "text",
-        success: function (response) {
-          alert(response);
-          $(
-            "#customer_id, #customerFName, #customerLName, #customerEmail, #customerCno"
-          ).val("");
-          $("#fooditemslistcontainer").empty();
-          $("#discountCheckbox").prop("checked", false);
-          $("#discountpercentageinput").remove();
-          RemoveDiscount();
-
-          sum = 0;
-          displayTotal(sum);
-          showAllOrders();
-        },
-      });
-    }
+  // Check if the value is NaN
+  if (isNaN(discount)) {
+      // If NaN, set it to 0
+      discount = 0;
   }
+ 
+      var table =
+  '<table class="table table-bordered"><thead><tr><th>#</th><th>Item Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
+  var i = 0;
+  foodItemsList.forEach(function(foodItem){     
+  var foodname = $(foodItem).find('.food_item_name').text();
+  var pricePeritem = $(foodItem).find('.pricePeritem').text();
+  pricePeritem = parseFloat(pricePeritem.replace("Rs.", "").trim());
+  var priceAfterDiscount = parseInt(pricePeritem);
+  var discountValue = (priceAfterDiscount * discount)/100;
+  priceAfterDiscount = priceAfterDiscount - discountValue;
+  var quantity = $(foodItem).find('.foodItemqty').val();
+  var totalPriceAfterDiscount = priceAfterDiscount * quantity;
+  sum += totalPriceAfterDiscount;
+ i+=  1;
+  table += "<tr>";
+  table += "<td>" + i + "</td>";
+  table += "<td>" + foodname + "</td>";
+  table += "<td>" + pricePeritem + "</td>";
+  table += "<td>" + quantity + "</td>";
+  table += "<td>" + discount + "%"+ "</td>";
+  table += "<td>" +  totalPriceAfterDiscount + "</td>";
+  table += "</tr>";
+      });
+      
+      itemList.forEach(function(Item){     
+        console.log('---->');
+  var Itemname = $(Item).find('.food_item_name').text();
+  var pricePeritem = $(Item).find('.pricePeritem').text();
+  pricePeritem = parseFloat(pricePeritem.replace("Rs.", "").trim());
+  var quantity = $(Item).find('.foodItemqty').val();
+  var priceAfterDiscount = parseInt(pricePeritem);
+  var discountValue = (priceAfterDiscount * discount)/100;
+  priceAfterDiscount = priceAfterDiscount - discountValue;
+  var totalPriceAfterDiscount = priceAfterDiscount * quantity;
+  sum += totalPriceAfterDiscount;
+  i+=  1;
+  table += "<tr>";
+  table += "<td>" + i + "</td>";
+  table += "<td>" + Itemname + "</td>";
+  table += "<td>" + pricePeritem + "</td>";
+  table += "<td>" + quantity + "</td>";
+  table += "<td>" + discount + "%"+ "</td>";
+  table += "<td>" +  totalPriceAfterDiscount + "</td>";
+  table += "</tr>";
+      });
+      table += "<tr>";
+table += "<td>" + "</td>";
+table += "<td>" + "</td>";
+table += "<td>" + "</td>";
+table += "<td>" + "</td>";
+table += "<td>" + "</td>";
+table += "<td>" + sum + "</td>";
+table += "</tr>";
+
+table += "</tbody></table>";
+$('#quickSellmodal').modal('show');
+modalBody.append(table);
+$('.quick-sell-modal-title').empty();
+$('.quick-sell-modal-title').append("Customer :" ,customerFName," ",customerLname );
+var modalConfirmSaleBtn = $('#sellButton');
+modalConfirmSaleBtn.click(function(){
+  var items = [];
+  var discount = $(".discountinput").val();
+  for (var i = 0; i < itemList.length; i++) {
+    var item = [];
+    var itemId = $(itemList[i]).find(".food_ids").val();
+    var qty = Number($(itemList[i]).find(".foodItemqty").val());
+    var priceperitem = $(itemList[i]).find(".pricePeritem").text();
+    priceperitem = parseFloat(priceperitem.replace("Rs.", "").trim());
+    item.push(itemId, qty, priceperitem);
+    items.push(item);
+  }
+  var fooditems = [];
+  for (var i = 0; i < foodItemsList.length; i++) {
+    var item = [];
+    var food_itemId = $(foodItemsList[i]).find(".food_ids").val();
+    var qty = Number($(foodItemsList[i]).find(".foodItemqty").val());
+    var priceperitem = $(foodItemsList[i]).find(".pricePeritem").text();
+    priceperitem = parseFloat(priceperitem.replace("Rs.", "").trim());
+    item.push(food_itemId, qty, priceperitem);
+    fooditems.push(item);
+  }
+  $.ajax({
+    type: "POST",
+    url: "../../../controller/customer_controller.php?status=add-customer",
+    data: {
+      customer_id: customer_id,
+      customerFname: customerFName,
+      customerLname: customerLname,
+      customerEmail: customerEmail,
+      customercontactNo: customercontactNo,
+    },
+    dataType: "text",
+    success: function (response) {
+      console.log(response);
+
+      // Check if there are no problems before calling reduceStock
+      if (response.trim() !== "") {
+        reduceStock(foodItemsList,items);
+      }
+
+      // Reset form and display
+    },
+  });
+  var currentDate = new Date();
+  var formattedDate = currentDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
+  var currentTime = currentDate.toTimeString().slice(0, 8);
+  $.ajax({
+    type: "POST",
+    url: "../../../controller/order_controller.php?status=quick-sell",
+    data: {
+      customer_id: customer_id,
+      discount: discount,
+      fooditems: fooditems,
+      items:items,
+      date: formattedDate,
+      time: currentTime,
+    },
+    dataType: "text",
+    success: function (response) {
+     //successsfully inserted sales details
+      $(
+        "#customer_id, #customerFName, #customerLName, #customerEmail, #customerCno"
+      ).val("");
+      $("#fooditemslistcontainer").empty();
+      $("#discountCheckbox").prop("checked", false);
+      $("#discountpercentageinput").remove();
+      RemoveDiscount();
+
+      sum = 0;
+      displayTotal(sum);
+      showAllOrders();
+      $('#quickSellmodal').modal('hide');
+    },
+  });
+  $.ajax({
+    type: "GET",
+    url: "../../../controller/order_controller.php?status=get-last-inserted-saleId",
+    dataType: "JSON",
+    success: function (response) {
+      getSalesDetails(response);
+    }
+  });
+});
+}
+}
+function getSalesDetails(sale_id){
+  var sale_id = parseInt(sale_id);
+  console.log("saleeeeee",sale_id);
+  $.ajax({
+    type: "POST",
+    url: "../../../controller/order_controller.php?status=get-quick-sale-details",
+    data: {sale_id:sale_id},
+    dataType: "JSON",
+    success: function (response) {
+      displayReceiptDetails(response);
+    }
+  });
+}
+
+function displayReceiptDetails(response) {
+  console.log(response);
+var customerAndsalesDetails = response.customerAndSalesDetails;
+var fooditemArray = response.fooditemArray;
+var otheritemArray = response.otheritemArray;
+var sum = 0;
+var itemsArray = [];
+
+ if(customerAndsalesDetails){
+  var customerId = customerAndsalesDetails.customer_id;
+  var customerEmail = customerAndsalesDetails.customer_email;
+  var contactNo = customerAndsalesDetails.contact_number;
+  var customerName = customerAndsalesDetails.customer_fname + " " + customerAndsalesDetails.customer_lname;
+  var date = customerAndsalesDetails.date;
+  var time = customerAndsalesDetails.time;
+  var salesId = customerAndsalesDetails.sales_id;
+
+ }
+
+ for(var i = 0;i < fooditemArray.length;i++){
+  var foodArray = fooditemArray[i];
+  var discount = foodArray .discount;
+  var quantity = foodArray .qty;
+  var unitPrice = foodArray .unit_price;
+  var itemName = foodArray .item_name;
+  var totalperitem = parseInt(foodArray .total);
+  sum += totalperitem;
+  var item = '<div class="row itemRow"><h6 class="col items">'+itemName+'</h6>'+
+    '<h6 class="col qty">'+quantity+'</h6>'+
+    '<h6 class="col discount">'+discount+'</h6>'+
+    '<h6 class="col unitprice">'+unitPrice+'</h6></div>';
+    itemsArray.push(item);
+ }
+ for(var i = 0;i < otheritemArray.length;i++){
+  var itemArray = otheritemArray[i];
+  var discount = itemArray.discount;
+  var quantity = itemArray.qty;
+  var unitPrice = itemArray.unit_price;
+  var itemName = itemArray.item_name;
+  var totalperitem = parseInt(itemArray.total);
+  sum += totalperitem;
+  var item = '<div class="row itemRow"><h6 class="col items">'+itemName+'</h6>'+
+    '<h6 class="col qty">'+quantity+'</h6>'+
+    '<h6 class="col discount">'+discount+'</h6>'+
+    '<h6 class="col unitprice">'+unitPrice+'</h6></div>';
+    itemsArray.push(item);
+ }
+ var invoice = ` 
+ <style>
+ body {
+  font-family: 'Arial', sans-serif;
+}
+.container-fluid {
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+.title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.info-section {
+  margin-bottom: 15px;
+}
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 5px;
+}
+.item-row {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 5px;
+}
+.total-row {
+  margin-top:5px;
+}
+.totalAmount{
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+ </style>
+ <html><head><title>Sales Id: ${salesId}</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+ integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+ </head>
+ <div class="container-fluid">
+<div class="title" id="billTitle">
+    <h4>XYZ</h4>
+</div>
+<div class="info-section">
+    <div class="row">
+        <h6 class="SaleId OrderId">Sales Id: ${salesId}</h6>
+    </div>
+    <div class="row">
+        <h6 class="date">Date: ${date}</h6>
+    </div>
+    <div class="row">
+        <h6 class="time">Time: ${time}</h6>
+    </div>
+    <div class="row">
+        <h6 class="col customerId ">CustomerID: ${customerId}</h6>
+    </div>
+    <div class="row">
+        <h6 class="customerName">Name: ${customerName}</h6>
+    </div>
+    <div class="row">
+        <h6 class="col customerEmail">Email: ${customerEmail}</h6>
+    </div>
+    <div class="row">
+        <h6 class="col customerContactNo">Contact No: ${contactNo}</h6>
+    </div>
+</div>
+<div class="row item-header">
+    <h6 class="col items">Item</h6>
+    <h6 class="col qty">Qty</h6>
+    <h6 class="col unitprice">Unit Price</h6>
+</div>
+<div class="row item-row">
+
+</div>
+<div class="row item-header">
+</div>
+<div class="row discount-row">
+    <h6 class="col discountAmount">Discount: ${discount}</h6>
+</div>
+<div class="row total-row">
+    <h6 class="col-md-8 total-title">Total</h6>
+    <h6 class="col-md-4 totalAmount"></h6>
+</div>
+</div>`;
+
+ console.log("array",itemsArray);
+ var newWindow = window.open("","_blank","width=300,height=300");
+newWindow.document.write(invoice);
 }

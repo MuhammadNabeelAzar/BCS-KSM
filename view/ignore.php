@@ -136,4 +136,94 @@ ordersRow.append(Ordercard);
 
 // for (var i = 0 ; i < fooditemRowArray.length; i++){ // fooditemRow=fooditemRowArray[i];
     fooditemsDetailsRow.append(fooditemRowArray); // } console.log(); console.log("orders",order); <div class="row">
+    function increaseCounter(button,available_quantity) {
+  var inputElement = button.parentNode.previousElementSibling;
+
+  var food_id_inCart = $(button)
+    .closest(".fooditemRow")
+    .find(".food_ids")
+    .val();
+  var foodcard = $('.card:has(.food_ids[value="' + food_id_inCart + '"])');
+  var maxItemQty = $(foodcard).find(".availableQty").text();
+  maxItemQty = parseInt(maxItemQty.replace(/\D/g, ""));
+  console.log(maxItemQty)
+  // Check if the item is not in the food category
+  if (!foodcard.length) {
+    var maxItemQty = available_quantity;
+  }
+
+  maxItemQty = parseInt(maxItemQty);
+  console.log(maxItemQty);
+
+  x = parseInt($(inputElement).val());
+  if (x < maxItemQty) {
+    x++;
+    $(inputElement).val(x);
+    console.log(x);
+    AddTotal(button);
+  }
+  calculateDiscountOnquantityChange();
+}
+
+
+
+
+public function getSalesDetails($sale_id)
+  {
+    $con = $GLOBALS["con"];
+    $result = array();
+    $customerDetailsQuery = "SELECT * FROM customer WHERE customer_id = (
+      SELECT customer_id
+      FROM quick_sales
+      WHERE sales_id = $sale_id
+  )";
+
+      $customerResult = $con->query($customerDetailsQuery) or die($con->error);
+      $result['customerDetails'] = $customerResult->fetch_assoc();
+
+    $foodItemsQuery = "SELECT  quick_sales.*, sales_items.*,food_items.item_name
+        FROM quick_sales
+        JOIN sales_items ON quick_sales.sales_id = sales_items.sales_id
+         JOIN food_items ON sales_items.food_itemId = food_items.food_itemId
+         WHERE quick_sales.sales_id = '$sale_id'AND sales_items.food_itemId IS NOT NULL ";
+$foodItemsResult = $con->query($foodItemsQuery) or die($con->error);
+$result['foodItems'] = $foodItemsResult->fetch_all(MYSQLI_ASSOC);
+
+    $OtherItemsQuery = "SELECT  quick_sales.*, sales_items.*,other_items.item_name
+        FROM quick_sales
+        JOIN sales_items ON quick_sales.sales_id = sales_items.sales_id
+         JOIN other_items ON sales_items.item_id = other_items.item_id
+         WHERE quick_sales.sales_id = '$sale_id' AND sales_items.item_id IS NOT NULL";
+    $otherItemsResult = $con->query($OtherItemsQuery) or die($con->error);
+    $result['otherItems'] = $otherItemsResult->fetch_all(MYSQLI_ASSOC);
+
     
+    return $result;
+  }
+
+  function displayReceiptDetails(response) {
+
+var sum = 0;
+var itemArray = [];
+  for (var i = 0; i < response.length; i++) {
+    var innerArray = response[i];
+    var customerId = innerArray.customer_id;
+    var customerEmail = innerArray.customer_email;
+    var customerNo = innerArray.contact_number;
+    var customerName = innerArray.customer_fname + " " + innerArray.customer_lname;
+    var date = innerArray.date;
+    var time = innerArray.time;
+    var discount = innerArray.discount;
+    var quantity = innerArray.qty;
+    var unitPrice = innerArray.unit_price;
+    var itemName = innerArray.item_name;
+    var totalperitem = parseInt(innerArray.total);
+    sum += totalperitem;
+    // Append other details as needed
+    var itemRow = '<div class="row itemRow"><h6 class="col items">'+itemName+'</h6>'+
+    '<h6 class="col qty">'+quantity+'</h6>'+
+    '<h6 class="col unitprice">'+unitPrice+'</h6></div>';
+    itemArray.push(itemRow);
+  }
+  console.log("itemarray",itemArray);
+}

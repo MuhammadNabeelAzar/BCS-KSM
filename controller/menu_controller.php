@@ -400,6 +400,21 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-all-fooditems') {
     } 
 
 }
+if (isset($_GET['status']) && $_GET['status'] === 'get-all-items') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //
+       
+
+        $result = $menuObj->getOtherItems();
+        while($items = $result->fetch_all(MYSQLI_ASSOC)){
+            $response = $items;
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } 
+
+}
 if (isset($_GET['status']) && $_GET['status'] === 'get-fooditem-details') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //
