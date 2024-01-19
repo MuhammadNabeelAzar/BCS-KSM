@@ -261,6 +261,54 @@ $otherItemFound = false;
            echo json_encode($response);
   
 }
+if (isset($_GET['status']) && $_GET['status'] === 'get-order-customer-details') {
+  if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $order_id = $_POST['order_id'];
+$itemArray = array();
+$fooditemArray = array();
+$response = array();
+
+    $result = $orderObj->getOrderDetailsForInvoice($order_id);
+    $orderDetails = $result->fetch_assoc();
+
+    $orderItemsDetails = $orderObj->getOrderItemsDetails($order_id);
+    $orderItemsDetailsResult = $orderItemsDetails->fetch_all(MYSQLI_ASSOC);
+
+
+    $foodItemFound = false;
+$otherItemFound = false;
+    foreach($orderItemsDetailsResult as $foodrow){
+      if($foodrow['food_itemId'] !== null){
+        $foodItemFound = true;
+        break;
+      }
+    }
+    foreach($orderItemsDetailsResult as $otherItemrow){
+      if( $otherItemrow['item_id'] !== null){
+        $otherItemFound = true;
+        break;
+      }
+    }
+    
+    if ($foodItemFound){
+      $fooditemResult = $orderObj->getFoodItemsOrderDetails($order_id);
+      $foodresult = $fooditemResult->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    if ($otherItemFound){
+      $otheritemResult = $orderObj-> getOtherItemsOrderDetails($order_id);
+      $itemResult = $otheritemResult->fetch_all(MYSQLI_ASSOC);
+    } 
+     
+    $response['customerAndOrderDetails'] = $orderDetails;
+    $response['fooditemArray'] = isset($foodresult) ? $foodresult : [];
+    $response['otheritemArray'] = isset($itemResult) ? $itemResult : [];
+    
+  }
+  header('Content-Type: application/json');
+           echo json_encode($response);
+  
+}
 if (isset($_GET['status']) && $_GET['status'] === 'get-last-inserted-saleId') {
   if($_SERVER['REQUEST_METHOD'] === 'GET'){
 

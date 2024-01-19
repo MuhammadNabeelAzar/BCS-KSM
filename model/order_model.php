@@ -229,10 +229,27 @@ class order
     $result = $con->query($sql) or die($con->error);
     return $result;
   }
+  public function getOrderDetailsForInvoice($order_id)
+  {
+    $con = $GLOBALS["con"];
+    $sql = "SELECT `order`.*,customer.*
+    FROM `order`
+    JOIN customer ON order.customer_id = customer.customer_id
+   WHERE `order_id` = $order_id";
+    $result = $con->query($sql) or die($con->error);
+    return $result;
+  }
   public function getSalesItemsDetails($sale_id)
   {
     $con = $GLOBALS["con"];
     $sql = "SELECT * FROM sales_items WHERE sales_id = $sale_id";
+    $result = $con->query($sql) or die($con->error);
+    return $result;
+  }
+  public function getOrderItemsDetails($order_id)
+  {
+    $con = $GLOBALS["con"];
+    $sql = "SELECT * FROM `order_items` WHERE `order_id` = $order_id";
     $result = $con->query($sql) or die($con->error);
     return $result;
   }
@@ -246,6 +263,16 @@ class order
     $result = $con->query($sql) or die($con->error);
     return $result;
   }
+  public function getFoodItemsOrderDetails($order_id)
+  {
+    $con = $GLOBALS["con"];
+    $sql = "SELECT `order_items`.*,food_items.item_name
+    FROM `order_items`
+    JOIN food_items ON order_items.food_itemId = food_items.food_itemId
+   WHERE `order_id` = $order_id";
+    $result = $con->query($sql) or die($con->error);
+    return $result;
+  }
   public function getSalesOtherItemsDetails($sale_id)
   {
     $con = $GLOBALS["con"];
@@ -253,6 +280,16 @@ class order
     FROM sales_items
     JOIN other_items ON sales_items.item_id = other_items.item_id
    WHERE sales_id = $sale_id";
+    $result = $con->query($sql) or die($con->error);
+    return $result;
+  }
+  public function getOtherItemsOrderDetails($order_id)
+  {
+    $con = $GLOBALS["con"];
+    $sql = "SELECT `order_items`.*,other_items.item_name
+    FROM `order_items`
+    JOIN other_items ON order_items.item_id = other_items.item_id
+   WHERE `order_id` = $order_id";
     $result = $con->query($sql) or die($con->error);
     return $result;
   }
