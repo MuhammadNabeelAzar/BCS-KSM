@@ -227,3 +227,20 @@ var itemArray = [];
   }
   console.log("itemarray",itemArray);
 }
+
+
+<?php
+    // Include the sidebar file
+    if ($userRoleID == 1) {
+        include '../../../commons/admin-navigation.php';
+    } elseif ($userRoleID == 2) {
+        include '../../../commons/chef-navigation.php';
+    } elseif ($userRoleID == 3) {
+        include '../../../commons/stock-manager-navigation.php';
+    } elseif ($userRoleID == 4) {
+        include '../../../commons/cashier-navigation.php';
+    }
+    ?>
+    session_start();
+include_once '../../../../model/role_model.php';
+$userRoleID = isset($_SESSION['user']['role_id']) ? $_SESSION['user']['role_id'] : null;

@@ -225,7 +225,7 @@ class menu
         return $result;
 
     }
-    public function getfooditemavaiableqty($food_id)
+    public function getRecipeToCalculateAvailableQty($food_id)
     {
         $con = $GLOBALS["con"];
         $sql = "SELECT * FROM ingredients_food_items

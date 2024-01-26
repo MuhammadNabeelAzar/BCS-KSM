@@ -1,3 +1,8 @@
+<?php
+session_start();
+include_once '../../../model/role_model.php';
+$userRoleID = isset($_SESSION['user']['role_id']) ? $_SESSION['user']['role_id'] : null;
+?>
 <html>
     <head>
         <title>Restaurant Management System</title>
@@ -45,31 +50,18 @@
         </a>
         <hr>
         <!--user navigation-->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width:fit-content">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel"></h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="list-group"> 
-                    <li class="list-group-item">
-                        <a href="#" data-bs-toggle="collapse" data-bs-target="#ingredientsManagementSubMenu">Ingredients Management</a>
-                        <!-- Sublist -->
-                        <div id="ingredientsManagementSubMenu" class="collapse">
-                            <ul class="list-group">
-                                <li class="list-group-item"><a href="../../module/stock-manager/ingredients-management/ingredients.php">Ingredients</a></li>
-                                <li class="list-group-item"><a href="../../module/stock-manager/ingredients-management/stock.php">Stock</a></li>
-                            </ul>
-                        </div>
-                    </li>                                     
-                    <li class="list-group-item">
-                        <a href="../../dashboards/dashboard.php">Dashboard</a>
-                    </li>
-
-                </ul>
-            </div>
-
-        </div>
+        <?php
+    // Include the sidebar file
+    if ($userRoleID == 1) {
+        include '../../commons/admin-navigation.php';
+    } elseif ($userRoleID == 2) {
+        include '../../commons/chef-navigation.php';
+    } elseif ($userRoleID == 3) {
+        include '../../commons/stock-manager-navigation.php';
+    } elseif ($userRoleID == 4) {
+        include '../../commons/cashier-navigation.php';
+    }
+    ?>
         <!--user navigation-->
 
         <script type="text/javascript" src="../../../commons/clock.js"></script>

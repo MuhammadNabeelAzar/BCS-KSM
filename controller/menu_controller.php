@@ -430,12 +430,12 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-fooditem-details') {
     } 
 
 }
-if (isset($_GET['status']) && $_GET['status'] === 'get-food-availability-qty') {
+if (isset($_GET['status']) && $_GET['status'] === 'get-Recipe-To-Calculate-Available-Qty') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //
         $foodItem_id = $_POST['food_id'];
 
-        $result = $menuObj->getfooditemavaiableqty($foodItem_id);
+        $result = $menuObj->getRecipeToCalculateAvailableQty($foodItem_id);
         $foodresult = $result->fetch_all(MYSQLI_ASSOC);
         $response = $foodresult;
     
