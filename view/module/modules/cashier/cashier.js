@@ -197,7 +197,7 @@ function showallItems() {
   $.ajax({
     type: "POST",
     url: "../../../../controller/menu_controller.php?status=get-all-items",
-    dataType: "text",
+    dataType: "JSON",
     success: function (response) {
       // Get the container
       const container = $("#fooditems-container");
@@ -309,20 +309,18 @@ function additemtoCart(itemId) {
   });
 }
 function addfooditemtoCart(foodId) {
-
-// add the fooditem to the cart
+  // add the fooditem to the cart
   $.ajax({
     type: "POST",
     url: "../../../../controller/menu_controller.php?status=get-fooditem-details",
     data: { food_id: foodId },
     dataType: "JSON",
     success: function (response) {
-    
       const fooditemContainer = $("#fooditemslistcontainer");
-        //check if the same item exists in the cart with the name
+      //check if the same item exists in the cart with the name
       const existingfoodItemsinCart = checkItemsExistence(response.item_name);
 
-       // if the same fooditem is present then disable add and if its not present then add to cart
+      // if the same fooditem is present then disable add and if its not present then add to cart
       if (!existingfoodItemsinCart) {
         fooditemContainer.append(
           ' <div class="row fooditemRow commonrow foodRow" > ' +
@@ -364,11 +362,10 @@ function addfooditemtoCart(foodId) {
 }
 
 function checkItemsExistence(itemName) {
-
   //the function to check if the items exist in the cart
   var fooditemNamesinCart = $(".food_item_name");
 
-//loop through the items in the cart and check if the item is available 
+  //loop through the items in the cart and check if the item is available
   for (var i = 0; i < fooditemNamesinCart.length; i++) {
     var currentName = $(fooditemNamesinCart[i]).text();
 
@@ -384,12 +381,11 @@ function increaseitemCounter(button, available_quantity) {
   //get the  existing value of the quantity in the counter
   const inputElement = button.parentNode.previousElementSibling;
 
-
   // initialize the maximum qty that can be sold depending on the available quantity
   var maxItemQty = available_quantity;
   maxItemQty = parseInt(maxItemQty);
 
-//limit the quantity counter to the available
+  //limit the quantity counter to the available
   x = parseInt($(inputElement).val());
   if (x < maxItemQty) {
     x++;
@@ -402,7 +398,7 @@ function increaseitemCounter(button, available_quantity) {
 function increasefooditemCounter(button, fooditem_id) {
   var inputElement = button.parentNode.previousElementSibling;
 
-  //get the recipe to calculate maximum no of fooditems that could be prepared 
+  //get the recipe to calculate maximum no of fooditems that could be prepared
   $.ajax({
     type: "POST",
     url: "../../../../controller/menu_controller.php?status=get-Recipe-To-Calculate-Available-Qty",
@@ -413,21 +409,20 @@ function increasefooditemCounter(button, fooditem_id) {
       var itemavailableqty = [];
 
       for (var i = 0; i < response.length; i++) {
-     
         const requiredqtyfactor = response[i].factor;
         const requiredqtyG = response[i]["qty_required(g)"];
         const requiredqtyML = response[i]["qty_required(ml)"];
         const remainingqtyG = response[i]["remaining_qty(g)"];
         const remainingqtyML = response[i]["remaining_qty(ml)"];
 
-        //check if the ingredient is solid or liquid and calulate with grams or ml  
+        //check if the ingredient is solid or liquid and calulate with grams or ml
         if (requiredqtyfactor <= 7) {
           itemavailableqty.push(Math.floor(remainingqtyG / requiredqtyG));
         } else {
           itemavailableqty.push(Math.floor(remainingqtyML / requiredqtyML));
         }
       }
-//get the maximum no of food items that could be prepared by getting the lowest no in the array to decided the maximum no of items that could be prepared
+      //get the maximum no of food items that could be prepared by getting the lowest no in the array to decided the maximum no of items that could be prepared
       var maxItemQty = Math.min.apply(Math, itemavailableqty);
       maxItemQty = parseInt(maxItemQty);
       x = parseInt($(inputElement).val());
@@ -442,7 +437,7 @@ function increasefooditemCounter(button, fooditem_id) {
 }
 
 function decreaseCounter(button) {
-  // this function reduces the quantity value 
+  // this function reduces the quantity value
   var inputElement = button.parentNode.nextElementSibling;
   x = parseInt($(inputElement).val());
   if (x > 0) {
@@ -452,7 +447,6 @@ function decreaseCounter(button) {
   $(inputElement).val(x);
   calculateDiscountOnquantityChange();
 }
-
 
 function removeItem(deletebtn) {
   // remove item from the cart
@@ -486,11 +480,11 @@ function showDiscountInput() {
     RemoveDiscount();
   }
 }
-//initialize sum as a global value to store the value and display it 
+//initialize sum as a global value to store the value and display it
 var sum = 0;
 
 function updateTotal(btn, operation) {
-  //get price per item from the btn element 
+  //get price per item from the btn element
   var priceperitem = $(btn)
     .closest(".fooditemRow")
     .find(".pricePeritem")
@@ -531,7 +525,7 @@ function removepricefromtotal(fooditemrow) {
 }
 
 function calculatediscount(input) {
-  //calulate the discount from the total and display the total on keyup 
+  //calulate the discount from the total and display the total on keyup
   $(input).on("keyup", function () {
     discount = $(this).val();
     if (discount > 100) {
@@ -556,36 +550,29 @@ function calculateDiscountOnquantityChange() {
     } else if (isNaN(discount)) {
       $(this).val(""); // Clear the input if the entered value is not a number
     }
-    console.log(discount);
     discountamount = (sum * discount) / 100;
-    console.log("discount is :" + discountamount);
     var sum2 = sum - discountamount;
     displayTotal(sum2);
   }
 }
-///start from here
+
 function RemoveDiscount() {
   discount = 0;
-  console.log(discount);
   discountamount = (sum * discount) / 100;
-  console.log("discount is :" + discountamount);
   var sum2 = sum - discountamount;
   displayTotal(sum2);
 }
 
 function getcustomerdetails() {
-  console.log("fetching");
+  // this function gets customer details by using the phone number as a key to fetch details if a user is already a customer and auto fills the details in the customer details input fields to sell
   var customerNo = $("#customerCno").val();
 
-  console.log(customerNo);
   $.ajax({
     type: "POST",
     url: "../../../../controller/customer_controller.php?status=get-customer-details",
     data: { customerNo: customerNo },
     dataType: "JSON",
     success: function (response) {
-      console.log(response);
-
       var customer_number = response.contact_number;
       var customer_id = response.customer_id;
       var customerFName = response.customer_fname;
@@ -606,6 +593,7 @@ function getcustomerdetails() {
     },
   });
 }
+
 function getavailableitemqty(fooditem_id, card) {
   $.ajax({
     type: "POST",
@@ -613,53 +601,54 @@ function getavailableitemqty(fooditem_id, card) {
     data: { food_id: fooditem_id },
     dataType: "JSON",
     success: function (response) {
-      console.log(response);
       calculatefooditemavailabilqty(response, card);
     },
   });
 }
+
 function calculatefooditemavailabilqty(response, card) {
+  // create an array to store all the maximum divisions of the required ingredients quantities and remianing ingredients quantites
   var itemavailableqty = [];
   for (var i = 0; i < response.length; i++) {
     var fooditem_id = response[i].food_itemId;
-    var ing_id = response[i].ing_id;
     var requiredqtyfactor = response[i].factor;
     var requiredqtyG = response[i]["qty_required(g)"];
     var requiredqtyML = response[i]["qty_required(ml)"];
     var remainingqtyG = response[i]["remaining_qty(g)"];
     var remainingqtyML = response[i]["remaining_qty(ml)"];
 
+    //check if the ingredient is solid or liquid and calulate with grams or ml
     if (requiredqtyfactor <= 7) {
       itemavailableqty.push(Math.floor(remainingqtyG / requiredqtyG));
     } else {
       itemavailableqty.push(Math.floor(remainingqtyML / requiredqtyML));
     }
-    // console.log("ing_id[" + i + "]: " + ing_id + "food Id = " + fooditem_id +  "required quantity factor ="+ requiredqtyfactor
-    // + "required qty g ="+requiredqtyG + "required qty ml ="+requiredqtyML +"remaining g="+remainingqtyG +"remianing ml"+remainingqtyML);
   }
-  var minitemavailableqty = Math.min.apply(Math, itemavailableqty);
-  displayfooditemavailableQty(fooditem_id, minitemavailableqty, card);
+  //get the maximum no of food items that could be prepared by getting the lowest no in the array to decided the maximum no of items that could be prepared
+
+  var itemavailableqty = Math.min.apply(Math, itemavailableqty);
+  displayfooditemavailableQty(fooditem_id, itemavailableqty, card);
 }
-function displayfooditemavailableQty(fooditem_id, minitemavailableqty, card) {
-  console.log(card);
+
+function displayfooditemavailableQty(fooditem_id, itemavailableqty, card) {
+  //this function displays the maximum possible no of food items that could be prepared with the remaining ingredients
   card.each(function () {
     var foodcard_id = card.find(".food_ids").val();
     if (foodcard_id == fooditem_id) {
       $(this)
         .find(".availableQty")
-        .html("Available :" + minitemavailableqty);
+        .html("Available :" + itemavailableqty);
     }
   });
 }
 function placeOrder() {
-  var fooditemqtyselected = $(".foodItemqty").val();
-  var fooditemsinCart = $(".food_item_name");
-  var customerFName = $("#customerFName").val();
+  const fooditemsinCart = $(".food_item_name");
+  const customerFName = $("#customerFName").val();
 
   if (fooditemsinCart.length === 0) {
-    alert("Please add a food item!");
+    Swal.fire("Add a food item first !");
   } else if (customerFName === "") {
-    alert("Please enter the customer's first name!");
+    Swal.fire("Enter the customer's first name !");
   } else {
     var hasZeroQuantity = false;
 
@@ -669,27 +658,22 @@ function placeOrder() {
       // Check if the quantity is 0
       if (parseInt(quantity) === 0) {
         hasZeroQuantity = true;
-        return false; // Break out of the loop early since we already found one with 0 quantity
+        return false; // Break out of the loop early if there is an item with the quantity that is equal to 0
       }
     });
-
+    //if the quantity is less than 0 alert a msg
     if (hasZeroQuantity) {
-      alert("Add quantities to all items in the cart");
+      Swal.fire("Add quantities to all items in the cart");
     } else {
-      var customer_id = $("#customer_id").val();
-      var customerLname = $("#customerLName").val();
-      var customerEmail = $("#customerEmail").val();
-      var customercontactNo = $("#customerCno").val();
+      //else get the details to place the order
+      const customer_id = $("#customer_id").val();
+      const customerLname = $("#customerLName").val();
+      const customerEmail = $("#customerEmail").val();
+      const customercontactNo = $("#customerCno").val();
       var foodItemsList = $(".foodRow").toArray();
       var itemList = $(".itemRow").toArray();
-      var total = $("#totalAmount").text();
-      var customerdetails = [
-        $("#customer_id").val(),
-        $("#customerFName").val(),
-        $("#customerLName").val(),
-        $("#customerEmail").val(),
-        $("#customerCno").val(),
-      ];
+
+      //push the items in the cart to the item array
       var items = [];
       var discount = $(".discountinput").val();
       for (var i = 0; i < itemList.length; i++) {
@@ -701,6 +685,7 @@ function placeOrder() {
         item.push(itemId, qty, priceperitem);
         items.push(item);
       }
+      //push the food items in the cart to the item array
       var fooditems = [];
       for (var i = 0; i < foodItemsList.length; i++) {
         var item = [];
@@ -711,6 +696,7 @@ function placeOrder() {
         item.push(food_itemId, qty, priceperitem);
         fooditems.push(item);
       }
+      //add the customer details or update it if there is any change or just leave it as it is
       $.ajax({
         type: "POST",
         url: "../../../../controller/customer_controller.php?status=add-customer",
@@ -723,19 +709,20 @@ function placeOrder() {
         },
         dataType: "text",
         success: function (response) {
-          console.log(response);
-
-          // Check if there are no problems before calling reduceStock
+          //the response send a message saying succesfully inserted else returns nothing
+          // Check if the response isnt empty before calling reduceStock
           if (response.trim() !== "") {
+            //then call the function to reduce the ingredient stock levels
             reduceStock(foodItemsList, items);
           }
-
-          // Reset form and display
         },
       });
+
       var currentDate = new Date();
       var formattedDate = currentDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
       var currentTime = currentDate.toTimeString().slice(0, 8);
+
+      //place the order
       $.ajax({
         type: "POST",
         url: "../../../../controller/order_controller.php?status=add-order",
@@ -749,6 +736,7 @@ function placeOrder() {
         },
         dataType: "text",
         success: function (response) {
+          // clear all the input fields and values if the order has been added succesfully
           $(
             "#customer_id, #customerFName, #customerLName, #customerEmail, #customerCno"
           ).val("");
@@ -756,7 +744,6 @@ function placeOrder() {
           $("#discountCheckbox").prop("checked", false);
           $("#discountpercentageinput").remove();
           RemoveDiscount();
-
           sum = 0;
           displayTotal(sum);
           showAllOrders();
@@ -764,15 +751,17 @@ function placeOrder() {
       });
     }
   }
+  Swal.fire("Order placed succesfully.");
 }
 
 function reduceStock(foodItems, items) {
+  //loop through the food items to reduce the stock
   for (var i = 0; i < foodItems.length; i++) {
     var foodItem = $(foodItems[i]);
-
     var fooditem_id = foodItem.find(".food_ids").val();
     var fooditemqty = foodItem.find(".foodItemqty").val();
 
+    //send the request to reduce the stock
     $.ajax({
       type: "POST",
       url: "../../../../controller/order_controller.php?status=update-stock",
@@ -781,22 +770,20 @@ function reduceStock(foodItems, items) {
       success: function (response) {},
     });
   }
+
+  //loop through the other items and reduce the stock value
   for (var i = 0; i < items.length; i++) {
     var Item = $(items[i]);
-
     var item_id = Item[0];
     var qty = Item[1];
-
+    //send the request
     $.ajax({
       type: "POST",
       url: "../../../../controller/order_controller.php?status=update-other-items-stock",
       data: { item_id: item_id, qty: qty },
       dataType: "text",
-      success: function (response) {
-        console.log(response);
-      },
+      success: function (response) {},
     });
-    console.log(item + "qty:" + qty);
   }
 }
 
@@ -856,12 +843,11 @@ function showAllOrders() {
         }
       }
     },
-    // console.log(response);
-    ///goot the processing order data
   });
 }
 
 function getorderDetails(order_id, orderStatusId) {
+  //get order details to display details in the placed order modal
   var orderStatusId = orderStatusId;
   console.log("getting  id ---->", orderStatusId);
   $.ajax({
@@ -870,33 +856,31 @@ function getorderDetails(order_id, orderStatusId) {
     data: { order_id: order_id },
     dataType: "JSON",
     success: function (response) {
-      console.log("succccc", response);
       displayOrderDetails(response, order_id, orderStatusId);
     },
   });
-
-  console.log(order_id);
 }
+
 function displayOrderDetails(orderDetails, order_id, orderStatusId) {
   var statusId = orderStatusId;
-  console.log("details adas", statusId);
+
   if (statusId !== 1) {
-    console.log("cccccccccc", orderDetails);
     var modalBody = $("#order-details-modal-body");
     modalBody.empty();
-    sum = 0;
+    var total = 0;
     var orderIdInput = $(
       '<input type="hidden" id="order-id" value="' + order_id + '">'
     );
+    //create a table with the order details
     var table =
       '<table class="table table-bordered"><thead><tr><th>#</th><th>Food Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
     for (var i = 0; i < orderDetails.length; i++) {
-      var foodname = orderDetails[i].item_name;
-      var pricePeritem = orderDetails[i].unit_price;
-      var priceAfterDiscount = parseInt(orderDetails[i].final_price);
-      var quantity = orderDetails[i].quantity;
-      var discount = orderDetails[i].discount;
-      sum += priceAfterDiscount;
+      const foodname = orderDetails[i].item_name;
+      const pricePeritem = orderDetails[i].unit_price;
+      const priceAfterDiscount = parseInt(orderDetails[i].final_price);
+      const quantity = orderDetails[i].quantity;
+      const discount = orderDetails[i].discount;
+      total += priceAfterDiscount;
       var itemNumber = i + 1;
       table += "<tr>";
       table += "<td>" + itemNumber + "</td>";
@@ -914,30 +898,43 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
-    table += "<td>" + sum + "</td>";
+    table += "<td>" + total + "</td>";
     table += "</tr>";
-
     table += "</tbody></table>";
     $("#orderDetailsModal").modal("show");
+
+    if (statusId === 3) {
+      //hide the finish order button because the order hasnt been accepted yet
+      $("#finishOrderButton").show();
+      $("#cancelOrderButton").hide();
+    } else if (statusId === 2) {
+      //hide the finish order button and cancel order because the order is being prepared
+      $("#finishOrderButton").hide();
+      $("#cancelOrderButton").hide();
+    }
+
     modalBody.append(orderIdInput, table);
     $(".modal-title").text("Order :" + order_id);
   } else {
-    console.log("cccccccccc", orderDetails);
+    
+    //if the status id is equal to 1 then
     var modalBody = $("#order-details-modal-body");
     modalBody.empty();
-    sum = 0;
+    var total = 0;
     var orderIdInput = $(
       '<input type="hidden" id="order-id" value="' + order_id + '">'
     );
+
     var table =
       '<table class="table table-bordered"><thead><tr><th>#</th><th>Food Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
+
     for (var i = 0; i < orderDetails.length; i++) {
-      var foodname = orderDetails[i].item_name;
-      var pricePeritem = orderDetails[i].unit_price;
-      var priceAfterDiscount = parseInt(orderDetails[i].final_price);
-      var quantity = orderDetails[i].quantity;
-      var discount = orderDetails[i].discount;
-      sum += priceAfterDiscount;
+      const foodname = orderDetails[i].item_name;
+      const pricePeritem = orderDetails[i].unit_price;
+      const priceAfterDiscount = parseInt(orderDetails[i].final_price);
+      const quantity = orderDetails[i].quantity;
+      const discount = orderDetails[i].discount;
+      total += priceAfterDiscount;
       var itemNumber = i + 1;
       table += "<tr>";
       table += "<td>" + itemNumber + "</td>";
@@ -955,49 +952,59 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
-    table += "<td>" + sum + "</td>";
+    table += "<td>" + total + "</td>";
     table += "</tr>";
 
     table += "</tbody></table>";
     $("#orderDetailsModal").modal("show");
+    //hide the finish order button and show the cancel order button because the order hasnt been accepted yet
+    $("#finishOrderButton").hide();
+    $("#cancelOrderButton").show();
     modalBody.append(orderIdInput, table);
     $(".modal-title").text("Order :" + order_id);
   }
 }
 
 function cancelorder() {
-  var order_id = $("#order-id").val();
+  //this function is called to confirm and cancel the order when the cancel order button is clicked
+  const order_id = $("#order-id").val();
   $("#orderDetailsModal").modal("hide");
   $(".confirmationmodal").modal("show");
-  var cancelConfirmationButton = $(".cancel-order-button");
+  const cancelConfirmationButton = $(".cancel-order-button");
+
+  //cancel order after the confirm button has been clicked on the order cancel modal
   cancelConfirmationButton.off().click(function () {
     $.ajax({
       type: "POST",
       url: "../../../../controller/order_controller.php?status=cancel-order",
       data: { order_id: order_id },
       dataType: "JSON",
-      success: function (response) {},
+      success: function (response) {
+        Swal.fire(response);
+      },
     });
 
     $(".confirmationmodal").modal("hide");
     $("#orderDetailsModal").modal("hide");
     showAllOrders();
   });
+  //if the cancel order declines confirmation then close the confirmation modal
   var closeConfirmationModalBtn = $(".close-confirmation-modal-button");
   closeConfirmationModalBtn.off().click(function () {
     $(".confirmationmodal").modal("hide");
     $("#orderDetailsModal").modal("show");
     showAllOrders();
   });
-  console.log(order_id);
 }
 
 function finishorder() {
-  var order_id = $("#order-id").val();
+  //this function completes and finishes the order
+  const order_id = $("#order-id").val();
   $("#orderDetailsModal").modal("hide");
   $(".finishOrderconfirmationmodal").modal("show");
+  const finishOrderConfirmationButton = $(".finishOrderconfirmation-button");
 
-  var finishOrderConfirmationButton = $(".finishOrderconfirmation-button");
+  //closee order after the confirm button has been clicked on the finish order modal
   finishOrderConfirmationButton.off().click(function () {
     $.ajax({
       type: "POST",
@@ -1005,52 +1012,55 @@ function finishorder() {
       data: { order_id: order_id },
       dataType: "JSON",
       success: function (response) {
-        console.log(response);
         $(".finishOrderconfirmationmodal").modal("hide");
         $("#orderDetailsModal").modal("hide");
+        Swal.fire(response);
         getOrderDetailsForInvoice(order_id);
         showAllOrders();
       },
     });
   });
-  var finishOrderConfirmationmodalCloseButton = $(
+
+  const finishOrderConfirmationmodalCloseButton = $(
     ".finishOrderconfirmationmodal-close-button"
   );
+  //close and complete the order when the confirmation button has been clicked
   finishOrderConfirmationmodalCloseButton.off().click(function () {
     $(".finishOrderconfirmationmodal").modal("hide");
     $("#orderDetailsModal").modal("show");
   });
 }
+
 function switchToQuickSell() {
-  var placeOrderBtn = $("#placeOrderBtn");
-  var quickSellBtn = $(
+  //switch the sell button to quick sale instead of place order
+  const placeOrderBtn = $("#placeOrderBtn");
+  const quickSellBtn = $(
     '<button class="btn btn-primary col-md-8" id="QuickSellBtn" onclick="quickSell()">' +
       " <h7>Sell</h7>" +
       "</button>"
   );
-
   $(placeOrderBtn).replaceWith(quickSellBtn);
 }
+
 function switchToOrder() {
-  var quickSellBtn = $("#QuickSellBtn");
-  var placeOrderBtn = $(
+  //switch the sell button to place order instead of quick sale
+  const quickSellBtn = $("#QuickSellBtn");
+  const placeOrderBtn = $(
     '<button class="btn btn-primary col-md-8" id="placeOrderBtn" onclick="placeOrder()">' +
       " <h7>Place Order</h7>" +
       "</button>"
   );
-
   $(quickSellBtn).replaceWith(placeOrderBtn);
 }
 
 function quickSell() {
-  var fooditemqtyselected = $(".foodItemqty").val();
   var fooditemsinCart = $(".food_item_name");
-  var customerFName = $("#customerFName").val();
+  const customerFName = $("#customerFName").val();
 
   if (fooditemsinCart.length === 0) {
-    alert("Please add an item!");
+    Swal.fire("Add a food item first !");
   } else if (customerFName === "") {
-    alert("Please enter the customer's first name!");
+    Swal.fire("Enter the customer's first name !");
   } else {
     var hasZeroQuantity = false;
 
@@ -1060,28 +1070,19 @@ function quickSell() {
       // Check if the quantity is 0
       if (parseInt(quantity) === 0) {
         hasZeroQuantity = true;
-        return false; // Break out of the loop early since we already found one with 0 quantity
+        return false; // Break out of the loop early if there is an item with 0 quantity
       }
     });
 
     if (hasZeroQuantity) {
-      alert("Add quantities to all items in the cart");
+      Swal.fire("Add quantities to all items in the cart");
     } else {
       var customer_id = $("#customer_id").val();
       var customerLname = $("#customerLName").val();
       var customerEmail = $("#customerEmail").val();
       var customercontactNo = $("#customerCno").val();
       var foodItemsList = $(".foodRow").toArray();
-      console.log(foodItemsList);
       var itemList = $(".itemRow").toArray();
-      var total = $("#totalAmount").text();
-      var customerdetails = [
-        $("#customer_id").val(),
-        $("#customerFName").val(),
-        $("#customerLName").val(),
-        $("#customerEmail").val(),
-        $("#customerCno").val(),
-      ];
     }
     var modalBody = $("#sales-details-modal-body");
     modalBody.empty();
@@ -1097,6 +1098,8 @@ function quickSell() {
     var table =
       '<table class="table table-bordered"><thead><tr><th>#</th><th>Item Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
     var i = 0;
+
+    //display food items and other items in the modal to confirm the sale
     foodItemsList.forEach(function (foodItem) {
       var foodname = $(foodItem).find(".food_item_name").text();
       var pricePeritem = $(foodItem).find(".pricePeritem").text();
@@ -1147,8 +1150,8 @@ function quickSell() {
     table += "<td>" + "</td>";
     table += "<td>" + sum + "</td>";
     table += "</tr>";
-
     table += "</tbody></table>";
+
     $("#quickSellmodal").modal("show");
     modalBody.append(table);
     $(".quick-sell-modal-title").empty();
@@ -1158,7 +1161,10 @@ function quickSell() {
       " ",
       customerLname
     );
+
     var modalConfirmSaleBtn = $("#sellButton");
+
+    // store all food items and other items in arrays seperately when the sell button has been clicked to use the data
     modalConfirmSaleBtn.click(function () {
       var items = [];
       var discount = $(".discountinput").val();
@@ -1181,6 +1187,7 @@ function quickSell() {
         item.push(food_itemId, qty, priceperitem);
         fooditems.push(item);
       }
+      //add customer details or update if its already available
       $.ajax({
         type: "POST",
         url: "../../../../controller/customer_controller.php?status=add-customer",
@@ -1193,19 +1200,18 @@ function quickSell() {
         },
         dataType: "text",
         success: function (response) {
-          console.log(response);
-
           // Check if there are no problems before calling reduceStock
           if (response.trim() !== "") {
             reduceStock(foodItemsList, items);
           }
-
-          // Reset form and display
         },
       });
+
       var currentDate = new Date();
       var formattedDate = currentDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
       var currentTime = currentDate.toTimeString().slice(0, 8);
+
+      //send the request to store the data to the db
       $.ajax({
         type: "POST",
         url: "../../../../controller/order_controller.php?status=quick-sell",
@@ -1219,7 +1225,7 @@ function quickSell() {
         },
         dataType: "text",
         success: function (response) {
-          //successsfully inserted sales details
+          //successsfully inserted sales details then reset all the values
           $(
             "#customer_id, #customerFName, #customerLName, #customerEmail, #customerCno"
           ).val("");
@@ -1227,13 +1233,14 @@ function quickSell() {
           $("#discountCheckbox").prop("checked", false);
           $("#discountpercentageinput").remove();
           RemoveDiscount();
-
           sum = 0;
           displayTotal(sum);
           showAllOrders();
           $("#quickSellmodal").modal("hide");
         },
       });
+
+      //get the last inserted sales id to generaete the invoice
       $.ajax({
         type: "GET",
         url: "../../../../controller/order_controller.php?status=get-last-inserted-saleId",
@@ -1247,7 +1254,8 @@ function quickSell() {
 }
 function getSalesDetails(sale_id) {
   var sale_id = parseInt(sale_id);
-  console.log("saleeeeee", sale_id);
+
+  //get sales quick details to generate the invoice
   $.ajax({
     type: "POST",
     url: "../../../../controller/order_controller.php?status=get-quick-sale-details",
@@ -1260,19 +1268,21 @@ function getSalesDetails(sale_id) {
 }
 function getOrderDetailsForInvoice(order_id) {
   var order_id = parseInt(order_id);
+
+  //get order quick details to generate the invoice
   $.ajax({
     type: "POST",
     url: "../../../../controller/order_controller.php?status=get-order-customer-details",
     data: { order_id: order_id },
     dataType: "JSON",
     success: function (response) {
-      console.log(response);
       displayOrderReceiptDetails(response);
     },
   });
 }
+
 function displayOrderReceiptDetails(response) {
-  console.log("hhhh", response);
+  //display order sales receipt details
   var customerAndOrderDetails = response.customerAndOrderDetails;
   var fooditemArray = response.fooditemArray;
   var otheritemArray = response.otheritemArray;
@@ -1327,6 +1337,7 @@ function displayOrderReceiptDetails(response) {
     };
     itemsArray.push(item);
   }
+  //create the invoice content
   var invoice = ` 
  <style>
  body {
@@ -1423,13 +1434,13 @@ ${itemsArray.map(
 </div>
 </div>`;
 
-  console.log("array", itemsArray);
+  //create and open a new window and  write the content into it
   var newWindow = window.open("", "_blank", "width=300,height=300");
   newWindow.document.write(invoice);
 }
 
 function displayReceiptDetails(response) {
-  console.log(response);
+  //display quick sales receipt details
   var customerAndsalesDetails = response.customerAndSalesDetails;
   var fooditemArray = response.fooditemArray;
   var otheritemArray = response.otheritemArray;
@@ -1484,6 +1495,7 @@ function displayReceiptDetails(response) {
     };
     itemsArray.push(item);
   }
+  //create the invoice content
   var invoice = ` 
  <style>
  body {
@@ -1580,13 +1592,13 @@ ${itemsArray.map(
 </div>
 </div>`;
 
-  console.log("array", itemsArray);
+  //create and open a new window and  write the content into it
   var newWindow = window.open("", "_blank", "width=300,height=300");
   newWindow.document.write(invoice);
 }
 $(document).ready(function () {
-  showAllOrders(); //show all placed orders when the page loads 
-  showallItems();//show all items when the page loads
+  showAllOrders(); //show all placed orders when the page loads
+  showallItems(); //show all items when the page loads
   setInterval(function () {
     showAllOrders();
   }, 15000); //call the function every 15seconds

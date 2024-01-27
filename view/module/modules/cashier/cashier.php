@@ -217,7 +217,7 @@ $categoryResult = $menuObj->getcategories();
         <p id="fooditems"></p>
       </div>
       <div class="modal-footer ">
-      <button type="button" class="btn btn-danger" onclick="cancelorder()">Cancel Order</button>
+      <button type="button" class="btn btn-danger" id="cancelOrderButton" onclick="cancelorder()">Cancel Order</button>
       <button type="button" class="btn btn-success" id="finishOrderButton" onclick="finishorder()">Finish Order</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
       </div>

@@ -323,7 +323,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'cancel-order') {
   if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $order_id = $_POST['order_id'];
     $orderObj->cancelOrder($order_id);
-    $response = "cancelled";
+    $response = "Order cancelled successfully";
   }
   header('Content-Type: application/json');
            echo json_encode($response);
@@ -333,7 +333,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'finish-order') {
   if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $order_id = $_POST['order_id'];
     $orderObj->finishOrder($order_id);
-    $response = "finished";
+    $response = "order completed and closed successfully";
   }
   header('Content-Type: application/json');
            echo json_encode($response);
