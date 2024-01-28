@@ -215,7 +215,6 @@ function search() {
       let textValue = match.text().toUpperCase();
 
       if (textValue.indexOf(searchValue) > -1) {
-        console.log("works");
         $(Items[i]).show();
       } else {
         $(Items[i]).hide();

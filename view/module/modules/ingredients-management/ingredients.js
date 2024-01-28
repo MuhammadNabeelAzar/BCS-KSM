@@ -1,4 +1,5 @@
 function search() {
+  //search function
     const searchValue = $("#seachBar").val().toUpperCase();
     const items = $(".list-group-item");
   
@@ -9,7 +10,6 @@ function search() {
         let textValue = match.text().toUpperCase();
   
         if (textValue.indexOf(searchValue) > -1) {
-          console.log("works");
           $(items[i]).show();
         } else {
           $(items[i]).hide();

@@ -158,7 +158,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'delete-category') {
         $menuObj->deletecategory($categoryid);
         $msg = "category deleted Succesfully";
         $msg = base64_encode($msg);
-        header("location:../view/module/admin/menu-management/categories.php?msg=$msg");
+        header("location:../view/module/modules/menu-management/categories.php?msg=$msg");
     } else {
         echo "failed to add category";
     }
@@ -190,7 +190,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'remove-foodItem') {
         $menuObj->deletefooditem($foodid);
         $msg = "$foodname Removed Succesfully";
         $msg = base64_encode($msg);
-        header("location:../view/module/admin/menu-management/categories.php?msg=$msg");
+        header("location:../view/module/modules/menu-management/categories.php?msg=$msg");
     } else {
         echo "failed to remove $foodname";
     }
@@ -245,7 +245,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'set-price') {
         $menuObj->setprice($food_id, $price);
         $msg = "price updated";
         $msg = base64_encode($msg);
-        header("location:../view/module/admin/menu-management/pricing.php?msg=$msg");
+        header("location:../view/module/modules/menu-management/pricing.php?msg=$msg");
     } else {
         echo "error in price";
     }
@@ -259,7 +259,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'set-Item-price') {
         $menuObj->setItemprice($itemId, $price);
         $msg = "price updated";
         $msg = base64_encode($msg);
-        header("location:../view/module/admin/menu-management/pricing.php?msg=$msg");
+        header("location:../view/module/modules/menu-management/pricing.php?msg=$msg");
     } else {
         echo "error in price";
     }

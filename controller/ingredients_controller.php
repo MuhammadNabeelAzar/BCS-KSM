@@ -136,7 +136,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'reset-ingredient-qty') {
         $ingredientObj->resetingredientstock($ing_id);
         $msg="Ingredient qty succesfully resetted!";
         $msg= base64_encode($msg);    
-        header("location:../view/module/admin/ingredients-management/stock.php?msg=$msg");
+        header("location:../view/module/modules/ingredients-management/stock.php?msg=$msg");
     } 
     
 }
@@ -181,7 +181,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
         }
         $msg="Ingredient qty succesfully added!";
         $msg= base64_encode($msg);    
-        header("location:../view/module/admin/ingredients-management/stock.php?msg=$msg");
+        header("location:../view/module/modules/ingredients-management/stock.php?msg=$msg");
         
        } elseif($calculate  === 'subtract'){
         if($factor_Id ==='1'){
@@ -217,7 +217,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
         
         $msg="Ingredient qty succesfully subtracted!";
         $msg= base64_encode($msg);    
-        header("location:../view/module/admin/ingredients-management/stock.php?msg=$msg");
+        header("location:../view/module/modules/ingredients-management/stock.php?msg=$msg");
        }
        else {
         echo "error in calculation selector";

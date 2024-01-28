@@ -125,11 +125,36 @@ class menu
     public function deletecategory($categoryid)
     {
         $con = $GLOBALS["con"];
-        $sql = "DELETE FROM categories WHERE category_id='$categoryid'";
-        $result = $con->query($sql) or die($con->error);
-
-        return $result;
+        
+        // Step 1: Update other_items
+        $sql1 = "UPDATE other_items 
+                 SET category_id = null
+                 WHERE category_id = '$categoryid'";
+    
+        // Step 2: Update food_items
+        $sql2 = "UPDATE food_items 
+                 SET category_id = null
+                 WHERE category_id = '$categoryid'";
+    
+        // Step 3: Delete the category
+        $sql3 = "DELETE FROM categories WHERE category_id='$categoryid'";
+    
+        // Perform the queries within a transaction for atomicity
+        try {
+            $con->begin_transaction();
+    
+            $con->query($sql1) or die($con->error);
+            $con->query($sql2) or die($con->error);
+            $con->query($sql3) or die($con->error);
+    
+            $con->commit();
+            return true;
+        } catch (Exception $e) {
+            $con->rollback();
+            return false;
+        }
     }
+    
     public function deletefooditem($foodid)
     {
         $con = $GLOBALS["con"];

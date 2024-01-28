@@ -1,24 +1,18 @@
 function deactivatefoodItem(button){
-    console.log("here");
-    var food_id = $(button).data('foodid');
+//this deactivates  the food item tempararily to disable sales of the item
+const food_id = $(button).data('foodid');
+
     $('#confirmdeactivateModal').show('modal');
-    console.log(food_id);
         $('#deactivatebtn').on('click',function(){
             $.ajax({
                 type: "post",
                 url: "../../../../controller/menu_controller.php?status=deactivate-food-availability",
                 data: {food_id:food_id},
                 success: function (response) {
-                    // console.log(food_id);
-                    console.log(response);
+                    $('#confirmdeactivateModal').hide('modal');
+                    Swal.fire("Item deactivated Successfully");
                 },
-                error: function (xhr, status, error) {
-                    // Handle errors here
-                    console.error(error);
-                }
-            });
-            location.reload();
-            $('#confirmdeactivateModal').hide('modal');
+            });  
         });
         $('#closemodalbtn1').on('click',function(){
             $('#confirmdeactivateModal').hide('modal');
@@ -26,10 +20,11 @@ function deactivatefoodItem(button){
         $('#closemodalbtn2').on('click',function(){
             $('#confirmdeactivateModal').hide('modal');
         });
-        
 }
+
 function activatefoodItem(button){
-    var food_id = $(button).data('foodid');
+    //this activates  the food item 
+    const food_id = $(button).data('foodid');
     $('#confirmactivateModal').show('modal');
     $('#activatebtn').on('click',function(){
         $.ajax({
@@ -37,16 +32,10 @@ function activatefoodItem(button){
             url: "../../../../controller/menu_controller.php?status=activate-food-availability",
             data: {food_id:food_id},
             success: function (response) {
-                // console.log(food_id);
-                console.log(response);
+                $('#confirmactivateModal').hide('modal');
+        Swal.fire("Item activated Successfully");
             },
-            error: function (xhr, status, error) {
-                // Handle errors here
-                console.error(error);
-            }
         });
-        location.reload();
-        $('#confirmactivateModal').hide('modal');
     });
     $('#closeActivatemodalbtn1').on('click',function(){
         $('#confirmactivateModal').hide('modal');
@@ -54,10 +43,10 @@ function activatefoodItem(button){
     $('#closeActivatemodalbtn2').on('click',function(){
         $('#confirmactivateModal').hide('modal');
     });
-    
 }
 
 function search() {
+    //search function
     const searchValue = $("#seachBar").val().toUpperCase();
     const cards = $(".card");
   
@@ -68,7 +57,6 @@ function search() {
         let textValue = match.text().toUpperCase();
   
         if (textValue.indexOf(searchValue) > -1) {
-          console.log("works");
           $(cards[i]).show();
         } else {
           $(cards[i]).hide();

@@ -1,20 +1,19 @@
 
     function editIng(ing_id) {
-
+//this function gets the details to display the ingredient details 
         $(document).ready(function () {
-            $('#convertModal').modal('show');
-            var  ingredient_id = ing_id;
+            $('#updatestockModal').modal('show');
+            const  ingredient_id = ing_id;
             $.ajax({
                 type: 'POST',
                 url: '../../../../controller/ingredients_controller.php?status=update-ingredient-qty',
                 data:  { data: ingredient_id},
                 success: function (response){
-                    var ingId = response.ing_id;
-                    var ingName = response.ing_name;
-                    var factorid = response.factor_id;
-                    // var remainingQty = response.remaining_qty;
-                console.log('Remaining Quantity:', ing_id);
-                $('#exampleModalLabel').text('Update ' + ingName);
+                    const ingId = response.ing_id;
+                    const ingName = response.ing_name;
+                    const factorid = response.factor_id;
+
+                $('#modaltitle').text(ingName);
                 $('#ingredient_id').val(ingId);
                 $('#factor_id').val(factorid);
                 }
@@ -23,18 +22,25 @@
     }
 
     function resetstock(){
-        $(document).ready(function () {
-            var ing_id = $('#ingredient_id').val();
-            console.log(ing_id);
-            $.ajax({
-                type: 'POST',
-                url: '../../../../controller/ingredients_controller.php?status=reset-ingredient-qty',
-                data: {ing_id: ing_id},
-                success: function (response){
-                    location.reload();
-                } 
-            })
-        });
+
+      //this function resets the stock value to 0
+      $('#updatestockModal').modal('hide');
+      $('#confirmationModal').modal('show');
+      var confirmBtn = $('#confirmBtn');
+
+      $(confirmBtn).click(function (e) { 
+          var ing_id = $('#ingredient_id').val();
+          console.log(ing_id);
+          $.ajax({
+              type: 'POST',
+              url: '../../../../controller/ingredients_controller.php?status=reset-ingredient-qty',
+              data: {ing_id: ing_id},
+              success: function (response){
+                  location.reload();
+              } 
+          })
+      });
+      
     }
     function search() {
         const searchValue = $("#seachBar").val().toUpperCase();

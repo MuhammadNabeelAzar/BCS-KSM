@@ -38,13 +38,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="#" data-bs-toggle="collapse" data-bs-target="#financialManagementSubMenu">Financial Management</a>
-                <!-- Sublist -->
-                <div id="financialManagementSubMenu" class="collapse">
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="http://localhost/BcsKSM/view/module/modules/financial-management/sales.php">Sales</a></li>
-                    </ul>
-                </div>
+                <a href="http://localhost/BcsKSM/view/module/modules/financial-management/sales.php">Sales</a>
             </li>
             <li class="list-group-item">
                 <a href="http://localhost/BcsKSM/view/module/modules/customer-management/customer.php">Customer Management</a>

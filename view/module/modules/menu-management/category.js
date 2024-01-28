@@ -1,5 +1,6 @@
 function deletecategory(categoryid) {
-    var catId = categoryid;
+    //this function deletes item categories
+    const catId = categoryid;
     
     $(document).ready(function () {
         $('#deleteCategoryModal').modal('show');

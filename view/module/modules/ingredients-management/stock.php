@@ -153,11 +153,11 @@ $ingResult = $ingredientObj->getAllingredients();
     }
     ?>
     </div>
-    <div class="modal fade" id="convertModal" tabindex="-1" role="dialog" aria-labelledby="conversionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updatestockModal" tabindex="-1" role="dialog" aria-labelledby="conversionModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <h5 class="modal-title" id="modaltitle"></h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -190,11 +190,29 @@ $ingResult = $ingredientObj->getAllingredients();
 
 
 
-
+<div class="modal" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmationModalLabel">Are you sure?</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to reset the stock level?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
-    <script type="text/javascript" src="updatestock.js"></script>
+    <script type="text/javascript" src="stock.js"></script>
     
 </body>
 

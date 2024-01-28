@@ -1,4 +1,5 @@
 function setprice(foodid) {
+  //this function gets the details to display on the modal to set the price for a food item
     $(document).ready(function () {
         $('#setpriceModal').modal('show');
         var food_itemId = foodid;
@@ -8,10 +9,9 @@ function setprice(foodid) {
             url: '../../../../controller/menu_controller.php?status=get-foodItem',
             data: { data: food_itemId },
             success: function (response) {
-                var foodname = response.item_name;
-                var foodid = response.food_Id;
-                var price = response.price;
-                console.log(response);
+                const foodname = response.item_name;
+                const foodid = response.food_Id;
+                const price = response.price;
                 $('#exampleModalLabel').text('Set price for ' + foodname);
                 $('#food_id').val(foodid);
                 $('#price').val(price);
@@ -22,7 +22,7 @@ function setprice(foodid) {
     });
 }
 function setItemprice(itemId){
-    console.log("works");
+//this function gets the details to display on the modal to set the price for an other item
     $('#setpriceModal').modal('show');
     $.ajax({
         type: "POST",
@@ -30,11 +30,9 @@ function setItemprice(itemId){
         data: {itemId:itemId},
         dataType: "JSON",
         success: function (response) {
-            console.log(response);
-            var itemName = response.item_name;
-                var itemId = response.item_id;
-                var price = response.price;
-                console.log(response);
+            const itemName = response.item_name;
+            const itemId = response.item_id;
+            const price = response.price;
                 $('#exampleModalLabel').text('Set price for ' + itemName);
                 $('#food_id').val(itemId);
                 $('#price').val(price);
@@ -46,6 +44,7 @@ function setItemprice(itemId){
 }
 
 function search() {
+  //search function
     const searchValue = $("#seachBar").val().toUpperCase();
     const cards = $(".card");
   
