@@ -24,6 +24,7 @@
                         <li class="list-group-item"><a href="http://localhost/BcsKSM/view/module/modules/menu-management/recipe.php">Recipes</a></li>
                         <li class="list-group-item"><a href="http://localhost/BcsKSM/view/module/modules/menu-management/pricing.php">Pricing</a></li>
                         <li class="list-group-item"><a href="http://localhost/BcsKSM/view/module/modules/menu-management/availability.php">Availability</a></li>
+                        <li class="list-group-item"><a href="http://localhost/BcsKSM/view/module/modules/menu-management/stock.php">Items Stock</a></li>
                     </ul>
                 </div>
             </li>

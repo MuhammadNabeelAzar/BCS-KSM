@@ -1,22 +1,15 @@
-$(document).on("click", ".form-check-input", function () {
-  var formIngElement = $(this).closest(".form-check");
+function addIngredientsToRecipe(formCheckInput) {
+  //this function adds the ingredient to the recipe
+  const formIngElement = $(formCheckInput).closest(".form-check");
+  //when the ingredients have been checked in the list of available ingredients the function appends it to the container
 
-  if ($(this).is(":checked")) {
+  if ($(formCheckInput).is(":checked")) {
     // Add to the selected-ingredients container
     $("#selected-ingredients").append(formIngElement);
 
     var container = document.createElement("div");
     container.className = "col";
-
-    var formIngID = formIngElement.find('input[type="checkbox"]').val();
-
-    var requiredqty = document.createElement("input");
-    requiredqty.setAttribute("type", "number");
-    requiredqty.setAttribute("placeholder", "required quantity");
-    requiredqty.setAttribute("name", "qtyrequired[]");
-    requiredqty.setAttribute("id", "required_quantity");
-    requiredqty.required = true;
-
+    //creates the factor options(measurement factors for ingredients)
     var factor = document.createElement("select");
     factor.setAttribute("name", "factor[]");
     factor.setAttribute("class", "factor");
@@ -58,63 +51,51 @@ $(document).on("click", ".form-check-input", function () {
     l.text = "l";
     factor.appendChild(l);
 
-    // container.appendChild(requiredqty);
-    // container.appendChild(factor);
-
     formIngElement.append(container);
   } else {
+    //if its not checked then move it back to the list
     moveIngtoOriginalContainer(formIngElement);
   }
-});
+}
 function moveIngtoOriginalContainer(formIngElement) {
+  //this function moves the ingredient back to the list
   removeIngredientmodalpopup();
   // Add an event listener to the button inside the popup
   $("#removeIngBtn").on("click", function () {
     // Move to the original container
     formIngElement.appendTo("#list");
-    $("#list .qtyrequired").hide();
-    $("#list [id^=factorSelect]").hide();
+    $("#list .qtyrequired").hide(); //hide the requiredqty  input  field
+    $("#list [id^=factorSelect]").hide(); //hide the factor options field
 
     // Hide the modal
     $("#removeIngredientModal").modal("hide");
   });
 }
-function submitValidation() {
-  // Check if at least one checkbox is checked
-  var selectedIngredients = $(".form-check-input:checked");
 
-  if (selectedIngredients.length > 0) {
-    // Ingredients are selected, allow form submission
-    return true;
-  } else {
-    // No checkboxes are checked, show an error message
-    alert("Please select at least one ingredient.");
-    return false; // Prevent form submission
-  }
-}
-// Function to move checked ingredients to the selected-ingredients container
 function moveCheckedIngredients() {
+  // Function to move checked ingredients to the selected-ingredients container(The ingredients that are already present in the recipe)
   $(".form-check-input:checked").each(function () {
-    var formIngElement = $(this).closest(".form-check");
+    const formIngElement = $(this).closest(".form-check");
 
     // Move to the selected-ingredients container
     $("#selected-ingredients").append(formIngElement);
 
     // Create and append the quantity and factor inputs
-    var container = document.createElement("div");
+    let container = document.createElement("div");
     container.className = "col";
 
     formIngElement.append(container);
   });
 }
 
-// Move checked ingredients on page load
 $(document).ready(function () {
+  // Move checked ingredients on page load
   $("[id^=factorSelect]").hide();
   $(".qtyrequired").hide();
   moveCheckedIngredients();
   $("#selected-ingredients [id^=factorSelect]").show();
   $("#selected-ingredients .qtyrequired").show();
+  removeIngredientmodalpopup();
 });
 
 $(document).on("click", ".form-check-input", function () {
@@ -123,8 +104,10 @@ $(document).on("click", ".form-check-input", function () {
 });
 
 function getRecipe() {
+  //this function gets all the ingredients and other details of the recipe
+
   // Retrieve the food ID from the hidden input field
-  var foodId = $("#food_id").val();
+  const foodId = $("#food_id").val();
 
   // Make an AJAX request to get the recipe
   $.ajax({
@@ -136,33 +119,27 @@ function getRecipe() {
     dataType: "json",
     success: function (response) {
       if (response.status === "success") {
-        // Handle the successful response
-        console.log("Recipe data:", response.data);
-        // Do something with the data (e.g., update the UI)
+  
       } else {
         // Handle the error response
-        console.error("Error:", response.message);
+        Swal.fire("Error:", response.message);
       }
-    },
-    error: function (xhr, status, error) {
-      // Handle errors here
-      console.error("AJAX Error:", error);
     },
   });
 }
 
 $(document).ready(function () {
-  getRecipe();
+  getRecipe(); //call the function on page load
 });
 
 function removeIngredientmodalpopup() {
+  // this opens a confirmation modal to remove an ingredient from the recipe
   $(".specific-checkbox").on("change", function () {
     //get the required quantity value
-    var qtyrequired = $(this).closest(".form-check").find(".qtyrequired");
+    const qtyrequired = $(this).closest(".form-check").find(".qtyrequired");
 
     if (!$(this).prop("checked")) {
       var ingId = qtyrequired.closest(".form-check").find("#ing_id").val();
-      console.log(ingId);
       $("#removeIngredientModal").modal("show");
       $("#ingId").val(ingId);
       $(".ing-list .qtyrequired").val("");
@@ -170,15 +147,10 @@ function removeIngredientmodalpopup() {
   });
 }
 
-// Call the function when the document is ready
-$(document).ready(function () {
-  removeIngredientmodalpopup();
-});
+function removeingHandler() {
+  //get the ing id and make the call
+  const ingId = $("#ingId").val();
 
-function removeingHandler(button) {
-  var ingId = $("#ingId").val();
-
-  console.log(ingId);
   //send the request to the controller to remove the ingredient
   $.ajax({
     type: "POST",
@@ -187,30 +159,30 @@ function removeingHandler(button) {
       ingId,
     data: { data: ingId },
     success: function (response) {
-      console.log("request succesful");
+      Swal.fire("Ingredient removed successfully!");
     },
     error: function (xhr, status, error) {
       // Handle errors here
-      console.error("AJAX Error:", error);
+      Swal.fire("AJAX Error:", error);
     },
   });
   $("#removeIngredientModal").modal("hide");
 }
+
 function closeRemoveIngmodal(button) {
+  //this is the close modal function if the remove ingredient hasnt been confirmed 
   $("#removeIngredientModal").modal("hide");
   $('#selected-ingredients input[type="checkbox"]').prop("checked", true);
 }
-function qtyrequiredDecimalConstraint(){
- var qtyrequired  = document.getElementsByClassName('qtyrequired');
-}
 
 function search() {
+  //search function
   const searchValue = $("#seachBar").val().toUpperCase();
   const Items = $(".list-group-item");
 
   for (var i = 0; i < Items.length; i++) {
     let match = $(Items[i]).find("p");
-    
+
     if (match.length > 0) {
       let textValue = match.text().toUpperCase();
 

@@ -1,30 +1,34 @@
 $(document).ready(function () {
   getAllOrders();
   setInterval(function () {
-    getAllOrders();
+    getAllOrders(); //call this function every 15 sec to refresh orders
   }, 15000);
 });
+
 function getAllOrders() {
+  //this gets all the order details
   $.ajax({
     type: "GET",
     url: "../../../../controller/order_controller.php?status=get-processing-orders",
     dataType: "json",
     success: function (response) {
-      displayAllOrders(response);
+      displayAllOrders(response); //pass it down to display 
     },
   });
 }
 
 function displayAllOrders(response) {
-  var orderDiv = $(".orders");
+//The function that displays all the existing orders
+  const orderDiv = $(".orders");//order div
   orderDiv.empty();
+  // loop through the orders and seperate items 
   for (var orders in response) {
     count = 0;
-    var order = response[orders];
+    const order = response[orders];
     var fooditemRow = [];
     for (var i = 0; i < order.length; i++) {
       count++;
-      var fooditemName = order[i].item_name;
+      const fooditemName = order[i].item_name;
       var customerName= order[i].customer_fname + " "+ order[i].customer_lname;
       var orderId = order[i].order_id;
       var status_id = order[i].status_id;
@@ -40,8 +44,7 @@ function displayAllOrders(response) {
           "</p></div>" +
           "</div>"
       );
-      fooditemRow.push(fooditemrow);
-      console.log("here", order);
+      fooditemRow.push(fooditemrow); //push the created item row 
     }
 
     var Ordercard = $(
@@ -60,6 +63,7 @@ function displayAllOrders(response) {
         " </div>" +
         "</div>"
     );
+    //these are the controlleing buttons for each order (accept and mark as ready) they display depending on the order status
     if (status_id === "1") {
       var orderControlButton = Ordercard.find(".orderControlButtonDiv").append(
         ' <button type="button" class="btn btn-primary" onclick="acceptOrder(' +
@@ -82,11 +86,11 @@ function displayAllOrders(response) {
       Ordercard.find(".fooditemDetails").append(fooditemRow);
     });
     orderDiv.append(Ordercard);
-    console.log(fooditemRow);
   }
 }
 
 function acceptOrder(orderId) {
+  //this is the ajax call to mark the order as accepted
   $.ajax({
     type: "POST",
     url: "../../../../controller/order_controller.php?status=accept-order",
@@ -100,9 +104,11 @@ function acceptOrder(orderId) {
 }
 
 function markOrderAsReady(orderId) {
+  // A confirmation modal is opened to confirm  that the user wants to set this order as ready
   $(".markOrderAsReadyConfirmationModal").modal("show");
   $(".modal-title").text("Order Id :" + " " + orderId);
-  var confirmBtn = $("#orderReadyConfirmButton");
+  const confirmBtn = $("#orderReadyConfirmButton");
+  //then when the confirm  button is clicked the order is marked as ready
   confirmBtn.click(function () {
     $.ajax({
       type: "POST",
@@ -110,7 +116,6 @@ function markOrderAsReady(orderId) {
       data: { order_id: orderId },
       dataType: "JSON",
       success: function (response) {
-        console.log(response);
         $(".markOrderAsReadyConfirmationModal").modal("hide");
         getAllOrders();
       },

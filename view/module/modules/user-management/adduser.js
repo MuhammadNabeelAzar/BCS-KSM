@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    var addUserButton = document.getElementById('adduserButton'); //retrieving the add user button by its id
+    var addUserButton = document.getElementById('adduserButton'); //gets the add user button by its id
     var adduserModal = new bootstrap.Modal(document.getElementById('add-userModal')); // adduser modal 
     var errormsg = document.getElementById('response'); // getting the div id to display the error msg
 
@@ -30,23 +30,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     var responseData = JSON.parse(xhr.responseText);
 
                     if (responseData.status === 'success') {
-                        // If PHP validation succeeds, display a success message
-                        alert(''+ responseData.message);
-
+                        // If the user is added successfully display the message
+                        Swal.fire(''+ responseData.message);
                         // Close the modal
                         adduserModal.hide();
                     } else if (responseData.status === 'error') {
                         // If PHP validation fails, display an error message
-                        errormsg.innerHTML = responseData.message;
+                        Swal.fire(''+ responseData.message);
                         // Keep the modal open
                     }
                 } catch (error) {
-                    alert('Enter your details in the form ! ');
+                    Swal.fire('Enter your details in the form ! ');
                 }
             }
         };
-
-        // Sends the form data to the PHP validation script
+        // Sends the form data to the controller
         xhr.send(formData);
     }
 });

@@ -280,11 +280,8 @@ if (
         $msg = "recipie added";
         $food_id = base64_encode($food_id);
         $msg = base64_encode($msg);
-        header("location:../view/module/admin/menu-management/add-recipe.php?msg=$msg&foodId=$food_id");
-    } else {
-        echo "error in addin recipe";
+        header("location:../view/module/modules/menu-management/add-recipe.php?msg=$msg&foodId=$food_id");
     }
-
 }
 
 
@@ -467,15 +464,15 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-Recipe-To-Calculate-Avail
 
             if($operator === 'add'){
                 $menuObj->addstock($item_Id,$quantity);
-                $msg = "Increased stock";
+                $msg = "Increased stock successfully";
             } else {
                 $menuObj->reduceStock($item_Id, $quantity);
-                $msg = "Reduced stock";
+                $msg = "Reduced stock successfully";
             }
     
             
             $msg = base64_encode($msg);
-        header("location:../view/module/admin/menu-management/stock.php?msg=$msg");
+        header("Location: http://localhost/BcsKSM/view/module/modules/menu-management/stock.php?msg=$msg");
         } 
     
     }
@@ -519,7 +516,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-Item') {
             $menuObj->addItem($itemName, $itemDescription, $path, $categoryId);
             $msg = "Item added successfully!";
             $msg = base64_encode($msg);
-            header("location:../view/module/admin/menu-management/items.php?msg=$msg");
+            header("http://localhost/BcsKSM/view/module/modules/menu-management/items.php?msg=$msg");
         
     }
 }

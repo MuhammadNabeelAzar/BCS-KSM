@@ -31,6 +31,7 @@ if (isset($_GET['foodId'])) {
 
 <head>
     <title>Restaurant Management System</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
@@ -194,7 +195,7 @@ if (isset($_GET['foodId'])) {
                                         <div class="form-check form-check-inline ml-1" id="checkitem">
                                             <input type="hidden" value="<?php echo $ing_id; ?>" id="ing_id" name="ing_id[]">
                                             <input class="form-check-input specific-checkbox " type="checkbox" value="<?php echo $ing_id; ?> "
-                                                name="ingidcheck" id="selectedIngs" <?php echo in_array($ing_id, $selected_ingredients) ? 'checked' : ''; ?>>
+                                               onclick="addIngredientsToRecipe(this)" name="ingidcheck" id="selectedIngs" <?php echo in_array($ing_id, $selected_ingredients) ? 'checked' : ''; ?>>
                                             <p>
                                                 <?php echo $ingrow['ing_name']; ?>
                                             </p>
@@ -212,7 +213,7 @@ if (isset($_GET['foodId'])) {
                                     
                                             } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '2') {
                                                 $quantity = $selected_quantitiesg[$ing_id] ?? '';
-                                                $quantity = $quantity / 1000; // Convert grams to kilograms
+                                                $quantity = number_format($quantity / 1000,3); // Convert grams to kilograms
                                     
                                             } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '3') {
                                                 $quantity = $selected_quantitiesg[$ing_id] ?? '';
@@ -334,8 +335,8 @@ if (isset($_GET['foodId'])) {
         <p>Confirming this will remove the ingredient</p>
       </div>
       <div class="modal-footer">
-        <button id="removeIngBtn" onclick=" removeingHandler(this)" type="button" class="btn btn-danger">Remove</button>
-        <button type="button" onclick=" closeRemoveIngmodal(this)" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="removeIngBtn" onclick=" removeingHandler()" type="button" class="btn btn-danger">Remove</button>
+        <button type="button" onclick=" closeRemoveIngmodal()" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
