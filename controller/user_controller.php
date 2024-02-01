@@ -7,8 +7,8 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-user') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Getting the user details from the add-user form
         $firstname = $_POST['Fname'];
-        $lastname = $_POST['Lname']; 
-        $email = $_POST['Email'];     
+        $lastname = $_POST['Lname'];
+        $email = $_POST['Email'];
         $nic = $_POST['Unic'];
         $dob = $_POST['Userdob'];
         $cno = $_POST['Contact'];
@@ -33,7 +33,11 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-user') {
                 throw new Exception("Invalid NIC format!");
             }
 
-            $userObj->addUser($firstname, $lastname, $dob, $email, $nic, $cno, $role,);
+            $user_id = $userObj->addUser($firstname, $lastname, $dob, $email, $nic, $cno, $role, );
+            if ($user_id) {
+                $nic = password_hash($nic, PASSWORD_DEFAULT);
+                $userObj->addUserLogin($email, $nic, $user_id);
+            }
         } catch (Exception $ex) {
             $response = array('status' => 'error', 'message' => $ex->getMessage());
         }
@@ -41,23 +45,23 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-user') {
         // Send the response as JSON
         header('Content-Type: application/json');
         echo json_encode($response);
-         
-        
-    }  
-          
-    
+
+
+    }
+
+
 
 }
 if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Getting the user details from the add-user form
         $firstname = $_POST['users_fname'];
-        $lastname = $_POST['users_lname']; 
-        $email = $_POST['users_email'];     
+        $lastname = $_POST['users_lname'];
+        $email = $_POST['users_email'];
         $nic = $_POST['users_nic'];
         $dob = $_POST['users_dob'];
         $cno = $_POST['users_cno'];
-        $role = $_POST['users_role']; 
+        $role = $_POST['users_role'];
         $user_id = $_POST['user_id'];
         // Data validation before adding the user
 
@@ -77,25 +81,57 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
                 throw new Exception("Invalid NIC format!");
             }
 
-            $userObj->updateUser($firstname, $lastname,$email, $nic,$dob, $cno, $role,$user_id);
-         $msg="User Succesfully updated!";
-        $msg= base64_encode($msg);    
-        header("location:../view/module/admin/user-management/user.php?msg=$msg");     
-    } catch (Exception $ex) 
-    {
-        $msg= $ex ->getMessage();  
-        $msg= base64_encode($msg);
-        header("location:../view/module/admin/user-management/edit-user.php?id=$user_id&msg=$msg"); 
-            
+            $userObj->updateUser($firstname, $lastname, $email, $nic, $dob, $cno, $role, $user_id);
+            $msg = "User Succesfully updated!";
+            $msg = base64_encode($msg);
+            header("location:../view/module/modules/user-management/user.php?msg=$msg");
+        } catch (Exception $ex) {
+            $msg = $ex->getMessage();
+            $msg = base64_encode($msg);
+            header("location:../view/module/modules/user-management/edit-user.php?id=$user_id&msg=$msg");
+
+        }
+
     }
-        
-}  
-}  
+}
 if (isset($_GET['status']) && $_GET['status'] === 'delete-user') {
     $user_id = $_GET['userid'];
     $userObj->removeUser($user_id);
-    $msg="User Successfully Deleted!";
-    $msg= base64_encode($msg);
-    header("location:../view/module/admin/user-management/user.php?msg=$msg");
-}     
+    $msg = "User Successfully Deleted!";
+    $msg = base64_encode($msg);
+    header("location:../view/module/modules/user-management/user.php?msg=$msg");
+}
+if (isset($_GET['status']) && $_GET['status'] === 'verify-password') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $user_id = $_POST['user_id'];
+        $userEnteredPassword = $_POST['current_password'];
+
+        $result = $userObj->getPassword($user_id);
+        $password = $result->fetch_assoc();
+
+        $hashedStoredPassword = $password['login_password'];
+        if (password_verify($userEnteredPassword,$hashedStoredPassword)){
+          $response = true;
+        } else {
+            $response = false;
+        }
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+}
+if (isset($_GET['status']) && $_GET['status'] === 'reset-password') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $user_id = $_POST['user_id'];
+        $new_password = $_POST['new_password'];
+
+        $result = $userObj->resetPassword($user_id,$new_password);
+        if($result) {
+            $response = "Your password reset has been completed succesfully.";
+        } else {
+            $response = "Error in updating your password . Please try again later.";
+        }
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+}
 ?>

@@ -122,7 +122,7 @@ function getRecipe() {
   
       } else {
         // Handle the error response
-        Swal.fire("Error:", response.message);
+        Swal.fire(response);
       }
     },
   });

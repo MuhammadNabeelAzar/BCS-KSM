@@ -17,17 +17,12 @@ switch ($status) {
         $password = $_POST["password"];
         //throw error message if username & password are empty
         try {
-            if ($username === "") {
-                throw new Exception("Username cannot be Empty!");
-            }
-            if ($password === "") {
-                throw new Exception("Password cannot be Empty!");
-            }
+            
           //if details are valid then redirect
             $loginResult = $loginObj->validateLogin($username,$password);
             
-            if ($loginResult->num_rows > 0) {
-                $userrow = $loginResult->fetch_assoc();
+            if ($loginResult) {
+                $userrow = $loginResult;
                 $_SESSION["user"] = $userrow;
                 $roleID = $userrow["role_id"];
                 

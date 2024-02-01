@@ -5,22 +5,21 @@ $menuObj = new menu();
 
 if (isset($_GET['status']) && $_GET['status'] === 'add-category') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Getting the user details from the add-user form
+        // This adds a new category
         $categoryName = $_POST['Category'];
-
 
         $menuObj->addcategory($categoryName);
         $msg = "category added Succesfully";
         $msg = base64_encode($msg);
-        header("location:../view/module/admin/menu-management/categories.php?msg=$msg");
+        header("location:../view/module/modules/menu-management/categories.php?msg=$msg");
     } else {
         echo "failed to add category";
     }
-
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'add-fooditem') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Getting the ingredient details from the add-ingredient form
+        // Getting the ingredient details from the add-food item form
         $itemName = $_POST['food_Name'];
         $itemDescription = $_POST['food_descript'];
         $categoryId = $_POST['categories'];
@@ -45,24 +44,24 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-fooditem') {
                 }
 
             }
+            
             $menuObj->addfoodItem($itemName, $itemDescription, $path, $categoryId);
             $msg = "Item added successfully!";
             $msg = base64_encode($msg);
-            header("location:../view/module/admin/menu-management/items.php?msg=$msg");
-
-
+            header("location:../view/module/modules/menu-management/items.php?msg=$msg");
 
         } catch (Exception $ex) {
             $msg = $ex->getMessage();
             $msg = base64_encode($addmsg);
-            header("location:../view/module/admin/menu-management/items.php?addmsg=$msg");
+            header("location:../view/module/modules/menu-management/items.php?addmsg=$msg");
         }
     }
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'edit-fooditem') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Getting the ingredient details from the add-ingredient form
-        $foodId = $_POST['food_id'];
+        // This function is to edit the details of the food items
+        $foodId = (isset($_GET['foodItemId']));
         $itemName = $_POST['food_Name'];
         $itemDescription = $_POST['food_descript'];
         $categoryId = $_POST['category'];
@@ -92,22 +91,21 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-fooditem') {
             $msg = base64_encode($msg);
             $foodid = $foodId;
             $foodid = base64_encode($foodid);
-            header("location:../view/module/admin/menu-management/edit-foodItems.php?msg=$msg&foodId=$foodid");
-
-
+            header("location:../view/module/modules/menu-management/edit-foodItems.php?msg=$msg&foodId=$foodid");
 
         } catch (Exception $ex) {
             $msg = $ex->getMessage();
             $msg = base64_encode($msg);
             $foodid = $foodId;
             $foodid = base64_encode($foodid);
-            header("location:../view/module/admin/menu-management/edit-foodItems.php?msg=$msg&foodId=$foodid");
+            header("location:../view/module/modules/menu-management/edit-foodItems.php?msg=$msg&foodId=$foodid");
         }
     }
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'edit-otherItem') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Getting the ingredient details from the add-ingredient form
+        // Getting the other item details to edit
         $itemId = $_POST['itemId'];
         $itemName = $_POST['item_Name'];
         $itemDescription = $_POST['item_descript'];
@@ -137,24 +135,21 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-otherItem') {
             $msg = "Item updated successfully!";
             $msg = base64_encode($msg);
             $itemId = base64_encode($itemId);
-            header("location:../view/module/admin/menu-management/edit-otherItems.php?msg=$msg&itemId=$itemId");
-
-
+            header("location:../view/module/modules/menu-management/edit-otherItems.php?msg=$msg&itemId=$itemId");
 
         } catch (Exception $ex) {
             $msg = $ex->getMessage();
             $msg = base64_encode($msg);
             $itemId = base64_encode($itemId);
-            header("location:../view/module/admin/menu-management/edit-otherItems.php?msg=$msg&itemId=$itemId");
+            header("location:../view/module/modules/menu-management/edit-otherItems.php?msg=$msg&itemId=$itemId");
         }
     }
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'delete-category') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Getting the user details from the add-user form
+        // Getting the category id to remove the category id
         $categoryid = $_POST['categoryId'];
-
-
         $menuObj->deletecategory($categoryid);
         $msg = "category deleted Succesfully";
         $msg = base64_encode($msg);
@@ -162,31 +157,61 @@ if (isset($_GET['status']) && $_GET['status'] === 'delete-category') {
     } else {
         echo "failed to add category";
     }
-
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'delete-fooditem') {
-    $item_id = base64_decode($_GET['foodId']);
-    $menuObj->removefooditem($item_id);
-    $msg = "food Item deleted Successfully !";
-    $msg = base64_encode($msg);
-    header("location:../view/module/admin/menu-management/items.php?msg=$msg");
+    //deletes a food item
+    $item_id = $_GET['foodId'];
+ 
+    try {
+        $Result = $menuObj->removefooditem($item_id);
+
+        if ($Result) {
+            // Deletion successful
+            $msg = "Food item deleted successfully!";
+            $msg = base64_encode($msg);
+
+            // Redirect to items.php with success message
+            header("location:../view/module/modules/menu-management/items.php?msg=$msg");
+            exit();  // Always exit after sending header to ensure no further output is sent
+        } 
+    } catch (Exception $e) {
+        // Exception occurred, likely due to foreign key constraint in the order table, therefore display the message
+        $msg = "Error: Unable to delete the food item because this item has been sold and deleting it will cause data inconsistencies, therefore please try deactivating this item.";
+        $msg = base64_encode($msg);
+        header("location:../view/module/modules/menu-management/items.php?msg=$msg");
+    }
 }
 
 if (isset($_GET['status']) && $_GET['status'] === 'delete-item') {
+     //deletes an other item
     $itemId = ($_GET['itemId']);
-    $menuObj->deleteitem($itemId);
-    $msg = " Item deleted Successfully !";
-    $msg = base64_encode($msg);
-    header("location:../view/module/admin/menu-management/items.php?msg=$msg");
+    
+    try {
+        $Result = $menuObj->deleteitem($itemId);
+
+        if ($Result) {
+            // Deletion successful
+            $msg = " Item deleted Successfully !";
+            $msg = base64_encode($msg);
+
+            // Redirect to items.php with success message
+            header("location:../view/module/modules/menu-management/items.php?msg=$msg");
+            exit();  // Always exit after sending header to ensure no further output is sent
+        } 
+    } catch (Exception $e) {
+        // Exception occurred, likely due to foreign key constraint in the order table, therefore display the message
+        $msg = "Error: Unable to delete the food item because this item has been sold and deleting it will cause data inconsistencies, therefore please try deactivating this item.";
+        $msg = base64_encode($msg);
+        header("location:../view/module/modules/menu-management/items.php?msg=$msg");
+    }
 }
 
 if (isset($_GET['status']) && $_GET['status'] === 'remove-foodItem') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Getting the user details from the add-user form
-        $foodid = $_POST['HiddenFoodID'];
+        // removes a food item
+        $foodid = $_POST['foodId'];
         $foodname = $_POST['foodname'];
-
-
         $menuObj->deletefooditem($foodid);
         $msg = "$foodname Removed Succesfully";
         $msg = base64_encode($msg);
@@ -221,13 +246,10 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-foodItem') {
 }
 if (isset($_GET['status']) && $_GET['status'] === 'get-Item-details') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //gets item details  for editing purpose
         $Item_id = $_POST['itemId'];
-
-
         $itemNameItemResult = $menuObj->getAnItemDetails($Item_id);
         $itemrow = $itemNameItemResult->fetch_assoc();
-
-
         $response = $itemrow;
 
         header('Content-Type: application/json');
@@ -237,11 +259,12 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-Item-details') {
         echo "failed to retrieve";
     }
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'set-price') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//this sets the price for food items
         $food_id = $_POST['food_id'];
         $price = $_POST['price'];
-
         $menuObj->setprice($food_id, $price);
         $msg = "price updated";
         $msg = base64_encode($msg);
@@ -253,9 +276,9 @@ if (isset($_GET['status']) && $_GET['status'] === 'set-price') {
 }
 if (isset($_GET['status']) && $_GET['status'] === 'set-Item-price') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this sets the price for other items
         $itemId = $_POST['food_id'];
         $price = $_POST['price'];
-
         $menuObj->setItemprice($itemId, $price);
         $msg = "price updated";
         $msg = base64_encode($msg);
@@ -263,12 +286,11 @@ if (isset($_GET['status']) && $_GET['status'] === 'set-Item-price') {
     } else {
         echo "error in price";
     }
-
 }
-if (
-    isset($_GET['status']) && $_GET['status'] === 'add-recipie'
-) {
+
+if ( isset($_GET['status']) && $_GET['status'] === 'add-recipie') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this adds the food items recipe
         $food_id = $_GET['foodId'];
         $food_id = base64_decode($_GET['foodId']);
         $ing_id = $_POST['ing_id'];
@@ -284,9 +306,6 @@ if (
     }
 }
 
-
-
-
 if (isset($_GET['status']) && $_GET['status'] === 'remove-ingredient') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //
@@ -297,9 +316,10 @@ if (isset($_GET['status']) && $_GET['status'] === 'remove-ingredient') {
         $response = "Ingredient removed Succesfully";
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    }
 
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'get-Items') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //
@@ -310,9 +330,10 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-Items') {
         $response = $result->fetch_all(MYSQLI_ASSOC);
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    }
 
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'deactivate-food-availability') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //
@@ -323,9 +344,10 @@ if (isset($_GET['status']) && $_GET['status'] === 'deactivate-food-availability'
         $response = "Food item deactivated Succesfully";
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    }
 
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'activate-food-availability') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //
@@ -336,9 +358,10 @@ if (isset($_GET['status']) && $_GET['status'] === 'activate-food-availability') 
         $response = "Food item deactivated Succesfully";
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    }
 
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
     $food_id = $_GET['foodId'];
     $result = $menuObj->getrecipe($food_id);
@@ -347,11 +370,11 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
         $data = array();
         while ($row = $result->fetch_assoc()) {
             $ingredient = array(
-                'id' => $row['ing_id'],  
-                'ingname' => $row['ing_name'],  
-                'requiredqtyG' => $row['qty_required(g)'],  
-                'requiredqtyMl' => $row['qty_required(ml)'],   
-                
+                'id' => $row['ing_id'],
+                'ingname' => $row['ing_name'],
+                'requiredqtyG' => $row['qty_required(g)'],
+                'requiredqtyMl' => $row['qty_required(ml)'],
+
             );
             $data[] = $ingredient;
         }
@@ -363,161 +386,155 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-recipe') {
         header('Content-Type: application/json');
         echo json_encode($response);
     } else {
-        echo json_encode(array('status' => 'error', 'message' => 'Error in getting recipe'));
+        $response="Recipe not set";
+        echo json_encode($response);
     }
-} 
+}
 
 if (isset($_GET['status']) && $_GET['status'] === 'get-fooditems') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //
+        //gets all the fooditems related to a category
         $category_id = $_POST['category'];
-
         $result = $menuObj->getfoodItemswithcategory($category_id);
-        while($fooditems = $result->fetch_all(MYSQLI_ASSOC)){
+        while ($fooditems = $result->fetch_all(MYSQLI_ASSOC)) {
             $response = $fooditems;
         }
-        
+
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    }
 
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'get-all-fooditems') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //
-       
-
+        //gets all food items
         $result = $menuObj->getfoodItems();
-        while($fooditems = $result->fetch_all(MYSQLI_ASSOC)){
+        while ($fooditems = $result->fetch_all(MYSQLI_ASSOC)) {
             $response = $fooditems;
         }
-        
+
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    }
 
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'get-all-items') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //
-       
-
+        //gets all other items
         $result = $menuObj->getOtherItems();
-        while($items = $result->fetch_all(MYSQLI_ASSOC)){
+        while ($items = $result->fetch_all(MYSQLI_ASSOC)) {
             $response = $items;
         }
-        
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    }
 
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'get-fooditem-details') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //
+        //this gets a specific food item's details
         $foodItem_id = $_POST['food_id'];
 
         $result = $menuObj->getaspecificfoodItem($foodItem_id);
         $foodresult = $result->fetch_assoc();
         $response = $foodresult;
-    
-        
+
         header('Content-Type: application/json');
         echo json_encode($response);
-    } 
+    }
 
 }
 if (isset($_GET['status']) && $_GET['status'] === 'get-Recipe-To-Calculate-Available-Qty') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //
+        //this gets a food items recipe to calculate the maximum amount of food items that could prepared
         $foodItem_id = $_POST['food_id'];
 
         $result = $menuObj->getRecipeToCalculateAvailableQty($foodItem_id);
         $foodresult = $result->fetch_all(MYSQLI_ASSOC);
         $response = $foodresult;
-    
-        
+
         header('Content-Type: application/json');
         echo json_encode($response);
-    } }
-    if (isset($_GET['status']) && $_GET['status'] === 'update-otherItems-stock') {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //
-            $Item_id = $_POST['itemId'];
-    
-            $result = $menuObj->getAnItemDetails($Item_id);
-            $itemResult = $result->fetch_assoc();
-            $response = $itemResult;
-        
-            
-            header('Content-Type: application/json');
-            echo json_encode($response);
-        } 
-    
     }
-    if (isset($_GET['status']) && $_GET['status'] === 'update-item-stock') {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //
-            $item_Id = $_POST['item_id'];
-            $quantity = $_POST['updatestockvalue'];
-            $operator = $_POST['calculation-selector'];
+}
 
-            if($operator === 'add'){
-                $menuObj->addstock($item_Id,$quantity);
-                $msg = "Increased stock successfully";
-            } else {
-                $menuObj->reduceStock($item_Id, $quantity);
-                $msg = "Reduced stock successfully";
-            }
-    
-            
-            $msg = base64_encode($msg);
+if (isset($_GET['status']) && $_GET['status'] === 'update-otherItems-stock') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this updates the stock of other items
+        $Item_id = $_POST['itemId'];
+
+        $result = $menuObj->getAnItemDetails($Item_id);
+        $itemResult = $result->fetch_assoc();
+        $response = $itemResult;
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+}
+
+if (isset($_GET['status']) && $_GET['status'] === 'update-item-stock') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this adds  or subtracts from a food item's stock depending on the calculation selector. 
+        $item_Id = $_POST['item_id'];
+        $quantity = $_POST['updatestockvalue'];
+        $operator = $_POST['calculation-selector'];
+
+        if ($operator === 'add') {
+            $menuObj->addstock($item_Id, $quantity);
+            $msg = "Increased stock successfully";
+        } else {
+            $menuObj->reduceStock($item_Id, $quantity);
+            $msg = "Reduced stock successfully";
+        }
+        $msg = base64_encode($msg);
         header("Location: http://localhost/BcsKSM/view/module/modules/menu-management/stock.php?msg=$msg");
-        } 
-    
     }
-    if (isset($_GET['status']) && $_GET['status'] === 'reset-stock') {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //
-            $item_Id = $_POST['itemId'];
-        
-                $menuObj->resetStock($item_Id);
-                $response = "Resetted stock";
-          
-    
-            
-                header('Content-Type: application/json');
-                echo json_encode($response);
-        } 
-    
+}
+
+if (isset($_GET['status']) && $_GET['status'] === 'reset-stock') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this resets the stock value
+        $item_Id = $_POST['itemId'];
+
+        $menuObj->resetStock($item_Id);
+        $response = "Resetted stock";
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
+
+}
+
 if (isset($_GET['status']) && $_GET['status'] === 'add-Item') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Getting the ingredient details from the add-ingredient form
+        // Getting  item details from  form
         $itemName = $_POST['food_Name'];
-        $itemDescription = $_POST['food_descript']?? '';
-        $categoryId = $_POST['categories']?? 1;
-            $path = ''; // Initialize path as an empty string
+        $itemDescription = $_POST['food_descript'] ?? '';
+        $categoryId = $_POST['categories'] ?? 1;
+        $path = ''; // Initialize path as an empty string
 
-            if ($_FILES["food_image"]["name"]) {
-                // A new image file has been uploaded
-                // Define the uploaded file based on the input field name (food_image)
-                $imgname = time() . "_" . $_FILES["food_image"]["name"];
-                $path = "../images/other_items_img/$imgname";
+        if ($_FILES["food_image"]["name"]) {
+            // A new image file has been uploaded
+            // Define the uploaded file based on the input field name (food_image)
+            $imgname = time() . "_" . $_FILES["food_image"]["name"];
+            $path = "../images/other_items_img/$imgname";
 
-                if (move_uploaded_file($_FILES["food_image"]["tmp_name"], $path)) {
-                    // Image upload was successful
-                } else {
-                    $error = error_get_last();
-                    throw new Exception("Cannot upload due to image upload error: " . $error['message']);
-                }
-
+            if (move_uploaded_file($_FILES["food_image"]["tmp_name"], $path)) {
+                // Image upload was successful
+            } else {
+                $error = error_get_last();
+                throw new Exception("Cannot upload due to image upload error: " . $error['message']);
             }
-            $menuObj->addItem($itemName, $itemDescription, $path, $categoryId);
-            $msg = "Item added successfully!";
-            $msg = base64_encode($msg);
-            header("http://localhost/BcsKSM/view/module/modules/menu-management/items.php?msg=$msg");
-        
+
+        }
+        $menuObj->addItem($itemName, $itemDescription, $path, $categoryId);
+        $msg = "Item added successfully!";
+        $msg = base64_encode($msg);
+        header("http://localhost/BcsKSM/view/module/modules/menu-management/items.php?msg=$msg");
+
     }
 }
 ?>

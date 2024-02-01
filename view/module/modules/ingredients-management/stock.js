@@ -6,7 +6,7 @@
             const  ingredient_id = ing_id;
             $.ajax({
                 type: 'POST',
-                url: '../../../../controller/ingredients_controller.php?status=update-ingredient-qty',
+                url: '../../../../controller/ingredients_controller.php?status=get-ingredient-details',
                 data:  { data: ingredient_id},
                 success: function (response){
                     const ingId = response.ing_id;

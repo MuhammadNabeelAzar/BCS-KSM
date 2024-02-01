@@ -5,7 +5,7 @@ $dashboardObj = new dashboard();
 
 if (isset($_GET['status']) && $_GET['status'] === 'get-all-sold-items') {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        //
+        //gets all the sales items data
 
         $data = $dashboardObj->getAllOrderSalesItems();
         $data2 = $dashboardObj->getAllQuickSalesItems();
@@ -22,7 +22,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-all-sold-items') {
     }
 if (isset($_GET['status']) && $_GET['status'] === 'get-all-sold-categories') {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        //
+        //gets the data of the sold categories
 
         $data = $dashboardObj->getAllOrderSalesCategories();
         $data2 = $dashboardObj->getAllQuickSalesCategories();
@@ -39,14 +39,13 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-all-sold-categories') {
     }
 if (isset($_GET['status']) && $_GET['status'] === 'get-sales-customer-details') {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        //
+        //gets all the sales customer data
 
         $data = $dashboardObj->getAllOrderSalesCustomerDetails();
         $data2 = $dashboardObj->getAllQuickSalesCustomerDetails();
         $orderCustomerAndSalesTimeDetails = $data->fetch_all(MYSQLI_ASSOC);
         $quickCustomerAndSalesTimeDetails = $data2->fetch_all(MYSQLI_ASSOC);
       
-        
 
         $response =  $orderCustomerAndSalesTimeDetails +  $quickCustomerAndSalesTimeDetails;
     
@@ -56,7 +55,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-sales-customer-details') 
     }
 if (isset($_GET['status']) && $_GET['status'] === 'get-ingredients-stock-levels') {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        //
+        //gets all the stock level data of the ingredients
 
         $response = $dashboardObj->getIngredientStockLevels();
     
