@@ -44,6 +44,9 @@
                         <li class="list-group-item"><a
                                 href="http://localhost/BcsKSM/view/module/modules/ingredients-management/stock.php">Stock</a>
                         </li>
+                        <li class="list-group-item"><a
+                                href="http://localhost/BcsKSM/view/module/modules/ingredients-management/stock-refill-pending-requests.php">Stock refill pending requests
+                               </a></li>
                     </ul>
                 </div>
             </li>

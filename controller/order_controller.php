@@ -217,7 +217,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-quick-sale-details') {
     $foodItemFound = false; //set this as false as default
     $otherItemFound = false;//set this as false as default
     foreach ($salesItemsDetailsResult as $foodrow) {
-      if ($foodrow['food_ItemId'] !== null) {
+      if ($foodrow['food_itemId'] !== null) {
         $foodItemFound = true; //returns true if an item has been found to get the details
         break; 
       }

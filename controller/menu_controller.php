@@ -533,7 +533,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-Item') {
         $menuObj->addItem($itemName, $itemDescription, $path, $categoryId);
         $msg = "Item added successfully!";
         $msg = base64_encode($msg);
-        header("http://localhost/BcsKSM/view/module/modules/menu-management/items.php?msg=$msg");
+        header("Location: http://localhost/BcsKSM/view/module/modules/menu-management/items.php?msg=$msg");
 
     }
 }

@@ -170,6 +170,62 @@ class ingredient{
         
         return $result;
     }
+    Public function sendIngredientRefillRequest($ing_id,$quantity,$reason,$factor_id){
+        $con = $GLOBALS["con"];
+        $sql = "INSERT INTO stock_refill_requests (ing_id,quantity,factor_id,reason,request_status,req_date,req_time) 
+        VALUES ('$ing_id', '$quantity', '$factor_id', '$reason', 'pending', CURRENT_DATE, CURRENT_TIME)";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function getAllStockRefillRequests(){
+        $con = $GLOBALS["con"];
+        $sql = "SELECT stock_refill_requests.* ,factors.factor ,factors.factorsf,ingredients.ing_name FROM stock_refill_requests 
+        JOIN factors ON stock_refill_requests.factor_id = factors.factor_id 
+        JOIN ingredients ON stock_refill_requests.ing_id = ingredients.ing_id
+        WHERE request_status NOT IN ('completed', 'cancelled') ORDER BY req_date DESC";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function getPendingStockRefillRequests(){
+        $con = $GLOBALS["con"];
+        $sql = "SELECT stock_refill_requests.* ,factors.factor ,factors.factorsf,ingredients.ing_name FROM stock_refill_requests 
+        JOIN factors ON stock_refill_requests.factor_id = factors.factor_id 
+        JOIN ingredients ON stock_refill_requests.ing_id = ingredients.ing_id
+        WHERE request_status IN ('pending','accepted','completed') ORDER BY req_date DESC";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function acceptRefillRequest($req_id){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE stock_refill_requests SET request_status = 'accepted' WHERE req_id = $req_id";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function closeRefillRequest($req_id){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE stock_refill_requests SET request_status = 'finished' WHERE req_id = $req_id";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function cancelRefillRequest($req_id){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE stock_refill_requests SET request_status = 'cancelled' WHERE req_id = $req_id";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
+    Public function completeRefillRequest($req_id){
+        $con = $GLOBALS["con"];
+        $sql = "UPDATE stock_refill_requests SET request_status = 'completed' WHERE req_id = $req_id";
+        $result = $con->query($sql) or die($con->error);
+        
+        return $result;
+    }
 
 }
 ?>

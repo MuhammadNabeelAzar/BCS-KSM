@@ -143,6 +143,133 @@ if (isset($_GET['status']) && $_GET['status'] === 'reset-ingredient-qty') {
     }
 
 }
+if (isset($_GET['status']) && $_GET['status'] === 'request-stock') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        
+        //this is a request that is sent to the stock manager for a refill of stocks
+        $ing_id = $_POST['ing_id'];
+        $quantity = $_POST['quantity'];
+        $reason = $_POST['reason'];
+        $factor_id = $_POST['factor_id'];
+
+        $result = $ingredientObj->sendIngredientRefillRequest($ing_id,$quantity,$reason,$factor_id);
+
+        if($result){
+            $response  = "Request successful";
+        }else {
+            $response  = "Request unsuccessful.Please try again later !";
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        
+       
+    }
+
+}
+
+if (isset($_GET['status']) && $_GET['status'] === 'accept-refill-requests') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this  accepts the stock refill request
+        $req_id = $_POST['req_id'];
+        $result = $ingredientObj->acceptRefillRequest($req_id);
+        
+        if($result){
+            $response  = "Completed successfully";
+        } else {
+            $response  = "Unable to complete request.";
+        } 
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }  
+}
+if (isset($_GET['status']) && $_GET['status'] === 'cancel-refill-requests') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this  cancels the stock refill request
+        $req_id = $_POST['req_id'];
+        $result = $ingredientObj->cancelRefillRequest($req_id);
+        
+        if($result){
+            $response  = "Request cancelled successfully";
+        } else {
+            $response  = "Unable to cancel request.";
+        } 
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }  
+}
+if (isset($_GET['status']) && $_GET['status'] === 'close-refill-requests') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this  closes and marks the request finished
+        $req_id = $_POST['req_id'];
+        $result = $ingredientObj->closeRefillRequest($req_id);
+        
+        if($result){
+            $response  = "Request closed  successfully.";
+        } else {
+            $response  = "Unable to close request.";
+        } 
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }  
+}
+
+if (isset($_GET['status']) && $_GET['status'] === 'mark-as-ready-refill-requests') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //this marks the stock refill request as completed
+        $req_id = $_POST['req_id'];
+        $result = $ingredientObj->completeRefillRequest($req_id);
+        
+        if($result){
+            $response  = "Completed successfully";
+        } else {
+            $response  = "Unable to complete request.";
+        } 
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }  
+}
+
+if (isset($_GET['status']) && $_GET['status'] === 'get-stock-refill-requests') {
+        
+        //this gets all the pending refill requests
+        $result = $ingredientObj->getAllStockRefillRequests();
+        $Reqresult = $result->fetch_all(MYSQLI_ASSOC);
+        
+        if($Reqresult){
+            $response  =  $Reqresult;
+        }else {
+            $response  = false;
+        } 
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        
+       
+
+}
+if (isset($_GET['status']) && $_GET['status'] === 'get-stock-refill-pending-requests') {
+        
+        //this gets all the pending refill requests
+        $result = $ingredientObj->getPendingStockRefillRequests();
+        $Reqresult = $result->fetch_all(MYSQLI_ASSOC);
+        
+        if($Reqresult){
+            $response  =  $Reqresult;
+        }else {
+            $response  = false;
+        } 
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        
+       
+
+}
 
 if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

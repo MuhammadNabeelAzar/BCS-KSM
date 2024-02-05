@@ -5,7 +5,7 @@ class dbConnection{
     private $hostname = "localhost";
     private $dbusername = "root";
     private $dbpassword = "";
-    private $dbname = "ksmdb";
+    private $dbname = "ksm";
     
     function __construct(){
         

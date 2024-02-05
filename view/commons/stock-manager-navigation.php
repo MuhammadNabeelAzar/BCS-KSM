@@ -17,6 +17,8 @@
                                 href="http://localhost/BcsKSM/view/module/modules/ingredients-management/ingredients.php">Ingredients</a></li>
                         <li class="list-group-item"><a
                                 href="http://localhost/BcsKSM/view/module/modules/ingredients-management/stock.php">Stock</a></li>
+                        <li class="list-group-item"><a
+                                href="http://localhost/BcsKSM/view/module/modules/ingredients-management/stock-refill-request.php">Stock Refill Requests</a></li>
                     </ul>
                 </div>
             </li>

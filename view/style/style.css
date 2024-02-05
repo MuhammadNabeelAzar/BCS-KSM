@@ -1,4 +1,10 @@
-
+*{
+    font-family: 'Roboto', sans-serif;
+}
+body {
+    max-height: 100vh; /* Set maximum height to viewport height */
+    overflow: hidden; /* Disable vertical overflow */
+}
 #password-strength-status {
     font-size: 14px;
     margin-top: 5px;
@@ -14,5 +20,51 @@
 
 .strong-password {
     color: green;
+}
+ .offcanvas-body a {
+    text-decoration: none;
+}
+
+.offcanvas .list-group-item {
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid #001F3F;
+    border-radius: 0.25rem;
+    margin-bottom: 5px;
+}
+
+.offcanvas {
+    margin-top: 70px;
+}
+
+.offcanvas .offcanvas-body a {
+    font-weight: bold;
+}
+
+.offcanvas .people-icon,
+.offcanvas .customer-icon,
+.offcanvas .sales-icon,
+.offcanvas .menu-icon,
+.offcanvas .ingredient-icon,
+.offcanvas .dashboard-icon,
+.offcanvas .order-icon,
+.offcanvas .cashier-icon,
+.offcanvas .home-icon {
+    height: 35px;
+    margin-right: 5px;
+}
+
+.offcanvas .list-group-item {
+    border: none;
+    border-radius: 0;
+}
+
+.offcanvas .list-group-item a {
+    text-decoration: none;
+}
+
+.offcanvas .offcanvas-body a {
+    border-radius: 5px;
+    padding: 2px;
 }
 

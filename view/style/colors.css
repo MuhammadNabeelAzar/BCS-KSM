@@ -1,0 +1,42 @@
+body{
+    background-color:#CEDBDC ;
+}
+.table-header{
+    background-color: #001F3F;
+    color: #FFFFFF;
+}
+.custom-outline-button {
+    color: #001F3F; /* Text color */
+    border-color: #001F3F; /* Outline color */
+}
+
+
+.custom-outline-button:hover {
+    background-color: #001F3F; /* Background color on hover */
+    color: #FFFFFF; /* Text color on hover */
+
+}
+.offcanvas .list-group-item {
+    color: #FFFFFF;
+}
+
+.offcanvas .offcanvas-body a {
+    color: black;
+}
+
+.offcanvas .list-group-item a:hover {
+    background-color: #001F3F;
+    color: white !important;
+}
+
+.offcanvas .sub-item:hover a {
+    background-color: #6789ab;
+    color:black !important;
+}
+
+ .offcanvas {
+    background-color: #CEDBDC;
+}
+
+
+

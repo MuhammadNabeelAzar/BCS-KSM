@@ -12,6 +12,7 @@ $userRoleID = $_SESSION['user']['role_id'];
 include_once '../../../../model/ingredients_model.php';
 $ingredientObj = new ingredient();
 $ingResult = $ingredientObj->getAllingredients();
+$ingfactorResult = $ingredientObj->getfactors();
 ?>
 
 <html>
@@ -19,9 +20,12 @@ $ingResult = $ingredientObj->getAllingredients();
 <head>
     <title>Restaurant Management System</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="../../../style/style.css">
+    <link rel="stylesheet" type="text/css" href="../../../style/colors.css">
 </head>
 
 <body>
@@ -109,9 +113,16 @@ $ingResult = $ingredientObj->getAllingredients();
                     echo intval($remainingNos) ." " . $factorsf ; // Display as an integer
                 }
                 ?></p> 
-                <button type="button" class="btn btn-primary"  id="editremQtybtn" onclick="editIng('<?php echo $ing_id ?>')">
-  Launch demo modal
-    </button></div>
+                <button type="button col" class="btn btn-primary"  id="editremQtybtn" onclick="editIng('<?php echo $ing_id ?>')">
+  Update Quantity
+    </button>
+    <?php
+    // Include the sidebar file
+    if ($userRoleID == 2) { ?>
+      <button type="button col" class="btn btn-primary"  id="reqIngbtn" onclick="requestStock('<?php echo base64_decode($ing_id) ?>', '<?php echo $ingrow['ing_name'] ?>')">
+      Request stock
+        </button> <?php
+    } ?> </div>
             </div>
         </div>
     <?php 
@@ -174,13 +185,52 @@ $ingResult = $ingredientObj->getAllingredients();
     </div>
   </div>
 </div>
+<div class="modal fade" id="stockRequestModal" tabindex="-1" aria-labelledby="stockRequestModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="stockRequestModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Stock Request Form -->
+        <form>
+          
+          <div class="mb-3 row">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control col" id="quantity" required>
+            <select class="forms-select mb-3 col-md-2" id="factors" aria-label="factors" name="factors" required>
+                            <option value="">----</option>
+                            <?php
+                            while ($factorrow = $ingfactorResult->fetch_assoc()) {
+                                ?>
+                                <option id="factor_selected" name="factor_selected" value="<?php echo $factorrow["factor_id"]; ?>" <?php echo (isset($ingredientrow["factor_id"]) && $ingredientrow["factor_id"] == $factorrow["factor_id"]) ? 'selected="selected"' : ''; ?>>
+                                    <?php echo isset($factorrow["factorsf"]) ? $factorrow["factorsf"] : ''; ?>
+                                </option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+          </div>
+          <div class="mb-3">
+            <label for="reason" class="form-label">Reason for Request</label>
+            <textarea class="form-control" id="reason" rows="3" required></textarea>
+          </div>
+          <button type="button" id="requestBtn" class="btn btn-primary">Submit Request</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div
 
-
-    <script type="text/javascript" src="../../../../commons/clock.js"></script>
-    <script type="text/javascript" src="stock.js"></script>
     
 </body>
-
+<script type="text/javascript" src="../../../../commons/clock.js"></script>
+    <script type="text/javascript" src="stock.js"></script>
+    
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>

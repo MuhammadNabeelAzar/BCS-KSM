@@ -19,26 +19,29 @@ function resetPassword(userID, event) {
     dataType: "JSON",
     success: function (response) {
       if (response === true) {
-
+        //if the controller returns  true that means the current password matches then make another request to reset the password
         $.ajax({
           type: "POST",
           url: "../../controller/user_controller.php?status=reset-password",
           data: { user_id: userID, new_password: new_password },
           dataType: "JSON",
           success: function (response) {
-            $("#currentPassword").val('');
-            $("#newPassword").val('');
-            $("#confirmPassword").val('');
-            $("#password-strength-status").text('')
+            $("#currentPassword").val("");
+            $("#newPassword").val("");
+            $("#confirmPassword").val("");
+            $("#password-strength-status").text("");
             Swal.fire(response);
           },
         });
       } else {
-        $(".password-match-status").html("Current password doesnt match !").css({
+        //display the message if the password doesnt match
+        $(".password-match-status")
+          .html("Current password doesnt match !")
+          .css({
             color: "red",
             "font-size": "14px",
           });
-          return false;
+        return false;
       }
     },
   });
