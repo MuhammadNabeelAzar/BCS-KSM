@@ -1,9 +1,30 @@
 *{
     font-family: 'Roboto', sans-serif;
+    ::-webkit-scrollbar {
+        width:10px;
+    }
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey; 
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #766c7f; 
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #001F3F; 
+      }
+      .swal2-popup {
+        background-color: #001F3F;
+        color: white;
+    }
+      
 }
 body {
     max-height: 100vh; /* Set maximum height to viewport height */
     overflow: hidden; /* Disable vertical overflow */
+    margin: 0;
+    padding: 0;
 }
 #password-strength-status {
     font-size: 14px;
@@ -68,3 +89,172 @@ body {
     padding: 2px;
 }
 
+#add-userModal .input-group-text{
+    width:135px;
+    justify-content: center;
+    font-weight: bold;
+}
+#add-userModal,.forms-select{
+    justify-content: end;
+    text-align:center ;
+    font-weight: bold;
+}
+#edit-user-form .input-group-text{
+   width: 135px;
+   justify-content: center;
+    font-weight: bold;
+}
+#edit-profile-card{
+    background: white;
+   box-shadow: 3px 3px 8px 0px rgba(185,192,199,1);
+   padding: 50px;
+   border-radius: 15px;
+}
+.edit-profile-row{
+    margin-top: 5%;
+}
+.addCategoryBtn{
+    width: fit-content;
+    height: fit-content;
+    margin:5px;
+}
+.categoryRow {
+    height: calc(100vh - 70px);
+    overflow-x: auto;
+}
+.items-container {
+    height: calc(100vh - 70px)
+}
+
+
+.categorycard{
+   height: 500px;
+    overflow-x: auto;
+    margin-bottom: 2%;
+    margin-right:20px;
+    margin-left:20px;
+    background-color: white
+}
+.categorycard .card-header{
+    background-color: #001F3F;
+    color:white;
+    position: sticky;
+    top:0;
+    z-index: 1;
+}
+.searchBarRow{
+    background-color: #CEDBDC;
+    position: sticky;
+    top:0;
+    z-index: 1;
+}
+.ItemNameRow{
+    position: sticky;
+    top:0;
+    z-index: 1;
+}
+.categorycard .card {
+    min-height: 500px;
+}
+.delete-category-btn{
+    max-width: fit-content;
+}
+.categorycontainer{
+    padding: 0;
+}
+#seachBar{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    max-width:300px ;
+}
+.items-list-row{
+    margin: 0;
+}
+.item-row{
+    max-width:300px ;
+    max-height: 100vh;
+}
+.add-items-column{
+    margin: 0;
+    overflow-x: auto;
+    max-height: cal(100vh-70px) !important;
+}
+.recipeRow {
+    margin: 0;
+    overflow-x: auto;
+    z-index: 1;
+    max-height: calc(100vh - 70px);
+}
+
+.recipesRow {
+    margin: 0;
+    overflow-x: auto;
+    z-index: 1;
+    max-height: calc(100vh - 70px);
+}
+
+.edit-items-column{
+    margin: 0;
+    overflow-x: auto;
+    max-height: cal(100vh-70px) !important;
+}
+.items-list-row{
+    overflow-x: auto;
+    max-height: 750px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+    bottom: 0;
+}
+.list-row{
+    margin-top: 20px;
+}
+
+#add-item-form .input-group ,#edit-food-items-form .input-group{
+    margin:5px;
+}
+#add-item-form .input-group-prepend  ,#edit-food-items-form .input-group-prepend{
+    width:175px;
+}
+#add-item-form .input-group-prepend-img  ,#edit-food-items-form .input-group-prepend-img{
+    width:250px;
+}
+#add-item-form  ,#edit-food-items-form,#edit-user-form{
+    min-height:500px;
+    min-width: 400px;
+    padding: 30px;
+}
+.add-items-card ,.edit-items-card,.edit-user-profile-card{
+    border-radius: 25px;
+    max-width: 500px;
+}
+
+.addItem-card-header , .edit-Item-card-header,.edit-user-card-header{
+    border-top-left-radius: 25px !important;
+    border-top-right-radius: 25px !important;
+}
+.selectdropdown {
+    width: fit-content;
+}
+#imgprev {
+    height: 100px;
+    width: 100px;
+    box-sizing: content-box;
+}
+.additemBtn{
+    height: fit-content;
+    width: fit-content;
+}
+.ItemNameCol{
+    width: fit-content;
+}
+
+
+.recipecolumn {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.ing-list {
+    max-height: 60vh;
+    overflow-y: auto;
+}

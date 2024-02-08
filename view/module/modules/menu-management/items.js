@@ -2,9 +2,11 @@ function switchToAddOtherItemBtn() {
   //this switches the add item button to add other items
   const buttonDiv = $(".buttonDiv");
   $(".placeholdername").text("Item Name");
+  $(".addItem-card-header").find('h3').text("");
+  $(".addItem-card-header").find('h3').text("Add Other Item");
   buttonDiv.empty();
   const addItemBtn = $(
-    '<button type="submit" onclick="addOtherItem()" class="btn btn-primary" >' +
+    '<button type="submit" onclick="addOtherItem()" class="btn btn-outline-primary additembtn" >' +
       "Add Item" +
       "</button>"
   );
@@ -14,9 +16,11 @@ function switchToFoodItemBtn() {
     //this switches the add item button to add food items
   const buttonDiv = $(".buttonDiv");
   $(".placeholdername").text("Food item");
+  $(".addItem-card-header").find('h3').text("");
+  $(".addItem-card-header").find('h3').text("Add Food Item");
   buttonDiv.empty();
   const addFoodItemBtn = $(
-    '<button type="submit" class="btn btn-primary" >' +
+    '<button type="submit" class="btn btn-outline-primary additembtn" >' +
       "Add Food Item" +
       "</button>"
   );
@@ -38,7 +42,7 @@ function search() {
   const Items = $(".list-group-item");
 
   for (var i = 0; i < Items.length; i++) {
-    let match = $(Items[i]).find("p");
+    let match = $(Items[i]).find("h5");
     
     if (match.length > 0) {
       let textValue = match.text().toUpperCase();

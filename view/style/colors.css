@@ -1,11 +1,15 @@
 body{
     background-color:#CEDBDC ;
 }
-.table-header{
+.table-header,.addItem-card-header,.edit-Item-card-header,.edit-user-card-header{
     background-color: #001F3F;
     color: #FFFFFF;
 }
 .custom-outline-button {
+    color: #001F3F; /* Text color */
+    border-color: #001F3F; /* Outline color */
+}
+.back-btn{
     color: #001F3F; /* Text color */
     border-color: #001F3F; /* Outline color */
 }
@@ -14,8 +18,12 @@ body{
 .custom-outline-button:hover {
     background-color: #001F3F; /* Background color on hover */
     color: #FFFFFF; /* Text color on hover */
-
 }
+.back-btn:hover {
+    background-color: #001F3F !important; /* Background color on hover */
+    color: #FFFFFF !important; /* Text color on hover */
+}
+
 .offcanvas .list-group-item {
     color: #FFFFFF;
 }
@@ -34,9 +42,28 @@ body{
     color:black !important;
 }
 
- .offcanvas {
+ .offcanvas, .modal-body{
     background-color: #CEDBDC;
+    
+}
+.modal-header{
+    background-color: #001F3F; 
+    color: #FFFFFF;
+}
+.modalclosetbtn{
+    background-color: #FFFFFF;
 }
 
+.categorycard .card .list-group-item:hover {
+    background-color: #CEDBDC; 
+}
+.items-container a:hover{
+    background-color: #CEDBDC;
+    color:black;
+}
+.ItemNameCol{
+    background-color: #001F3F; /* Background color on hover */
+    color: #FFFFFF; 
+}
 
 

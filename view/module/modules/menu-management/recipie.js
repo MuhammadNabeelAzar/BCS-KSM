@@ -181,7 +181,7 @@ function search() {
   const Items = $(".list-group-item");
 
   for (var i = 0; i < Items.length; i++) {
-    let match = $(Items[i]).find("p");
+    let match = $(Items[i]).find("h5");
 
     if (match.length > 0) {
       let textValue = match.text().toUpperCase();

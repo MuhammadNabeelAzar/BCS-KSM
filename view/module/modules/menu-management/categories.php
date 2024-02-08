@@ -29,14 +29,9 @@ $categoryResult = $menuObj->getcategories();
 </head>
 
 <body>
-<?php 
+    <?php
     include '../../../commons/header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <hr>
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -51,67 +46,89 @@ $categoryResult = $menuObj->getcategories();
     }
     ?>
     <!--user navigation-->
-    <div class="row">
-        <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-            <span><i class="bi bi-plus"></i></span>
-        </a>
-    </div>
-    <div class="row">
-        <?php 
-        if(isset($_GET['msg'])){
-            $msg = base64_decode($_GET['msg']); ?>
-            <p><?php echo $msg ?><p>
-           <?php 
-        }
+    <?php
+    if (isset($_GET["msg"])) {
+        $msg = base64_decode($_GET["msg"]);
         ?>
-    </div>
-    <div class="row" style="background-color:black">
-        <?php
-        while ($categoryrow = $categoryResult->fetch_assoc()) {
-            $categoryid = $categoryrow["category_id"];
-            $fooditemResult = $menuObj->getfoodItems();
-            $otherItemResult = $menuObj->getOtherItems(); //get all the foodItems
-            ?>
-            <div class="col-md-3">
-                <div class="card">
-                    <h5 class="card-header">
-                    <input type="hidden" id="hiddenField" name="HiddenFoodID" value="<?php echo $categoryrow['category_id']; ?>">
-                        <?php echo $categoryrow['category_name']; ?>
-                        <button type="button" class="btn btn-primary" onclick="deletecategory(<?php echo $categoryid ?>)"><i class="bi bi-trash"></i></button>
-                    </h5>
-                    <div class="card-body">
-                    <ul class="list-group">
-                    <div class="row">
-                        <?php 
-                        while($foodrow = $fooditemResult->fetch_assoc()){ 
-                            if($foodrow['category_id'] == $categoryid){ //display the food items if the categoryid matches the food item category id
-                            ?>
-                    <li class="list-group-item">
-                    <p><?php echo $foodrow['item_name'] . " " . $foodrow['price'] ." "  ?></p>
-
-                </li>
-                     <?php }}  ?>
-                        <?php 
-                        while($itemsrow = $otherItemResult->fetch_assoc()){ 
-                            if($itemsrow['category_id'] == $categoryid){ //display the food items if the categoryid matches the food item category id
-                            ?>
-                    <li class="list-group-item">
-                    
-                    <input type="hidden" id="itemName" name="itemName" value="<?php echo $itemsrow['item_name']; ?>">
-                    <p><?php echo $itemsrow['item_name'] . " " . $itemsrow['price'] ." "  ?></p>
-                    
-                </li>
-                     <?php }}  ?>
-                    </div>
-                    </ul>
-                    </div>
-                </div>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="mb-0">
+                    <?php echo $msg; ?>
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
             </div>
-        <?php
-        }
-        ?>
-    </div>
+        </div>
 
+        <?php
+    }
+    ?>
+    <div class="container-fluid categorycontainer">
+        <div class="row">
+            <div class="row categoryRow justify-content-center">
+                <div class="row justify-content-end">
+                    <a type="button" class="btn btn-outline-primary addCategoryBtn" data-bs-toggle="modal"
+                        data-bs-target="#addCategoryModal"><span><i class="bi bi-plus-circle"></i></span> Add Category
+                    </a>
+                </div>
+                <?php
+                while ($categoryrow = $categoryResult->fetch_assoc()) {
+                    $categoryid = $categoryrow["category_id"];
+                    $fooditemResult = $menuObj->getfoodItems();
+                    $otherItemResult = $menuObj->getOtherItems(); //get all the foodItems
+                    ?>
+                    <div class="col-md-3 categorycard">
+                        <div class="card">
+                            <div class="card-header row">
+                                <input type="hidden" id="hiddenField" name="HiddenFoodID"
+                                    value="<?php echo $categoryrow['category_id']; ?>">
+                               <h4 class="col">  <?php echo $categoryrow['category_name']; ?> </h4>
+                                <button type="button" class="btn btn-outline-danger delete-category-btn col"
+                                    onclick="deletecategory(<?php echo $categoryid ?>)"><i class="bi bi-trash"></i></button>
+                </div>
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <div class="row">
+                                        <?php
+                                        while ($foodrow = $fooditemResult->fetch_assoc()) {
+                                            if ($foodrow['category_id'] == $categoryid) { //display the food items if the categoryid matches the food item category id
+                                                ?>
+                                                <li class="list-group-item">
+                                                    <p>
+                                                        <?php echo $foodrow['item_name'] ."   "."Rs." . $foodrow['price'] . " " ?>
+                                                    </p>
+
+                                                </li>
+                                            <?php }
+                                        } ?>
+                                        <?php
+                                        while ($itemsrow = $otherItemResult->fetch_assoc()) {
+                                            if ($itemsrow['category_id'] == $categoryid) { //display the food items if the categoryid matches the food item category id
+                                                ?>
+                                                <li class="list-group-item">
+
+                                                    <input type="hidden" id="itemName" name="itemName"
+                                                        value="<?php echo $itemsrow['item_name']; ?>">
+                                                    <p>
+                                                        <?php echo $itemsrow['item_name'] . " " . $itemsrow['price'] . " " ?>
+                                                    </p>
+
+                                                </li>
+                                            <?php }
+                                        } ?>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+
+
+    </div>
     <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -123,45 +140,48 @@ $categoryResult = $menuObj->getcategories();
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="../../../../controller/menu_controller.php?status=add-category" enctype="multipart/form-data" method="post">
+                    <form action="../../../../controller/menu_controller.php?status=add-category"
+                        enctype="multipart/form-data" method="post">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="Category"
-                               name="Category" aria-describedby="newCategory" placeholder="Category Name" required> 
+                            <input type="text" class="form-control" id="Category" name="Category"
+                                aria-describedby="newCategory" placeholder="Category Name" required>
                         </div>
                         <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
                     </form>
                 </div>
-                
+
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteCategoryModalLabel">Modal title</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="../../../../controller/menu_controller.php?status=delete-category" enctype="multipart/form-data" method="post">
-        <input type="hidden" id="CategoryId" name="categoryId" >
-        <p>Are you sure you want  to delete this category ?</p>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Delete</button>
-      </div>
-        </form>
-      </div>
-      
+    <div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCategoryModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="../../../../controller/menu_controller.php?status=delete-category"
+                        enctype="multipart/form-data" method="post">
+                        <input type="hidden" id="CategoryId" name="categoryId">
+                        <p>Are you sure you want to delete this category ?</p>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </div>
-  </div>
-</div>
     <script type="text/javascript" src="../../../../commons/clock.js"></script>
     <script type="text/javascript" src="category.js"></script>
 </body>

@@ -80,7 +80,7 @@ $categoryResult = $menuObj->getcategories();
 
                     <?php } ?>
                 </div>
-                <div class="row justify-content-center" id="fooditems-container" style="height:;"> </div>
+                <div class="row justify-content-center" id="fooditems-container" style="height:"> </div>
                 <div class="row customerPendingorderList bg-dark overflow-auto" style="width:100%;height:200px"></div>
             </div>
             <div class="col-md-2 bg-light" style="background-color:;">

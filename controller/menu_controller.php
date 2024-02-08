@@ -9,11 +9,11 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-category') {
         $categoryName = $_POST['Category'];
 
         $menuObj->addcategory($categoryName);
-        $msg = "category added Succesfully";
+        $msg = "Category added succesfully";
         $msg = base64_encode($msg);
         header("location:../view/module/modules/menu-management/categories.php?msg=$msg");
     } else {
-        echo "failed to add category";
+        echo "Failed to add category!";
     }
 }
 
@@ -292,17 +292,23 @@ if ( isset($_GET['status']) && $_GET['status'] === 'add-recipie') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //this adds the food items recipe
         $food_id = $_GET['foodId'];
+        if (isset($_GET['foodId']) && isset($_POST['ing_id'])) {
         $food_id = base64_decode($_GET['foodId']);
         $ing_id = $_POST['ing_id'];
         $quantity = $_POST['qtyrequired'];
         $factors = $_POST['factor'];
 
-        $menuObj->setrecipe($food_id, $ing_id, $quantity, $factors);
+        $result = $menuObj->setrecipe($food_id, $ing_id, $quantity, $factors);
 
-        $msg = "recipie added";
+            $msg = "Recipe updated successfully";
         $food_id = base64_encode($food_id);
         $msg = base64_encode($msg);
         header("location:../view/module/modules/menu-management/add-recipe.php?msg=$msg&foodId=$food_id");
+        } else {
+            $msg = "Please select the ingredients!";
+        $msg = base64_encode($msg);
+        header("location:../view/module/modules/menu-management/add-recipe.php?msg=$msg&foodId=$food_id");
+        }
     }
 }
 

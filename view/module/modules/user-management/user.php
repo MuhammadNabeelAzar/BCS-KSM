@@ -41,24 +41,21 @@ $editroleResult = $userObj->getroles();
         $msg = base64_decode($_GET["msg"]);
         ?>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <p>
-            <div class="row">
-                <p>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="mb-0">
                     <?php echo $msg; ?>
                 </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
             </div>
-
-            </p>
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
+
         <?php
     }
     ?>
- 
+
     <!--user navigation-->
-  
+
     <?php
     // Include the sidebar file
     if ($userRoleID == 1) {
@@ -73,16 +70,16 @@ $editroleResult = $userObj->getroles();
     ?>
 
     <!--user navigation end-->
-    <div class="container-fluid" >
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-9 justify-content-center">
-                <div class="d-flex justify-content-between align-items-center" >
+                <div class="d-flex justify-content-between align-items-center">
                     <div class="col-md-3 mb-2 mt-2">
                         <input type="text" id="seachBar" class="form-control" placeholder="Search"
                             aria-label="searchbar" aria-describedby="search" onkeyup="search()">
                     </div>
                     <div class="col-md-auto mb-2 mt-2" style="height:30px">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                             data-bs-target="#add-userModal">
                             <i class="bi bi-person-plus"></i>
                         </button>
@@ -131,7 +128,7 @@ $editroleResult = $userObj->getroles();
                                     <td>
                                         <?php echo $userrow["role_name"] ?>
                                     </td>
-                                    <td><a class="btn btn-primary"
+                                    <td><a class="btn btn-outline-primary"
                                             href="edit-user.php?id=<?php echo $userrow["user_id"] ?>"><i
                                                 class="bi bi-pencil-square"> Edit</i></a></td>
                                 </tr>
@@ -143,91 +140,87 @@ $editroleResult = $userObj->getroles();
                 </div>
             </div>
         </div>
-    
 
-    <div class=" modal fade" id="add-userModal" tabindex="-1" aria-labelledby="add_user" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class=" modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="adduser_Modal" style="text-align:center">Add User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="adduserform" action="../../../../controller/user_controller.php"
-                        enctype="multipart/form-data" method="post">
-                        <div class="col">
-                            <div id="response">
 
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="Fname">First Name</span>
-                                </div>
-                                <input type="text" class="form-control" name="Fname" id="firstName"
-                                    placeholder="User's First Name" aria-label="First Name" aria-describedby="Fname"
-                                    maxlength="30" required>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="Lname">Last Name</span>
-                                </div>
-                                <input type="text" class="form-control" name="Lname" id="lastName"
-                                    placeholder="User's Last Name" aria-label="Last Name" aria-describedby="Lname"
-                                    maxlength="30" required>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="Email">Email</span>
-                                </div>
-                                <input type="text" class="form-control" name="Email" id="user_Email"
-                                    placeholder="User's Email" aria-label="User Email" aria-describedby="Email"
-                                    maxlength="100" required>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="Unic">NIC</span>
-                                </div>
-                                <input type="text" class="form-control" name="Unic" id="user_Nic"
-                                    placeholder="User's Nic" aria-label="User Nic" aria-describedby="Unic"
-                                    maxlength="20" required>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="Userdob">Date of Birth</span>
-                                </div>
-                                <input type="Date" class="form-control" name="Userdob" id="user_Dob"
-                                    aria-label="User Date of Birth" aria-describedby="Userdob" required>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="Contact">Contact Number</span>
-                                </div>
-                                <input type="text" class="form-control" name="Contact" id="user_Contact"
-                                    placeholder="User's Contact Number" aria-label="User Contact"
-                                    aria-describedby="Contact" maxlength="15" required>
-                            </div>
-                        </div>
-                        <div class=" d-flex flex-column">
-                            <select class="forms-select mb-3" name="userRole" id="userRole" aria-label="Users Role"
-                                required>
-                                <option disabled selected value="">Select</option>
-                                <?php
-                                while ($role = $addroleResult->fetch_assoc()) {
-                                    echo '<option value=' . $role['role_id'] . '>' . $role['role_name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button id="adduserButton" type="submit" class="btn btn-primary">Add User</button>
-                    </form>
+        <div class="modal fade " id="add-userModal" tabindex="-1" aria-labelledby="add_user" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="adduser_Modal"><strong>Add User</strong></h5>
+                        <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="adduserform" action="../../../../controller/user_controller.php"
+                            enctype="multipart/form-data" method="post">
+                            <div class="col">
+                                <div id="response">
 
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text " id="Fname">First Name</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="Fname" id="firstName"
+                                        aria-label="First Name" aria-describedby="Fname" maxlength="30" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="Lname">Last Name</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="Lname" id="lastName"
+                                        aria-label="Last Name" aria-describedby="Lname" maxlength="30" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="Email">Email</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="Email" id="user_Email"
+                                        aria-label="User Email" aria-describedby="Email" maxlength="100" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="Unic">NIC</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="Unic" id="user_Nic"
+                                        aria-label="User Nic" aria-describedby="Unic" maxlength="20" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="Userdob">Date of Birth</span>
+                                    </div>
+                                    <input type="Date" class="form-control" name="Userdob" id="user_Dob"
+                                        aria-label="User Date of Birth" aria-describedby="Userdob" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="Contact">Contact Number</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="Contact" id="user_Contact"
+                                        aria-label="User Contact" aria-describedby="Contact" maxlength="15" required>
+                                </div>
+                            </div>
+                            <div class=" d-flex flex-column">
+                                <select class="forms-select mb-3" name="userRole" id="userRole" aria-label="Users Role"
+                                    required>
+                                    <option disabled selected value="">Select</option>
+                                    <?php
+                                    while ($role = $addroleResult->fetch_assoc()) {
+                                        echo '<option value=' . $role['role_id'] . '>' . $role['role_name'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+                                <button id="adduserButton" type="submit" class="btn btn-outline-success">Add User</button>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-                            </div>
     <script type="text/javascript" src="adduser.js"></script>
     <script type="text/javascript" src="edituser.js"></script>
     <script type="text/javascript" src="user.js"></script>

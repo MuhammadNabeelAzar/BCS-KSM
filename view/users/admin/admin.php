@@ -25,11 +25,6 @@ $userRoleID = $_SESSION['user']['role_id'];
 <?php 
     include '../../commons/home-header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <hr>
     <!--user navigation-->
     <?php
     // Include the sidebar file

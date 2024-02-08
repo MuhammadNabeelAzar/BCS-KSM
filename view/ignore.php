@@ -244,3 +244,165 @@ var itemArray = [];
     session_start();
 include_once '../../../../model/role_model.php';
 $userRoleID = isset($_SESSION['user']['role_id']) ? $_SESSION['user']['role_id'] : null;
+
+
+
+
+<div class="row  items-container m-0">
+        <div class="col-md-3 items-column">
+            
+        </div>
+        <div class="col m-0 recipecolumn">
+            <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup" id="food_id"
+                name="food_id" value="<?php echo $fooditemrow['food_itemId'] ?>">
+            <div class="row  ItemNameRow justify-content-center">
+                <div class="col text-center ItemNameCol">
+                    <h1>
+                        <?php echo $fooditemrow['item_name'] ?>
+                    </h1>
+                </div>
+            </div>
+
+            <div class="row selectedIngredientsRow">
+                <?php
+                if (isset($_GET['foodId'])) {
+                    $food_id = $_GET['foodId'];
+                    ?>
+                    <div class="col">
+                        <form id="addrecipe"
+                            action="../../../../controller/menu_controller.php?status=add-recipie&foodId=<?php echo $food_id ?>"
+                            enctype="multipart/form-data" method="post" onsubmit="return submitValidation()">
+                      <div class="col m-0" id="selected-ingredients">
+                       </div>
+                            <div class="row SubmitRecipebtnRow justify-content-center">
+                                <button id="addrecipiebtn" type="" class="btn btn-outline-primary col-auto" >
+                                    update
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-auto m-0 img-col">
+                        <img id="imgprev" src="<?php echo "../../../" . $fooditemrow["img_path"] ?>" alt="Image Preview">
+                    </div>
+                <?php } ?>
+            </div>
+
+            <div class="row bg-light ing-list">
+                <div class="row">
+                    <h3>Ingredients</h3>
+                </div>
+                <!--List of all available ingredients-->
+
+                <div class="row">
+                    <?php
+                    $selected_ingredients = array();
+                    $selected_quantities = array();
+                    $selected_factor = array();
+
+                    // Loop through the selected ingredients to store them in an array
+                    while ($reciperow = $recipeResult->fetch_assoc()) {
+                        $selected_ingredients[] = $reciperow['ing_id'];
+                        $selected_quantitiesg[$reciperow['ing_id']] = $reciperow['qty_required(g)']; // Store quantity by ingredient ID
+                        $selected_quantitiesml[$reciperow['ing_id']] = $reciperow['qty_required(ml)'];
+                        $selected_factor[$reciperow['ing_id']] = $reciperow['factor'];
+                    }
+
+                    // Reset the result set pointer for the ingredient loop
+                    $ingResult->data_seek(0);
+
+                    while ($ingrow = $ingResult->fetch_assoc()) {
+                        $ing_id = $ingrow['ing_id'];
+                        ?>
+
+                        <div class="col-auto form-check form-switch form-check-inline ml-1" id="checkitem">
+                            <input type="hidden" value="<?php echo $ing_id; ?>" id="ing_id" name="ing_id[]">
+                            <div class="row">
+                                <div class="col-auto">
+                                <input class="form-check-input specific-checkbox " type="checkbox" value="<?php echo $ing_id; ?> "
+                                           onclick="addIngredientsToRecipe(this)" name="ingidcheck" id="selectedIngs" <?php echo in_array($ing_id, $selected_ingredients) ? 'checked' : ''; ?>>
+
+                                </div>
+                                <div class="col-auto">
+                                    <h5>
+                                        <?php echo $ingrow['ing_name']; ?>
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-control qtyrequired" type="text" value="<?php
+                                    $quantity = '';
+                                    if (isset($selected_factor[$ing_id]) && ($selected_factor[$ing_id] == '8' || $selected_factor[$ing_id] == '9')) {
+                                        $quantity = $selected_quantitiesml[$ing_id] ?? '';
+                                        if ($selected_factor[$ing_id] == '9') {
+                                            $quantity = $quantity / 1000;
+                                        }
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '1') {
+                                        $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                        //display grams
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '2') {
+                                        $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                        $quantity = number_format($quantity / 1000, 3); // Convert grams to kilograms
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '3') {
+                                        $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                        $quantity = $quantity / 250; // Convert g to c
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '4') {
+                                        $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                        $quantity = number_format($quantity / 14.175, 2); // Convert g to tbsp
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '5') {
+                                        $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                        $quantity = number_format($quantity / 5.69, 2); // Convert g to tsp
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '6') {
+                                        $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                        $quantity = number_format($quantity / 28.3495, 2); // Convert g to oz
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '7') {
+                                        $quantity = $selected_quantitiesg[$ing_id] ?? '';
+                                        $quantity = number_format($quantity / 453.592, 2); // Convert g to lb
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '8') {
+                                        $quantity = $selected_quantitiesml[$ing_id] ?? '';
+                                        // display ml
+                                    } elseif (isset($selected_factor[$ing_id]) && $selected_factor[$ing_id] == '9') {
+                                        $quantity = $selected_quantitiesml[$ing_id] ?? '';
+                                        $quantity = number_format($quantity / 1000, 2); // Convert ml to l
+                                    }
+
+                                    echo $quantity;
+                                    ?>" id="qtyrequired_<?php echo $ing_id; ?>" name="qtyrequired[]" class="qtyrequired" required>
+                                </div>
+
+                                <div class="col-auto">
+
+                                    <select class="form-select col-auto" id="factorSelect" name="factor[]">
+                                        <?php
+                                        $options = array(
+                                            '1' => 'g',
+                                            '2' => 'kg',
+                                            '3' => 'c',
+                                            '4' => 'tbsp',
+                                            '5' => 'tsp',
+                                            '6' => 'oz',
+                                            '7' => 'lb',
+                                            '8' => 'ml',
+                                            '9' => 'l'
+                                        );
+
+                                        foreach ($options as $value => $text) {
+                                            $selected = ($selected_factor[$ing_id] == $value) ? 'selected' : '';
+                                            echo "<option value='{$value}' {$selected}>{$text}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <?php
+                    }
+                    ?>
+
+                </div>
+
+            </div>
+        </div>
+    </div>

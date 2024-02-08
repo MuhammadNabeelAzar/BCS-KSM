@@ -30,15 +30,9 @@ $fooditemrow = $fooditem->fetch_assoc();
 </head>
 
 <body>
-<?php 
+    <?php
     include '../../../commons/header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <a class="btn btn-primary" href="items.php">Back</a>
-    <hr>
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -52,71 +46,77 @@ $fooditemrow = $fooditem->fetch_assoc();
         include '../../../commons/cashier-navigation.php';
     }
     ?>
-
+    <!--user navigation-->
     <?php
     if (isset($_GET["msg"])) {
         $msg = base64_decode($_GET["msg"]);
         ?>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <p>
-            <div class="row">
-                <p>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="mb-0">
                     <?php echo $msg; ?>
                 </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
             </div>
-
-            </p>
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
+
         <?php
     }
     ?>
-    <!--user navigation-->
 
-    <div class="row">
-        <div class="col-md-3" style="background-color:black">
-            <div class="accordion">
-                <div class="row">
-                    <form class="form-inline">
-                        <input class="form-control " id="seachBar" type="search" placeholder="Search" onkeyup="search()"
-                            aria-label="Search">
-                        <button class="btn btn-outline-success " type="submit">Search</button>
+    <div class="row items-container">
+        <div class="col-md-3 items-column">
+            <div class="row items-list-row justify-content-center">
+                <div class="row justify-content-center">
+                    <div class="row justify-content-center align-items-center searchBarRow">
 
-                    </form>
-                    <ul class="list-group">
-                        <?php
-                        while ($foodrow = $fooditemResult->fetch_assoc()) {
-                            $foodid = $foodrow['food_itemId'];
-                            $foodid = base64_encode($foodid);
-                            ?>
-                            <a type="button" class="list-group-item items"
-                                href="edit-foodItems.php?status=edit-foodItem&foodId=<?php echo $foodid ?>">
-                                <p>
-                                    <?php echo $foodrow['item_name']; ?>
-                                </p>
-                            </a>
-                        <?php } ?>
-                        <?php
-                        while ($otherItemRow = $otherItemResult->fetch_assoc()) {
-                            $otherItemId = $otherItemRow['item_id'];
-                            $otherItemId = base64_encode($otherItemId);
-                            ?>
-                            <a type="button" class="list-group-item items"
-                                href="edit-otherItems.php?status=edit-Item&itemId=<?php echo $otherItemId ?>">
-                                <p>
-                                    <?php echo $otherItemRow['item_name']; ?>
-                                </p>
-                            </a>
-                        <?php } ?>
-                    </ul>
+                        <div class="col-auto">
+                            <input class="form-control " type="search" id="seachBar" placeholder="Search"
+                                onkeyup="search()" aria-label="Search">
+                        </div>
+                        <div class="col-auto ">
+                            <a class="btn  back-btn btn-md" href="items.php"><i class="bi bi-arrow-return-left"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <ul class="list-group list-row">
+                            <?php
+                            while ($foodrow = $fooditemResult->fetch_assoc()) {
+                                $foodid = $foodrow['food_itemId'];
+                                $foodid = base64_encode($foodid);
+                                ?>
+                                <a type="button" class="list-group-item"
+                                    href="edit-foodItems.php?status=edit-foodItem&foodId=<?php echo $foodid ?>">
+                                    <h5>
+                                        <?php echo $foodrow['item_name']; ?>
+                                    </h5>
+                                </a>
+                            <?php } ?>
+                            <?php
+                            while ($otherItemRow = $otherItemResult->fetch_assoc()) {
+                                $otherItemId = $otherItemRow['item_id'];
+                                $otherItemId = base64_encode($otherItemId);
+                                ?>
+                                <a type="button" class="list-group-item"
+                                    href="edit-otherItems.php?status=edit-Item&itemId=<?php echo $otherItemId ?>">
+                                    <h5>
+                                        <?php echo $otherItemRow['item_name']; ?>
+                                    </h5>
+                                </a>
+                            <?php } ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col" style="background-color:blue">
-            <div class="row">
-                <form action="../../../../controller/menu_controller.php?status=edit-fooditem"
+        <div class="col edit-items-column d-flex align-items-center justify-content-center">
+            <div class="card edit-items-card">
+                <div class="card-header edit-Item-card-header text-center">
+                    <H3>Edit Food Item</H3>
+                </div>
+                <form id="edit-food-items-form" action="../../../../controller/menu_controller.php?status=edit-fooditem"
                     enctype="multipart/form-data" method="post">
                     <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup"
                         name="food_id"
@@ -126,53 +126,64 @@ $fooditemrow = $fooditem->fetch_assoc();
                         value="<?php echo (isset($fooditemrow['img_path'])) ? $fooditemrow['img_path'] : ''; ?>">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Item</span>
+                            <span class="input-group-text" id="inputGroup-sizing-default">Food Item</span>
                         </div>
                         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup"
                             name="food_Name"
                             value="<?php echo (isset($fooditemrow['item_name'])) ? $fooditemrow['item_name'] : ''; ?>">
                     </div>
                     <div class="input-group">
-                        <label for="exampleFormControlTextarea1">Description</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        <div class="input-group-prepend">
+                            <span class="input-group-text placeholderdescription"
+                                id="inputGroup-sizing-default">Description</span>
+                        </div>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
                             name="food_descript"> <?php echo (isset($fooditemrow['food_description'])) ? $fooditemrow['food_description'] : ''; ?></textarea>
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                                name="food_image" id="food_image" onchange="readUrl(this);">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-auto">
+                            <div class="input-group-prepend input-group-prepend-img ">
+                                <input type="file" class="form-control" aria-label="Default"
+                                    aria-describedby="inputGroup" name="food_image" id="food_image"
+                                    onchange="readUrl(this)">
+                            </div>
                         </div>
-                        <select class="forms-select mb-3" id="category" aria-label="category" name="category" required>
-                            <option value="">----</option>
-                            <?php
-                            while ($categoryrow = $categoryResult->fetch_assoc()) {
-                                $selected = (isset($fooditemrow["category_id"]) && $fooditemrow["category_id"] == $categoryId) ? 'selected="selected"' : '';
-                                ?>
-                                <option name="category_selected" value="<?php echo $categoryrow["category_id"]; ?>" <?php echo $selected ?>>
-                                    <?php echo (isset($categoryrow["category_name"])) ? $categoryrow["category_name"] : ''; ?>
-                                </option>
+                        <div class="col-auto">
+                        <img id="imgprev" src="<?php echo "../../../" . (isset($fooditemrow["img_path"]) ? $fooditemrow["img_path"] : ''); ?>" alt="Image Preview">
+                        </div>
+                        <div class="row m-0">
+                            <select class="forms-select mb-3 mt-3" id="category" aria-label="category" name="category"
+                                required>
+                                <option value="">Category</option>
                                 <?php
-                            }
-                            ?>
-                        </select>
-
-                        <div class="col-md-3">
-                            <img id="imgprev"
-                                src="<?php echo "../../../" . (isset($fooditemrow["img_path"])) ? isset($fooditemrow["img_path"]) : ''; ?>"
-                                alt="Image Preview" style="height: 100px; width: 100px;">
+                                while ($categoryrow = $categoryResult->fetch_assoc()) {
+                                    $selected = (isset($fooditemrow["category_id"]) && $fooditemrow["category_id"] == $categoryrow["category_id"]) ? 'selected="selected"' : '';
+                                    ?>
+                                    <option name="category_selected" value="<?php echo $categoryrow["category_id"]; ?>"
+                                        <?php echo $selected ?>>
+                                        <?php echo (isset($categoryrow["category_name"])) ? $categoryrow["category_name"] : ''; ?>
+                                    </option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
                         </div>
-
+                        <div class="row mt-5 justify-content-center">
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#removeFooditemModal">Remove Item
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-outline-primary">
+                                    update
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        update
-                    </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#removeFooditemModal">Remove Item
-                    </button>
                 </form>
             </div>
         </div>
-    </div>
     </div>
 
     <div class="modal fade" id="removeFooditemModal" tabindex="-1" role="dialog"
@@ -181,18 +192,17 @@ $fooditemrow = $fooditem->fetch_assoc();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="removeingtitle">Remove Food item</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close modalclosetbtn " data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to remove this this food item ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a type="button" class="btn btn-primary"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-danger"
                         href="../../../../controller/menu_controller.php?status=delete-fooditem&foodId=<?php echo $foodItem_id ?>">Remove
-                        food item</a>
+                        food item</button>
                 </div>
             </div>
         </div>
@@ -200,7 +210,6 @@ $fooditemrow = $fooditem->fetch_assoc();
     <script type="text/javascript">
         function readUrl(input) {
             if (input.files && input.files[0]) {
-                console.log(input.files[0]);
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $("#imgprev")

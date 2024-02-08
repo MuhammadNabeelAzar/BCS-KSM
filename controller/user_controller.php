@@ -82,7 +82,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
             }
 
             $userObj->updateUser($firstname, $lastname, $email, $nic, $dob, $cno, $role, $user_id);
-            $msg = "User Succesfully updated!";
+            $msg = "User information updated successfully";
             $msg = base64_encode($msg);
             header("location:../view/module/modules/user-management/user.php?msg=$msg");
         } catch (Exception $ex) {
