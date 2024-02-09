@@ -18,8 +18,10 @@ function resetstock() {
       data: { itemId: itemId },
       dataType: "JSON",
       success: function (response) {
-        Swal.fire(response);
-        location.reload();
+        Swal.fire(response).then(() => {
+          window.location.href = 'http://localhost/BcsKSM/view/module/modules/menu-management/stock.php';
+      });
+       
       },
     });
   });
@@ -31,7 +33,7 @@ function search() {
   const cards = $(".card");
 
   for (var i = 0; i < cards.length; i++) {
-    let match = $(cards[i]).find("p");
+    let match = $(cards[i]).find("h5");
 
     if (match.length > 0) {
       let textValue = match.text().toUpperCase();

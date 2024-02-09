@@ -266,11 +266,11 @@ if (isset($_GET['status']) && $_GET['status'] === 'set-price') {
         $food_id = $_POST['food_id'];
         $price = $_POST['price'];
         $menuObj->setprice($food_id, $price);
-        $msg = "price updated";
+        $msg = "price updated successfully";
         $msg = base64_encode($msg);
         header("location:../view/module/modules/menu-management/pricing.php?msg=$msg");
     } else {
-        echo "error in price";
+        echo "error in setting the price";
     }
 
 }
@@ -490,10 +490,10 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-item-stock') {
 
         if ($operator === 'add') {
             $menuObj->addstock($item_Id, $quantity);
-            $msg = "Increased stock successfully";
+            $msg = "Stock added successfully.";
         } else {
             $menuObj->reduceStock($item_Id, $quantity);
-            $msg = "Reduced stock successfully";
+            $msg = "Stock reduced successfully.";
         }
         $msg = base64_encode($msg);
         header("Location: http://localhost/BcsKSM/view/module/modules/menu-management/stock.php?msg=$msg");

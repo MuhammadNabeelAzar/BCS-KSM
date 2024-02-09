@@ -2,7 +2,7 @@ function deactivatefoodItem(button){
 //this deactivates  the food item tempararily to disable sales of the item
 const food_id = $(button).data('foodid');
 
-    $('#confirmdeactivateModal').show('modal');
+    $('#confirmdeactivateModal').modal('show');
         $('#deactivatebtn').on('click',function(){
             $.ajax({
                 type: "post",
@@ -11,6 +11,7 @@ const food_id = $(button).data('foodid');
                 success: function (response) {
                     $('#confirmdeactivateModal').hide('modal');
                     Swal.fire("Item deactivated Successfully");
+                    location.reload();
                 },
             });  
         });
@@ -25,7 +26,7 @@ const food_id = $(button).data('foodid');
 function activatefoodItem(button){
     //this activates  the food item 
     const food_id = $(button).data('foodid');
-    $('#confirmactivateModal').show('modal');
+    $('#confirmactivateModal').modal('show');
     $('#activatebtn').on('click',function(){
         $.ajax({
             type: "post",
@@ -34,6 +35,7 @@ function activatefoodItem(button){
             success: function (response) {
                 $('#confirmactivateModal').hide('modal');
         Swal.fire("Item activated Successfully");
+        location.reload();
             },
         });
     });

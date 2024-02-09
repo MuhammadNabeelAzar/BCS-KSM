@@ -149,7 +149,9 @@ $fooditemrow = $fooditem->fetch_assoc();
                             </div>
                         </div>
                         <div class="col-auto">
-                        <img id="imgprev" src="<?php echo "../../../" . (isset($fooditemrow["img_path"]) ? $fooditemrow["img_path"] : ''); ?>" alt="Image Preview">
+                            <img id="imgprev"
+                                src="<?php echo "../../../" . (isset($fooditemrow["img_path"]) ? $fooditemrow["img_path"] : ''); ?>"
+                                alt="Image Preview">
                         </div>
                         <div class="row m-0">
                             <select class="forms-select mb-3 mt-3" id="category" aria-label="category" name="category"

@@ -104,11 +104,8 @@ body {
    justify-content: center;
     font-weight: bold;
 }
-#edit-profile-card{
-    background: white;
-   box-shadow: 3px 3px 8px 0px rgba(185,192,199,1);
-   padding: 50px;
-   border-radius: 15px;
+.edit-user-profile-card{
+  border-radius: 25px;
 }
 .edit-profile-row{
     margin-top: 5%;
@@ -228,7 +225,7 @@ body {
     max-width: 500px;
 }
 
-.addItem-card-header , .edit-Item-card-header,.edit-user-card-header{
+.addItem-card-header , .edit-Item-card-header,.edit-user-card-headerm{
     border-top-left-radius: 25px !important;
     border-top-right-radius: 25px !important;
 }
@@ -258,3 +255,29 @@ body {
     max-height: 60vh;
     overflow-y: auto;
 }
+.img-col #imgprev{
+    min-height:200px;
+    min-width:200px;
+}
+.Allitems-container{
+    overflow-y: auto;
+    top: 0;
+    z-index: 1;
+    max-height: 90vh;
+    width:100%;
+    margin: 0;
+    
+}
+.Allitemscard{
+    width: 18rem;
+    margin:10px;
+    border-radius: 25px;
+}
+.allItem-card-header,.edit-user-card-header{
+    border-top-left-radius: 25px !important;
+    border-top-right-radius: 25px !important;
+}
+.availabilityRow{
+    height: 50px;
+}
+

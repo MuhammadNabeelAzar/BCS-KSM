@@ -1,7 +1,7 @@
 body{
     background-color:#CEDBDC ;
 }
-.table-header,.addItem-card-header,.edit-Item-card-header,.edit-user-card-header{
+.table-header,.addItem-card-header,.edit-Item-card-header,.edit-user-card-header,.allItem-card-header{
     background-color: #001F3F;
     color: #FFFFFF;
 }
@@ -13,7 +13,6 @@ body{
     color: #001F3F; /* Text color */
     border-color: #001F3F; /* Outline color */
 }
-
 
 .custom-outline-button:hover {
     background-color: #001F3F; /* Background color on hover */

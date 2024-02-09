@@ -123,7 +123,7 @@ if (isset($_GET['foodId'])) {
     ?>
             </div>
 
-            <div class="row selectedIngredientsRow" style="background-col">
+            <div class="row selectedIngredientsRow " >
                 <?php
                 if (isset($_GET['foodId'])) {
                     $food_id = $_GET['foodId'];
@@ -134,17 +134,18 @@ if (isset($_GET['foodId'])) {
                             enctype="multipart/form-data" method="post" onsubmit="return submitValidation()">
                       <div class="col m-0" id="selected-ingredients">
                        </div>
-                            <div class="row justify-content-center mt-3">
+                            
+                    </div>
+                    <div class="col-auto m-0 img-col d-flex justify-content-center align-items-center">
+                        <img id="imgprev" src="<?php echo "../../../" . $fooditemrow["img_path"] ?>" alt="Image Preview">
+                    </div>
+                <?php } ?>
+                <div class="row justify-content-center mt-3 mb-2">
                                 <button id="addrecipiebtn" type="" class="btn btn-outline-primary col-auto" >
                                     update
                                 </button>
                             </div>
                         </form>
-                    </div>
-                    <div class="col-auto m-0 img-col">
-                        <img id="imgprev" src="<?php echo "../../../" . $fooditemrow["img_path"] ?>" alt="Image Preview">
-                    </div>
-                <?php } ?>
             </div>
 
             <div class="row bg-light ing-list">
@@ -190,7 +191,7 @@ if (isset($_GET['foodId'])) {
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <input class="form-control qtyrequired" type="text" value="<?php
+                                    <input class="form-control qtyrequired" type="hidden" value="<?php
                                     $quantity = '';
                                     if (isset($selected_factor[$ing_id]) && ($selected_factor[$ing_id] == '8' || $selected_factor[$ing_id] == '9')) {
                                         $quantity = $selected_quantitiesml[$ing_id] ?? '';
@@ -232,7 +233,7 @@ if (isset($_GET['foodId'])) {
 
                                 <div class="col-auto">
 
-                                    <select class="form-select col-auto" id="factorSelect" name="factor[]">
+                                    <select class="form-select col-auto" style="display: none;" id="factorSelect" name="factor[]">
                                         <?php
                                         $options = array(
                                             '1' => 'g',

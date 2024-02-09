@@ -76,7 +76,9 @@ function moveCheckedIngredients() {
   // Function to move checked ingredients to the selected-ingredients container(The ingredients that are already present in the recipe)
   $(".form-check-input:checked").each(function () {
     const formIngElement = $(this).closest(".form-check");
-
+    $("#selected-ingredients [id^=factorSelect]").css("display", "block");
+    $("#selected-ingredients .qtyrequired").prop("type", "text");
+    $("#selected-ingredients .qtyrequired").css("display", "block");;
     // Move to the selected-ingredients container
     $("#selected-ingredients").append(formIngElement);
 
@@ -90,17 +92,14 @@ function moveCheckedIngredients() {
 
 $(document).ready(function () {
   // Move checked ingredients on page load
-  $("[id^=factorSelect]").hide();
-  $(".qtyrequired").hide();
   moveCheckedIngredients();
-  $("#selected-ingredients [id^=factorSelect]").show();
-  $("#selected-ingredients .qtyrequired").show();
   removeIngredientmodalpopup();
 });
 
 $(document).on("click", ".form-check-input", function () {
-  $("#selected-ingredients [id^=factorSelect]").show();
-  $("#selected-ingredients .qtyrequired").show();
+  $("#selected-ingredients [id^=factorSelect]").css("display", "block");
+  $("#selected-ingredients .qtyrequired").prop("type", "text");
+  $("#selected-ingredients .qtyrequired").css("display", "block");;
 });
 
 function getRecipe() {

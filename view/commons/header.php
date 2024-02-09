@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm " style="background-color:766c7f;height:70px">
+<nav class="navbar navbar-expand-sm " style="background-color:#766c7f;height:70px">
     <div class="container-fluid">
         <div class="d-flex flex-row datetime m-2 align-items-center">
             <div class="d-flex flex-column m-2">

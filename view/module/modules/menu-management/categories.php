@@ -135,8 +135,7 @@ $categoryResult = $menuObj->getcategories();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
@@ -146,9 +145,13 @@ $categoryResult = $menuObj->getcategories();
                             <input type="text" class="form-control" id="Category" name="Category"
                                 aria-describedby="newCategory" placeholder="Category Name" required>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        <div class="row  justify-content-end mt-3">
+                            <div class="col-auto">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                           <div class="col-auto">
+                           <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                           </div>
                         </div>
                     </form>
                 </div>

@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="d-flex flex-row datetime m-2 align-items-center">
             <div class="d-flex flex-column m-2">
-            <a class="btn btn-outline-dark btn-lg" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+            <a class="btn custom-outline-button btn-lg" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
                 aria-controls="offcanvasExample">
                 <i class="bi bi-list"></i>
             </a>

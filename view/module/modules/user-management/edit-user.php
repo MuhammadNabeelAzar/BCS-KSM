@@ -72,6 +72,7 @@ $userrow = $userResult->fetch_assoc();
             <div class="card-header edit-user-card-header text-center m-0">
                     <H3>Edit User</H3>
                 </div>
+                <div class="card-body">
                 <form id="edit-user-form" action="../../../../controller/user_controller.php?status=edit-user"
                     enctype="multipart/form-data" method="post">
                     <input type="hidden" name="user_id" value="<?php echo $user_id ?>" />
@@ -149,6 +150,7 @@ $userrow = $userResult->fetch_assoc();
                         </div>
                     </div>
                 </form>
+                </div>
             </div>
 
         </div>
