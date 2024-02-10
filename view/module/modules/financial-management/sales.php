@@ -1,7 +1,7 @@
 <?php
-  session_start();
-  include_once '../../../../model/role_model.php';
-  if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role_id'])) {
+session_start();
+include_once '../../../../model/role_model.php';
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role_id'])) {
     // Redirect to the login page
     header("Location: http://localhost/BcsKSM/view/login/login.php");
     exit(); // Make sure to exit after a header redirect
@@ -27,14 +27,9 @@ $quickSalesResult = $salesObj->getQuickSalesDetails();
 </head>
 
 <body>
-<?php 
+    <?php
     include '../../../commons/header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <hr>
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -49,30 +44,34 @@ $quickSalesResult = $salesObj->getQuickSalesDetails();
     }
     ?>
 
-    </div>
-    <!--user navigation-->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="row">
-                <div class="col">
-                    <input type="text" id="seachBar" class=" form-control" placeholder="Search" aria-label="searchbar"
-                        aria-describedby="search" onkeyup="search()">
 
-                </div>
-                <div class="col">
-                    <div class=" input-group-append">
-                        <button class=" btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
+    <!--user navigation-->
+    <div class="container-fluid ">
+        <div class="row justify-content-center">
+            <div class="col-md-9 justify-content-center">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="col-md-3 mb-2 mt-2">
+                        <input type="text" id="seachBar" class="form-control" placeholder="Search"
+                            aria-label="searchbar" aria-describedby="search" onkeyup="search()">
+                    </div>
+                    <div class="row">
+                        <input type="hidden" id="salesItemsSearchType">
+                        <div class="col-auto  text-center">
+                            <button class=" btn btn-outline-secondary " type="button"
+                                onclick="filtersalesdetails('sales')">Quick Sales</button>
+
+                        </div>
+                        <div class="col-auto text-center">
+                            <button class=" btn btn-outline-secondary" type="button"
+                                onclick="filtersalesdetails('order')">Order Sales</button>
+
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                <input type="hidden" id="salesItemsSearchType">
-                <button class=" btn btn-secondary col" type="button" onclick="filtersalesdetails('sales')"><p>Quick Sales</p></button><button class=" btn btn-secondary col" type="button"  onclick="filtersalesdetails('order')"><p>Order Sales</p></button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="table-responsive " style="height:400px">
-                    <table class="table">
-                        <thead>
+
+                <div class="table-responsive tableRowLg">
+                    <table class="table table-hover   table-striped  ">
+                        <thead class="table-header table-header-lg  text-center">
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Customer ID</th>
@@ -86,13 +85,13 @@ $quickSalesResult = $salesObj->getQuickSalesDetails();
                             while ($row = $orderSalesResult->fetch_assoc()) {
                                 $Id = $row['order_id'];
                                 ?>
-                                <tr class=" ordersalesRow">
+                                <tr class=" ordersalesRow table-light text-center">
                                     <td>
                                         <?php echo 'O' . $row['order_id'] ?>
                                     </td>
                                     <td>
                                         <?php echo $row['customer_id'] ?>
-                            </td>
+                                    </td>
                                     <td>
                                         <?php echo $row['order_date'] ?>
                                     </td>
@@ -100,20 +99,22 @@ $quickSalesResult = $salesObj->getQuickSalesDetails();
                                         <?php echo $row['order_time'] ?>
                                     </td>
 
-                                    <td><a class="btn btn-primary" onclick="getSalesInfo(<?php echo $Id ?>,'order')"></a></td>
+                                    <td><a class="btn btn-outline-primary"
+                                            onclick="getSalesInfo(<?php echo $Id ?>,'order')"><i
+                                                class="bi bi-info-circle"></i></a></td>
                                 </tr>
                             <?php } ?>
                             <?php
                             while ($row = $quickSalesResult->fetch_assoc()) {
                                 $Id = $row['sales_id'];
                                 ?>
-                                <tr class="quicksalesRow">
+                                <tr class="quicksalesRow table-light text-center">
                                     <td>
                                         <?php echo 'S' . $row['sales_id'] ?>
                                     </td>
                                     <td>
                                         <?php echo $row['customer_id'] ?>
-                            </td>
+                                    </td>
                                     <td>
                                         <?php echo $row['date'] ?>
                                     </td>
@@ -121,37 +122,44 @@ $quickSalesResult = $salesObj->getQuickSalesDetails();
                                         <?php echo $row['time'] ?>
                                     </td>
 
-                                    <td><a class="btn btn-primary" onclick="getSalesInfo(<?php echo $Id ?>,'quicksale')"></a></td>
+                                    <td><a class="btn btn-outline-primary"
+                                            onclick="getSalesInfo(<?php echo $Id ?>,'quicksale')"><i
+                                                class="bi bi-info-circle"></i></a></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </div>
-        
-    </div>
-    <div class="modal" id="orderDetailsModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"></h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="order-details-modal-body">
-      </div>
-      <div class="modal-footer ">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
-      </div>
-    </div>
-  </div>
-</div>
-            
-    <script type="text/javascript" src="../../../../commons/clock.js"></script>
-    <script type="text/javascript" src="sales.js"></script>
-    
+        <div class="modal" id="orderDetailsModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body m-0" id="order-details-modal-body">
+                        <div class="row salesDetailsRow m-0">
+
+                        </div>
+                    <div class="row justify-content-end ">
+                <div class="col-auto">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                   
+                </div>        
+                </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="../../../../commons/clock.js"></script>
+        <script type="text/javascript" src="sales.js"></script>
+
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

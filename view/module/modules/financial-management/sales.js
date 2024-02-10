@@ -33,11 +33,11 @@ function displaySalesInfo(orderDetails, type) {
 
   //if the sale type is order then display the details
   if (type === "order") {
-    var modalBody = $("#order-details-modal-body");
+    var modalBody = $(".salesDetailsRow");
     modalBody.empty();
     sum = 0;
     var table =
-      '<table class="table table-bordered"><thead><tr><th>#</th><th>Item Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
+      '<table class="table table-hover   table-striped  "><thead class="table-header table-header-lg  text-center"><tr><th>#</th><th>Item Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
 
     for (var i = 0; i < otheritemArray.length; i++) {
       var itemName = otheritemArray[i].item_name;
@@ -49,7 +49,7 @@ function displaySalesInfo(orderDetails, type) {
       sum += priceAfterDiscount;
 
       itemNumber++;
-      table += "<tr>";
+      table += "<tr  class='table-light text-center'>";
       table += "<td>" + itemNumber + "</td>";
       table += "<td>" + itemName + "</td>";
       table += "<td>" + pricePeritem + "</td>";
@@ -68,7 +68,7 @@ function displaySalesInfo(orderDetails, type) {
       var discount = fooditemArray[i].discount;
       sum += priceAfterDiscount;
       itemNumber++;
-      table += "<tr>";
+      table += "<tr  class='table-light text-center'>";
       table += "<td>" + itemNumber + "</td>";
       table += "<td>" + itemName + "</td>";
       table += "<td>" + pricePeritem + "</td>";
@@ -78,7 +78,7 @@ function displaySalesInfo(orderDetails, type) {
       table += "</tr>";
     }
 
-    table += "<tr>";
+    table += "<tr class='bg-light text-center'>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
@@ -95,12 +95,12 @@ function displaySalesInfo(orderDetails, type) {
   } //else display quick sales details
   else {
     var itemNumber = 0;
-    var modalBody = $("#order-details-modal-body");
+    var modalBody = $(".salesDetailsRow");
     modalBody.empty();
     sum = 0;
 
     var table =
-      '<table class="table table-bordered"><thead><tr><th>#</th><th>Item Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
+      '<table class="table table-hover   table-striped  "><thead class="table-header table-header-lg  text-center"><tr><th>#</th><th>Item Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
     for (var i = 0; i < otheritemArray.length; i++) {
       var itemName = otheritemArray[i].item_name;
       var pricePeritem = otheritemArray[i].unit_price;
@@ -109,7 +109,7 @@ function displaySalesInfo(orderDetails, type) {
       var discount = otheritemArray[i].discount;
       sum += priceAfterDiscount;
       itemNumber++;
-      table += "<tr>";
+      table += "<tr  class='table-light text-center'>";
       table += "<td>" + itemNumber + "</td>";
       table += "<td>" + itemName + "</td>";
       table += "<td>" + pricePeritem + "</td>";
@@ -126,7 +126,7 @@ function displaySalesInfo(orderDetails, type) {
       var discount = fooditemArray[i].discount;
       sum += priceAfterDiscount;
       itemNumber++;
-      table += "<tr>";
+      table += "<tr  class='table-light text-center'>";
       table += "<td>" + itemNumber + "</td>";
       table += "<td>" + itemName + "</td>";
       table += "<td>" + pricePeritem + "</td>";
@@ -136,13 +136,14 @@ function displaySalesInfo(orderDetails, type) {
       table += "</tr>";
     }
 
-    table += "<tr>";
+    table += "<tr class='bg-light  text-center'";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
-    table += "<td>" + sum + "</td>";
+    table += "<td>" + "</td>";
+    table += "<td >" + sum + "</td>";
     table += "</tr>";
 
     table += "</tbody></table>";
@@ -167,6 +168,7 @@ function displaySalesInfo(orderDetails, type) {
 }
 
 function filtersalesdetails(type) {
+
   // Hide all rows initially
   $(".salesRow").hide();
   //then depending on the type show all thhe related sales details 

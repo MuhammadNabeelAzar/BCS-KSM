@@ -4,7 +4,7 @@ function search() {
     const items = $(".list-group-item");
   
     for (var i = 0; i < items.length; i++) {
-      let match = $(items[i]).find("p");
+      let match = $(items[i]).find("h5");
       
       if (match.length > 0) {
         let textValue = match.text().toUpperCase();

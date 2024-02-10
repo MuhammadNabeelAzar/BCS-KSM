@@ -44,7 +44,7 @@ function search() {
   const cards = $(".card");
 
   for (var i = 0; i < cards.length; i++) {
-    let match = $(cards[i]).find("p");
+    let match = $(cards[i]).find("h5");
 
     if (match.length > 0) {
       let textValue = match.text().toUpperCase();
@@ -89,3 +89,16 @@ function requestStock(ing_id, ing_name) {
     });
   });
 }
+$(document).ready(function(){
+  
+  $('[data-bs-toggle="popover"]').popover();
+  //close all the popvers unless the last one toggled
+  $('[data-bs-toggle="popover"]').on('shown.bs.popover', function () {
+    var currentPopover = $(this);
+    $('[data-bs-toggle="popover"]').each(function () {
+        if (!$(this).is(currentPopover)) {
+            $(this).popover('hide');
+        }
+    });
+});
+});

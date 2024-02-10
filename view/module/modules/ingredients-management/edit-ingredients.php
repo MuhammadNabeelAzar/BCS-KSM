@@ -30,15 +30,9 @@ $ingfactorResult = $ingredientObj->getfactors();
 </head>
 
 <body>
-<?php 
+    <?php
     include '../../../commons/header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <a class="btn btn-primary" href="ingredients.php">Back</a>
-    <hr>
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -74,33 +68,47 @@ $ingfactorResult = $ingredientObj->getfactors();
     }
     ?>
     <!--user navigation-->
-    <div class="row">
-        <div class="col-md-3" style="background-color:black">
-            <div class="accordion">
-                <div class="row">
-                    <input class="form-control " id="seachBar" type="search" placeholder="Search" aria-label="Search"
-                        onkeyup="search()">
-                    <button class="btn btn-outline-success " type="submit">Search</button>
-                    <ul class="list-group">
-                        <?php
-                        while ($ingrow = $ingResult->fetch_assoc()) {
-                            $ing_id = $ingrow["ing_id"];
-                            $ing_id = base64_encode($ing_id);
-                            ?>
-                            <a type="button" class="list-group-item"
-                                href="edit-ingredients.php?ingid=<?php echo $ing_id ?>">
-                                <p>
-                                    <?php echo $ingrow["ing_name"] ?>
-                                </p>
-                            </a>
-                        <?php } ?>
-                    </ul>
+    <div class="row items-container  common-container m-0">
+        <div class="col-md-3 items-column">
+            <div class="row items-list-row justify-content-center">
+                <div class="row justify-content-center">
+                    <div class="row justify-content-center align-items-center searchBarRow">
+
+                        <div class="col-auto">
+                            <input class="form-control " type="search" id="seachBar" placeholder="Search"
+                                onkeyup="search()" aria-label="Search">
+                        </div>
+                        <div class="col-auto ">
+                            <a class="btn  back-btn btn-md" href="ingredients.php"><i
+                                    class="bi bi-arrow-return-left"></i></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul class="list-group list-row">
+                            <?php
+                            while ($ingrow = $ingResult->fetch_assoc()) {
+                                $ing_id = $ingrow["ing_id"];
+                                $ing_id = base64_encode($ing_id);
+                                ?>
+                                <a type="button" class="list-group-item"
+                                    href="edit-ingredients.php?status=edit-ingredient&ingid=<?php echo $ing_id ?>">
+                                    <h5>
+                                        <?php echo $ingrow["ing_name"] ?>
+                                    </h5>
+                                </a>
+                            <?php } ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col" style="background-color:blue">
-            <div class="row">
-                <form action="../../../../controller/ingredients_controller.php?status=edit-ingredient"
+        <div class="col edit-items-column d-flex align-items-center justify-content-center ">
+            <div class="card edit-items-card">
+                <div class="card-header edit-Item-card-header text-center">
+                    <H3>Edit Ingredient</H3>
+                </div>
+                <form id="edit-ingredients-form"
+                    action="../../../../controller/ingredients_controller.php?status=edit-ingredient"
                     enctype="multipart/form-data" method="post">
                     <input type="hidden" name="ing_id" value="<?php echo isset($ingg_id) ? $ingg_id : ''; ?>" />
 
@@ -114,45 +122,58 @@ $ingfactorResult = $ingredientObj->getfactors();
                     </div>
 
                     <div class="input-group">
-                        <label for="exampleFormControlTextarea1">Description</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        <div class="input-group-prepend">
+                            <span class="input-group-text placeholderdescription"
+                                id="inputGroup-sizing-default">Description</span>
+                        </div>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
                             name="ing_descript"><?php echo isset($ingredientrow["ing_description"]) ? $ingredientrow["ing_description"] : ''; ?></textarea>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <input type="file" class="form-control" aria-label="Default" aria-describedby="inputGroup"
-                                name="ing_image" onchange="readUrl(this);" value="">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-auto">
+                            <div class="input-group-prepend input-group-prepend-img">
+                                <input type="file" class="form-control" aria-label="Default"
+                                    aria-describedby="inputGroup" name="ing_image" onchange="readUrl(this);" value="">
+                            </div>
                         </div>
-
-                        <select class="forms-select mb-3" id="factors" aria-label="factors" name="factors" required>
-                            <option value="">----</option>
-                            <?php
-                            while ($factorrow = $ingfactorResult->fetch_assoc()) {
-                                ?>
-                                <option name="factor_selected" value="<?php echo $factorrow["factor_id"]; ?>" <?php echo (isset($ingredientrow["factor_id"]) && $ingredientrow["factor_id"] == $factorrow["factor_id"]) ? 'selected="selected"' : ''; ?>>
-                                    <?php echo isset($factorrow["factorsf"]) ? $factorrow["factorsf"] : ''; ?>
-                                </option>
-                                <?php
-                            }
-                            ?>
-                        </select>
-
-                        <div class="col-md-3">
+                        <div class="col-auto">
                             <img id="imgprev"
                                 src="<?php echo isset($ingredientrow["img_path"]) ? "../../../" . $ingredientrow["img_path"] : ''; ?>"
-                                alt="Uploaded Image" width="60px" height="60px">
+                                alt="Uploaded Image">
+                        </div>
+                        <div class="row m-0">
+                            <select class="forms-select mb-3 mt-3" id="factors" aria-label="factors" name="factors"
+                                required>
+                                <option value="">----</option>
+                                <?php
+                                while ($factorrow = $ingfactorResult->fetch_assoc()) {
+                                    ?>
+                                    <option name="factor_selected" value="<?php echo $factorrow["factor_id"]; ?>" <?php echo (isset($ingredientrow["factor_id"]) && $ingredientrow["factor_id"] == $factorrow["factor_id"]) ? 'selected="selected"' : ''; ?>>
+                                        <?php echo isset($factorrow["factorsf"]) ? $factorrow["factorsf"] : ''; ?>
+                                    </option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
+                    <div class="row justify-content-center">
+                    <div class="col-auto ">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#removeIngredientModal">
+                                Remove Ingredient
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button id="updateIng" type="submit" class="btn btn-outline-primary">
+                                Add
+                            </button>
+                        </div>
 
-                    <button id="updateIng" type="submit" class="btn btn-primary">
-                        Add
-                    </button>
+                       
+                    </div>
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#removeIngredientModal">
-                        Remove Ingredient
-                    </button>
                 </form>
 
             </div>
@@ -166,18 +187,21 @@ $ingfactorResult = $ingredientObj->getfactors();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="removeingtitle">Remove Ingredient</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to remove this ingredient ?
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a type="button" class="btn btn-primary"
+                <div class="row mt-3 justify-content-end">
+                   <div class="col-auto">
+                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                   </div>
+                    <div class="col-auto">
+                    <a type="button" class="btn btn-outline-primary"
                         href="../../../../controller/ingredients_controller.php?status=remove-ingredient&ingid=<?php echo $ing_id ?>">Remove
                         ingredient</a>
+                    </div>
                 </div>
             </div>
         </div>

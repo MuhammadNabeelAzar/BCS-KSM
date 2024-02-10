@@ -65,7 +65,7 @@ $fooditemrow = $fooditem->fetch_assoc();
     }
     ?>
 
-    <div class="row items-container">
+    <div class="row items-container m-0">
         <div class="col-md-3 items-column">
             <div class="row items-list-row justify-content-center">
                 <div class="row justify-content-center">
@@ -111,7 +111,7 @@ $fooditemrow = $fooditem->fetch_assoc();
                 </div>
             </div>
         </div>
-        <div class="col edit-items-column d-flex align-items-center justify-content-center">
+        <div class="col edit-items-column  common-container d-flex align-items-center justify-content-center">
             <div class="card edit-items-card">
                 <div class="card-header edit-Item-card-header text-center">
                     <H3>Edit Food Item</H3>
@@ -170,7 +170,8 @@ $fooditemrow = $fooditem->fetch_assoc();
                                 ?>
                             </select>
                         </div>
-                        <div class="row mt-5 justify-content-center">
+                    </div>
+                    <div class="row mt-5 justify-content-center">
                             <div class="col-auto">
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                     data-bs-target="#removeFooditemModal">Remove Item
@@ -182,7 +183,6 @@ $fooditemrow = $fooditem->fetch_assoc();
                                 </button>
                             </div>
                         </div>
-                    </div>
                 </form>
             </div>
         </div>

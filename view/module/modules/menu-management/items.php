@@ -61,7 +61,7 @@ $categoryResult = $menuObj->getcategories();
         <?php
     }
     ?>
-    <div class="row items-container">
+    <div class="row items-container common-container m-0">
         <div class="col-md-3 items-column">
             <div class="row items-list-row justify-content-center">
                 <div class="row justify-content-center">

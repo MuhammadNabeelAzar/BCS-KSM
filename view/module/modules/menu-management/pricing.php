@@ -46,7 +46,7 @@ $otheritemResult = $menuObj->getOtherItems();
 
     <!--user navigation-->
     
-    <div class="row Allitems-container justify-content-start">
+    <div class="row Allitems-container justify-content-start m-0">
         <div class="row d-flex searchBarRow justify-content-start p-0">
                     <?php
     if (isset($_GET["msg"])) {
@@ -135,7 +135,7 @@ $otheritemResult = $menuObj->getOtherItems();
                             </p>
                             <div class="col-auto">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="popover"
-                                    data-bs-placement="bottom" title="Item Description"
+                                    data-bs-placement="bottom" title="Item Description" data-bs-trigger="focus"
                                     data-bs-content="<?php echo isset($otheritemsrow["description"]) ? $otheritemsrow["description"] : 'No description'; ?>">
                                     Description
                                 </button>

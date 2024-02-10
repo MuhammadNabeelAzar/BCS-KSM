@@ -85,9 +85,9 @@ $editroleResult = $userObj->getroles();
                         </button>
                     </div>
                 </div>
-                <div class=" table-responsive " style="height: 100vh;">
+                <div class="table-responsive tableRowLg">
                     <table class="table table-hover   table-striped  ">
-                        <thead class="table-header " style="position: sticky;top:0;height:40px">
+                        <thead class="table-header table-header-lg text-center ">
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
@@ -105,9 +105,9 @@ $editroleResult = $userObj->getroles();
                                 $user_id = $userrow["user_id"];
                                 $user_id = base64_encode($user_id)
                                     ?>
-                                <tr class="userRow table-light">
+                                <tr class="userRow table-light text-center">
 
-                                    <td>
+                                    <td >
                                         <?php echo $userrow["user_id"] ?>
                                     </td>
                                     <td>
