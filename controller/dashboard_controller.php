@@ -47,7 +47,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-sales-customer-details') 
         $quickCustomerAndSalesTimeDetails = $data2->fetch_all(MYSQLI_ASSOC);
       
 
-        $response =  $orderCustomerAndSalesTimeDetails +  $quickCustomerAndSalesTimeDetails;
+        $response = array_merge($orderCustomerAndSalesTimeDetails, $quickCustomerAndSalesTimeDetails);
     
         header('Content-Type: application/json');
         echo json_encode($response);

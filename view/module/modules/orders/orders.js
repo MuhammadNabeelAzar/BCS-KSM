@@ -34,30 +34,34 @@ function displayAllOrders(response) {
       var status_id = order[i].status_id;
       var quantity = order[i].quantity;
       var fooditemrow = $(
-        '<div class="row"><div class="col"><p>#' +
-          count +
-          '</p></div><div class="col"><p>' +
-          fooditemName +
-          "</p></div>" +
-          '<div class="col"><p>x' +
-          quantity +
-          "</p></div>" +
-          "</div>"
-      );
+        
+            '<li class="list-group-item">' +
+                '<div class="row align-items-center">' +
+                    '<div class="col"><p style="font-weight: bold;">&bull; ' + count + '</p></div>' +
+                    '<div class="col"><p style="font-weight: bold;">' + fooditemName + '</p></div>' +
+                    '<div class="col-auto"><p style="font-weight: bold;">Qty: &times;' + quantity + '</p></div>' +
+                '</div>' +
+            '</li>' 
+ 
+    );
+    
       fooditemRow.push(fooditemrow); //push the created item row 
     }
 
     var Ordercard = $(
-      ' <div class="card " style="width: 15rem; margin: 2px;">' +
-        '<div class="row"><h5 class="card-title">' +
+      ' <div class="card orders-card" >' +
+        '<div class="row card-header allItem-card-header text-center"><h5 class="card-title">' +
         "Order Id :" +
         orderId +
         "</h5></div>" +
-        ' <div class="row customerName">' +'<p>'+customerName+'</p>'+
+        '<div class="card-body orders-card-body">'+
+        ' <div class="row customerName ">' +'<h6 class="col-auto" style="font-weight: bold;">Customer Name: </h6>'+'<p class="col-auto">'+customerName+'</p>'+
         "</div>" +
-        ' <div class="row fooditemDetails">' +
+        ' <div class="row">' +
+        '<ul class="list-group list-group-flush fooditemDetails"></ul>'+
         "</div>" +
-        '<div class ="row orderControlButton"><div class="col orderControlButtonDiv">' +
+        '<div class ="row  orderControlButton justify-content-center "><div class="col-auto orderControlButtonDiv ">' +
+        "</div>" +
         "</div>" +
         "</div>" +
         " </div>" +
@@ -66,13 +70,13 @@ function displayAllOrders(response) {
     //these are the controlleing buttons for each order (accept and mark as ready) they display depending on the order status
     if (status_id === "1") {
       var orderControlButton = Ordercard.find(".orderControlButtonDiv").append(
-        ' <button type="button" class="btn btn-primary" onclick="acceptOrder(' +
+        ' <button type="button" class="btn btn-outline-primary" onclick="acceptOrder(' +
           orderId +
           ')">Accept</button>'
       );
     } else if (status_id !== "3") {
       var orderControlButton = Ordercard.find(".orderControlButtonDiv").append(
-        ' <button type="button" class="btn btn-success" onclick="markOrderAsReady(' +
+        ' <button type="button" class="btn btn-outline-success" onclick="markOrderAsReady(' +
           orderId +
           ')">Ready</button>'
       );

@@ -183,7 +183,7 @@ class ingredient{
         $sql = "SELECT stock_refill_requests.* ,factors.factor ,factors.factorsf,ingredients.ing_name FROM stock_refill_requests 
         JOIN factors ON stock_refill_requests.factor_id = factors.factor_id 
         JOIN ingredients ON stock_refill_requests.ing_id = ingredients.ing_id
-        WHERE request_status NOT IN ('completed', 'cancelled') ORDER BY req_date DESC";
+        WHERE request_status NOT IN ('finished', 'cancelled') ORDER BY req_date DESC";
         $result = $con->query($sql) or die($con->error);
         
         return $result;

@@ -1,4 +1,6 @@
-<nav class="navbar navbar-expand-sm " style="background-color:766c7f;height:70px">
+
+
+<nav class="navbar navbar-header navbar-expand-sm ">
     <div class="container-fluid">
         <div class="d-flex flex-row datetime m-2 align-items-center">
             <div class="d-flex flex-column m-2">
@@ -28,11 +30,11 @@
             style="margin-right:75px;">
             <ul class="navbar-nav ml-auto"> <!-- Use "ml-auto" to push items to the right -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false" style="color:black;">
+                    <a class="nav-link dropdown-toggle  text-white" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" >
                         <h7>Account</h7>
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:#d0c1de;">
+                    <ul class="dropdown-menu mt-3" aria-labelledby="navbarDropdown" >
                         <li><a class="dropdown-item" href="../../commons/reset-password.php"><Span><i
                                         class="bi bi-lock"></i></Span>Password Settings</a>
                         </li>

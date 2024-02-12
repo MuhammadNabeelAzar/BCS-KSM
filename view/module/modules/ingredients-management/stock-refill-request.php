@@ -27,11 +27,7 @@ $userRoleID = $_SESSION['user']['role_id'];
 <?php 
     include '../../../commons/header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <hr>
+
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -67,8 +63,10 @@ $userRoleID = $_SESSION['user']['role_id'];
     }
     ?>
     <!--user navigation-->
-    <div class="container-fluid">
-        <div class="row requestsCards"></div>
+    <div class="container-fluid stockrequests-container  m-0">
+        <div class="row  requestsCards justify-content-center">
+        
+        </div>
     </div>
    
     <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
@@ -76,15 +74,20 @@ $userRoleID = $_SESSION['user']['role_id'];
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-body">
+        <div class="row msgRow"></div>
+      <div class="row mt-3 justify-content-end">
+       <div class="col-auto">
+       <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+       </div>
+       <div class="col-auto">
+       <button type="button" class="btn btn-outline-primary" id="confirmBtn">Confirm</button>
+       </div>
+       
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="confirmBtn">Confirm</button>
       </div>
     </div>
   </div>

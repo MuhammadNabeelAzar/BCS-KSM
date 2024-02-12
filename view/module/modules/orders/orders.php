@@ -24,11 +24,7 @@ $userRoleID = $_SESSION['user']['role_id'];
 <?php 
     include '../../../commons/header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <hr>
+
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -43,8 +39,8 @@ $userRoleID = $_SESSION['user']['role_id'];
     }
     ?>
       <!--user navigation-->
-    <div class="container-fluid">
-        <div class="row orders"></div>
+    <div class="container-fluid orders-container justify-content-center">
+        <div class="row orders justify-content-center"></div>
     </div>
   
     <div class="modal markOrderAsReadyConfirmationModal" tabindex="-1" role="dialog">
@@ -52,16 +48,19 @@ $userRoleID = $_SESSION['user']['role_id'];
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"></h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-body">
         <p> are you sure you want to mark the order as ready ?</p>
+        <div class="row justify-content-end">
+        <div class="col-auto">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+        <div class="col-auto">
+        <button type="button" class="btn btn-outline-danger" id="orderReadyConfirmButton">Confirm</button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" id="orderReadyConfirmButton">Confirm</button>
       </div>
     </div>
   </div>

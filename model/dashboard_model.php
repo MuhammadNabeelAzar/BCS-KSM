@@ -57,7 +57,7 @@ class dashboard{
     public function getAllQuickSalesCustomerDetails()
     {
         $con = $GLOBALS["con"];
-        $sql = "SELECT quick_sales.customer_id,quick_sales.time FROM quick_sales";
+        $sql = "SELECT quick_sales.customer_id,quick_sales.time AS time FROM quick_sales";
 
         $result = $con->query($sql) or die($con->error);
         

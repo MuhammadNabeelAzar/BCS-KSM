@@ -177,7 +177,7 @@ class order
         customer.*, 
         order_items.*, 
         order_status.*,
-        food_items.item_name AS item_name ,other_items.item_name AS item_name FROM `order`
+        COALESCE(food_items.item_name, other_items.item_name) AS item_name FROM `order`
         JOIN customer ON `order`.customer_id = customer.customer_id
         JOIN order_items ON `order`.order_id = order_items.order_id
         LEFT JOIN food_items ON `order_items`.food_itemId = food_items.food_itemId

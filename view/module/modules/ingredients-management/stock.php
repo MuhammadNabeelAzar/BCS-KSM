@@ -47,12 +47,12 @@ $ingfactorResult = $ingredientObj->getfactors();
   <!--user navigation-->
 
   <div class="row Allitems-container justify-content-start m-0">
-    <div class="row d-flex searchBarRow justify-content-start p-0">
+    <div class="row  searchBarRow justify-content-start  m-0 ">
       <?php
       if (isset($_GET["msg"])) {
         $msg = base64_decode($_GET["msg"]);
         ?>
-        <div class="alert alert-success alert-dismissible fade show " role="alert">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
           <div class="d-flex justify-content-between align-items-center">
             <p class="mb-0">
               <?php echo $msg; ?>

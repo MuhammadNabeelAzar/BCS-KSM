@@ -58,6 +58,7 @@ function salesItemPieChart(itemsData) {
   var options = {
     chart: {
       type: "donut",
+      height: '250px' 
     },
     series: chartData.series,
     labels: chartData.labels,
@@ -75,9 +76,9 @@ function salesItemPieChart(itemsData) {
 
 function displaytotal(total) {
   var totalDiv = $(".totalDiv");
-  var totalcard = `<div class="card justify-content-center text-center " style="background-color:#3765ad;">
-    <div class="row " ><h5 >Total Sales = Rs.${total}</h6></div>
-    </div>`;
+  var totalcard = `
+    <h6 class="totalSalesAmount"> Rs.${total}</h6>
+   `;
   totalDiv.append(totalcard);
 }
 
@@ -101,6 +102,7 @@ function displayTopCategories(categoryDetails) {
   var options = {
     chart: {
       type: "bar",
+      height: '330px' 
     },
     series: chartData.series,
     xaxis: {
@@ -116,6 +118,7 @@ function displayTopCategories(categoryDetails) {
 }
 
 function displayAveragePurchasesDayAndNight(customerAndSalesTimeData) {
+
   //this function shows the most no of customers visited during day and night (day(8am-6pm),night(6pm Afterwards))
   var data = { Day: 0, Night: 0 };
 
@@ -147,6 +150,7 @@ function displayAveragePurchasesDayAndNight(customerAndSalesTimeData) {
   var options = {
     chart: {
       type: "bar",
+      height: '250px' 
     },
     plotOptions: {
       bar: {
@@ -199,6 +203,7 @@ function displayIngredientStockLevels(ingData) {
   var options = {
     chart: {
       type: "bar",
+      height: '250px' 
     },
     series: chartData.series,
     labels: chartData.labels,

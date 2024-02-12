@@ -39,12 +39,12 @@ function displayRequests(data){
 
     var cards = `
     ${requests.map((request, index) => `
-        <div key=${index}>
-            <div class="card mb-3" style="width: 18rem;" >
-                <div class="card-header">
+        <div class="col-auto" key=${index}>
+            <div class="card refillRequestCard" >
+                <div class="row allItem-card-header card-header text-center">
+                <h5 class="card-title">Request Information</h5>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">Request Information</h5>
+                <div class="card-body justify-content-center">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Ingredient:</strong><span id="name"> ${request.name}</span></li>
                         <input type="hidden" value="">
@@ -52,14 +52,14 @@ function displayRequests(data){
                         <li class="list-group-item"><strong>Request Time:</strong> <span id="requestTime">${request.time}</span></li>
                         <li class="list-group-item"><strong>Request Status:</strong> <span id="requestStatus">${request.status}</span></li>
                         <li class="list-group-item"><strong>Required Amount:</strong> <span id="requiredAmount">${request.quantity}</span></li>
-                        <li class="list-group-item"><strong>Reason:</strong> <span id="reasont"><button type="button" onclick="displayRequestReason('${request.reason}')" class="btn btn-primary">Reason</button></span></li>
+                        <li class="list-group-item"><strong>Reason:</strong> <span id="reasont"><button type="button" onclick="displayRequestReason('${request.reason}')" class="btn btn-outline-secondary">Reason</button></span></li>
                     </ul>
                     ${(() => {
                         switch (request.status) {
                             case "pending":
-                                return `<button type="button" onclick="acceptRefillRequest(${request.req_Id})" class="btn btn-primary">Accept</button>`;
+                                return `<div class="row justify-content-center"><div class="col-auto"><button type="button " onclick="acceptRefillRequest(${request.req_Id})" class="btn btn-outline-primary">Accept</button></div></div>`;
                             case "accepted":
-                                return `<button type="button" onclick="completeRefillRequest(${request.req_Id})" class="btn btn-success">Ready</button>`;
+                                return `<div class="row justify-content-center"><div class="col-auto"><button type="button " onclick="completeRefillRequest(${request.req_Id})" class="btn btn-outline-success">Ready</button></div></div>`;
                         }
                     })()}
                 </div>
@@ -81,8 +81,8 @@ function displayRequestReason(reason){
 function acceptRefillRequest(req_id){
     //send the request to mark the request as accepted
     $("#confirmationModal").modal('show');
-    $(".modal-body").text('');
-    $(".modal-body").text('Are you sure you want to accept the request?');
+    $(".msgRow").text('');
+    $(".msgRow").text('Are you sure you want to accept the request?');
     const confirmBtn = $("#confirmBtn");
 
     $(confirmBtn).click(function () { 
@@ -107,8 +107,8 @@ function acceptRefillRequest(req_id){
 function completeRefillRequest(req_id){
     //send the request to mark the request as completed and close the request
     $("#confirmationModal").modal('show');
-    $(".modal-body").text('');
-    $(".modal-body").text('Are you sure you want to mark the request as ready and close the request?');
+    $(".msgRow").text('');
+    $(".msgRow").text('Are you sure you want to mark the request as ready and close the request?');
     const confirmBtn = $("#confirmBtn");
 
     $(confirmBtn).click(function () { 

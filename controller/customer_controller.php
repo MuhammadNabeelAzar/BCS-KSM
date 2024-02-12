@@ -14,7 +14,11 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-customer') {
 
         $customerObj->insertorUpdatecustomerdetails($cus_id, $cusFname, $cusLname, $cusEmail, $cusContactNo);
 
-        $response = "sucessfully inserted";
+        if (!isset($cus_id)) {
+            $response = "Added";
+        } else {
+            $response = "Updated";
+        }
 
 
         header('Content-Type: application/json');
