@@ -412,56 +412,20 @@ $userRoleID = isset($_SESSION['user']['role_id']) ? $_SESSION['user']['role_id']
 
     <div class="row mb-2">
             <div class="col-md-6">
-                <div class="card dashboardCard">
-                    <div class="card-header allItem-card-header">
-                        <h5 class="card-title">Sales Items Chart</h5>
-                    </div>
-                    <div class="card-body justify-content-center">
-                        <div class="chart-box salesItemsChart">
-                            <!-- Content for the salesItemsChart -->
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card dashboardCard">
-                            <div class="card-header allItem-card-header">
-                                <h5 class="card-title">Top Categories Chart</h5>
-                            </div>
-                            <div class="card-body justify-content-center">
-                                <div class="chart-box topcategoriesChart">
-                                    <!-- Content for the topcategoriesChart -->
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="col-md-12">
-                        <div class="card dashboardCard">
-                            <div class="card-header allItem-card-header">
-                                <h5 class="card-title">Total Div</h5>
-                            </div>
-                            <div class="card-body justify-content-center">
-                                <div class="chart-box totalDiv">
-                                    <!-- Content for the totalDiv -->
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card dashboardCard">
-                    <div class="card-header allItem-card-header">
-                        <h5 class="card-title">Average Purchase Time</h5>
-                    </div>
-                    <div class="card-body justify-content-center">
-                        <div class="chart-box AvgPurchaseTime">
-                            <!-- Content for the AvgPurchaseTime -->
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div class="col-md-6">
                 <div class="card dashboardCard">

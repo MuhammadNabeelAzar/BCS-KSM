@@ -19,45 +19,56 @@ function filteritems(category_id) {
 
       for (var i = 0; i < response.length; i++) {
         var item = response[i];
+        var popupContent = item.description !== null ?  item.description : "No description available.";
 
         // Create a card element
         var card = $(
-          '<div class="card " style="width: 15rem; margin: 2px;"></div>'
+          '<div class="card FoodItemCashiercard"></div>'
         );
 
         // Append card content while creating the content
         card.append(
-          '<div class="card row">' +
-            '<img  src="' +
+          '<div class="row card-header allItem-card-header text-center">'+
+          '<h6 class="card-title">' +
+          item.item_name +
+          "</h6>" +
+           '</div>'+
+            '<div class="card-body">' +
+            '<div class="row">'+
+               '<img  src="' +
             "../../../" +
             item.img_path +
-            '" alt="Item Image" style="height:100px;>' +
-            "</div>" +
-            '<div class="card-body">' +
+            '" alt="Item Image">' +
+            '</div>'+
             '<input class="item_ids" type="hidden" id="itemId" value="' +
             item.item_id +
             '">' +
-            '<h6 class="card-title">' +
-            item.item_name +
-            "</h6>" +
-            "<p>" +
-            item.description +
-            "</p>" +
-            "<div class='row'>" +
+            '<div class="row mt-2 justify-content-center m-0">'+
+                '<button type="button" class="btn btn-outline-secondary" data-bs-toggle="popover"'+
+                  'data-bs-placement="bottom" title="Item Description" data-bs-trigger="focus"'+
+                  'data-bs-content="'+popupContent+'">'+
+                  'Description'+
+                '</button>'+
+              '</div>'+
+            "<div class='row cardDetailsRow'>" +
+            "<div class='row availableQty align-items-center'><p class='card-text'>Available:" +
+            item.available_quantity +'</p>'+
+            "</div>" +
             "<div class='col'>" +
-            "<p>Rs." +
+            "<p class='card-text'>Rs." +
             item.price +
             "</p>" +
             "</div>" +
-            "<div class='col availableQty'>Available:" +
-            item.available_quantity +
-            "</div>" +
             "</div>" +
             (item.available_quantity >= "1"
-              ? '<button class="btn btn-primary" onclick="additemtoCart(' +
+              ? '<div class="row justify-content-center">'+
+                '<button class="btn col-auto btn-outline-primary" onclick="additemtoCart(' +
                 item.item_id +
-                ')" >Add to Cart</button>'
-              : '<button class="btn btn-danger">Unavailable</button>') +
+                ')" >Add to Cart</button>'+
+                '<div>'
+              : '<div class="row justify-content-center">'+
+              '<button class="btn col-auto btn-outline-danger">Unavailable</button>') +
+              '<div>'+
             "</div>"
         );
 
@@ -80,43 +91,54 @@ function filteritems(category_id) {
       //loop through the response and create fooditem cards
       for (var i = 0; i < response.length; i++) {
         var item = response[i];
+        var popupContent = item.food_description !== null ?  item.food_description : "No description available.";
 
         // Create a card element
         var card = $(
-          '<div class="card " style="width: 15rem; margin: 2px;"></div>'
+          '<div class="card FoodItemCashiercard"></div>'
         );
 
         // Append card content while creating the content
         card.append(
-          '<div class="card row">' +
+          '<div class="row card-header allItem-card-header text-center">'+
+          '<h6 class="card-title">' +
+          item.item_name +
+          "</h6>" +
+           '</div>'+
+            '<div class="card-body">' +
+            '<div class="row">'+
             '<img  src="' +
             "../../../" +
             item.img_path +
-            '" alt="Item Image" style="height:100px;>' +
-            "</div>" +
-            '<div class="card-body">' +
+            '" alt="Item Image">' +
+            '</div>'+
             '<input class="food_ids" type="hidden" id="fooditemId" value="' +
             item.food_itemId +
             '">' +
-            '<h6 class="card-title">' +
-            item.item_name +
-            "</h6>" +
-            "<p>" +
-            item.food_description +
-            "</p>" +
-            "<div class='row'>" +
+            '<div class="row mt-2 justify-content-center m-0">'+
+                '<button type="button" class="btn btn-outline-secondary" data-bs-toggle="popover"'+
+                  'data-bs-placement="bottom" title="Item Description" data-bs-trigger="focus"'+
+                  'data-bs-content="'+popupContent+'">'+
+                  'Description'+
+                '</button>'+
+              '</div>'+
+            "<div class='row cardDetailsRow'>" +
+            "<div class='row availableQty align-items-center'></div>" +
             "<div class='col'>" +
-            "<p>Rs." +
+            "<p class='card-text'>Rs." +
             item.price +
             "</p>" +
             "</div>" +
-            "<div class='col availableQty'></div>" +
             "</div>" +
             (item.availability === "1"
-              ? '<button class="btn btn-primary" onclick="addfooditemtoCart(' +
+              ? '<div class="row justify-content-center">'+
+              '<button class="btn col-auto btn-outline-primary" onclick="addfooditemtoCart(' +
                 item.food_itemId +
-                ')" >Add to Cart</button>'
-              : '<button class="btn btn-danger">Unavailable</button>') +
+                ')" >Add to Cart</button>'+
+                '</div>'
+              : '<div class="row justify-content-center">'+
+              '<button class="btn col-auto btn-outline-danger">Unavailable</button>') +
+              '</div>'+
             "</div>"
         );
 
@@ -146,45 +168,55 @@ function showallItems() {
 
       for (var i = 0; i < response.length; i++) {
         var item = response[i];
-
+        var popupContent = item.food_description !== null ?  item.food_description : "No description available.";
         // Create a card element
         var card = $(
-          '<div class="card " style="width: 15rem; margin: 2px;"></div>'
+          '<div class="card FoodItemCashiercard"></div>'
         );
+
         // Append card content while creating the content
         card.append(
-          '<div class="card row">' +
+          '<div class="row card-header allItem-card-header text-center">'+
+          '<h6 class="card-title">' +
+          item.item_name +
+          "</h6>" +
+           '</div>'+
+            '<div class="card-body">' +
+            '<div class="row">'+
             '<img  src="' +
             "../../../" +
             item.img_path +
-            '" alt="Item Image" style="height:100px;>' +
-            "</div>" +
-            '<div class="card-body">' +
+            '" alt="Item Image">' +
+            '</div>'+
             '<input class="food_ids" type="hidden" id="fooditemId" value="' +
             item.food_itemId +
             '">' +
-            '<h6 class="card-title">' +
-            item.item_name +
-            "</h6>" +
-            "<p>" +
-            item.food_description +
-            "</p>" +
-            "<div class='row'>" +
+            '<div class="row mt-2 justify-content-center m-0">'+
+                '<button type="button" class="btn btn-outline-secondary" data-bs-toggle="popover"'+
+                  'data-bs-placement="bottom" title="Item Description" data-bs-trigger="focus"'+
+                  'data-bs-content="'+popupContent+'">'+
+                  'Description'+
+                '</button>'+
+              '</div>'+
+            "<div class='row cardDetailsRow'>" +
+            "<div class='row availableQty align-items-center'></div>" +
             "<div class='col'>" +
-            "<p>Rs." +
+            "<p class='card-text'>Rs." +
             item.price +
             "</p>" +
             "</div>" +
-            "<div class='col availableQty'></div>" +
             "</div>" +
-            (item.availability === "1" &&
-            item.tmp_deactivate_availability === "0"
-              ? '<button class="btn btn-primary" onclick="addfooditemtoCart(' +
-                item.food_itemId +
-                ');" >Add to Cart</button>'
-              : '<button class="btn btn-danger">Unavailable</button>') +
-            "</div>"
-        );
+            (item.availability === "1"
+            ? '<div class="row justify-content-center">'+
+            '<button class="btn col-auto btn-outline-primary" onclick="addfooditemtoCart(' +
+              item.food_itemId +
+              ')" >Add to Cart</button>'+
+              '</div>'
+            : '<div class="row justify-content-center">'+
+            '<button class="btn col-auto btn-outline-danger">Unavailable</button>') +
+            '</div>'+
+          "</div>"
+      );
         var fooditem_id = item.food_itemId;
         //send the fooditem ID and the card element to get the available item quantity based on the remaining ingredients
         getavailableitemqty(fooditem_id, card);
@@ -204,47 +236,56 @@ function showallItems() {
 
       for (var i = 0; i < response.length; i++) {
         var item = response[i];
+        var popupContent = item.description !== null ?  item.description : "No description available.";
 
         // Create a card element
         var card = $(
-          '<div class="card " style="width: 15rem; margin: 2px;"></div>'
+          '<div class="card FoodItemCashiercard"></div>'
         );
 
         // Append card content while creating the content
         card.append(
-          '<div class="card row">' +
-            '<img  src="' +
+          '<div class="row card-header allItem-card-header text-center">'+
+          '<h6 class="card-title">' +
+          item.item_name +
+          "</h6>" +
+           '</div>'+
+            '<div class="card-body">' +
+            '<div class="row">'+
+               '<img  src="' +
             "../../../" +
             item.img_path +
-            '" alt="Item Image" style="height:100px;>' +
-            "</div>" +
-            '<div class="card-body">' +
-            '<input class="food_ids" type="hidden" id="fooditemId" value="' +
+            '" alt="Item Image">' +
+            '</div>'+
+            '<input class="item_ids" type="hidden" id="itemId" value="' +
             item.item_id +
             '">' +
-            '<h6 class="card-title">' +
-            item.item_name +
-            "</h6>" +
-            "<p>" +
-            item.description +
-            "</p>" +
-            "<div class='row'>" +
+            '<div class="row mt-2 justify-content-center m-0">'+
+                '<button type="button" class="btn btn-outline-secondary" data-bs-toggle="popover"'+
+                  'data-bs-placement="bottom" title="Item Description" data-bs-trigger="focus"'+
+                  'data-bs-content="'+popupContent+'">'+
+                  'Description'+
+                '</button>'+
+              '</div>'+
+            "<div class='row cardDetailsRow '>" +
+            "<div class='row availableQty align-items-center'><p class='card-text'>Available:" +
+            item.available_quantity +'</p>'+
+            "</div>" +
             "<div class='col'>" +
-            "<p>Rs." +
+            "<p class='card-text'>Rs." +
             item.price +
             "</p>" +
             "</div>" +
-            "<div class='col availableQty'>Available:" +
-            item.available_quantity +
             "</div>" +
-            "<div class='col availableQty'></div>" +
-            "</div>" +
-            (item.available_quantity > "0" &&
-            item.tmp_deactivate_availability === "0"
-              ? '<button class="btn btn-primary" onclick="additemtoCart(' +
+            (item.available_quantity >= "1"
+              ? '<div class="row justify-content-center">'+
+                '<button class="btn col-auto btn-outline-primary" onclick="additemtoCart(' +
                 item.item_id +
-                ');" >Add to Cart</button>'
-              : '<button class="btn btn-danger">Unavailable</button>') +
+                ')" >Add to Cart</button>'+
+                '<div>'
+              : '<div class="row justify-content-center">'+
+              '<button class="btn col-auto btn-outline-danger">Unavailable</button>') +
+              '<div>'+
             "</div>"
         );
         // Append the card to the container
@@ -271,9 +312,9 @@ function additemtoCart(itemId) {
       // if the same item is present then disable add and if its not present then add to cart
       if (!existingfoodItemsinCart) {
         fooditemContainer.append(
-          ' <div class="row fooditemRow commonrow itemRow" > ' +
-            ' <div class="col ml-auto"> ' +
-            '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>' +
+          ' <div class="row fooditemRow mb-2 m-0 cartItem commonrow itemRow" > ' +
+          ' <div class="row  m-0 "> ' +
+            '<button type="button" class="bi col-auto  bi-trash btn-danger  btn-sm" onclick="removeItem(this)"></button>' +
             " </div> " +
             '<input class="food_ids" type="hidden" id="itemId" value="' +
             response.item_id +
@@ -281,24 +322,22 @@ function additemtoCart(itemId) {
             '<h6 class="food_item_name">' +
             response.item_name +
             "</h6>" +
-            ' <div class="row"> ' +
-            ' <div class="col"> ' +
+            ' <div class="row m-0"> ' +
+            ' <div class="col  pricecol"> ' +
             '<p class="pricePeritem">' +
             "Rs." +
             response.price +
             "</p>" +
             " </div> " +
+            ' <div class="row m-0 align-items-center"> ' +
             ' <div class="col"> ' +
-            '<div class="input-group"> ' +
-            ' <div class="col"> ' +
-            '<button type="button" class="btn bi-file-minus btn-secondary btn-sm" onclick="decreaseCounter(this)" ></button>' +
+            '<button type="button" class="btn bi-dash btn-outline-secondary btn-sm" onclick="decreaseCounter(this)" ></button>' +
             " </div> " +
-            '<input style="width:10px;" class="col foodItemqty" type="number"  id="inputQuantitySelectorSm"  value="0" min="0" readonly>' +
+            '<input  class="col form-control form-control-sm foodItemqty" type="number"  id="inputQuantitySelectorSm"  value="0" min="0" readonly>' +
             ' <div class="col"> ' +
-            '<button type="button" class="btn bi-plus btn-secondary btn-sm" onclick="increaseitemCounter(this,' +
+            '<button type="button" class="btn bi-plus btn-outline-secondary btn-sm" onclick="increaseitemCounter(this,' +
             response.available_quantity +
             ')"></button>' +
-            " </div> " +
             "</div>" +
             " </div> " +
             "</div>" +
@@ -323,9 +362,9 @@ function addfooditemtoCart(foodId) {
       // if the same fooditem is present then disable add and if its not present then add to cart
       if (!existingfoodItemsinCart) {
         fooditemContainer.append(
-          ' <div class="row fooditemRow commonrow foodRow" > ' +
-            ' <div class="col ml-auto"> ' +
-            '<button type="button" class="bi bi-trash  btn-sm" onclick="removeItem(this)"></button>' +
+          ' <div class="row fooditemRow cartItem mb-2 commonrow foodRow m-0 justify-content-center" > ' +
+            ' <div class="row  m-0 "> ' +
+            '<button type="button" class="bi bi-trash m-0 col-auto btn-danger btn-sm" onclick="removeItem(this)"></button>' +
             " </div> " +
             '<input class="food_ids" type="hidden" id="fooditemId" value="' +
             response.food_itemId +
@@ -333,24 +372,22 @@ function addfooditemtoCart(foodId) {
             '<h6 class="food_item_name">' +
             response.item_name +
             "</h6>" +
-            ' <div class="row"> ' +
-            ' <div class="col"> ' +
+            ' <div class="row m-0"> ' +
+            ' <div class="col pricecol"> ' +
             '<p class="pricePeritem">' +
             "Rs." +
             response.price +
             "</p>" +
             " </div> " +
+            ' <div class="row m-0 align-items-center"> ' +
             ' <div class="col"> ' +
-            '<div class="input-group"> ' +
-            ' <div class="col"> ' +
-            '<button type="button" class="btn bi-file-minus btn-secondary btn-sm" onclick="decreaseCounter(this)" ></button>' +
+            '<button type="button" class="btn bi-dash  btn-outline-secondary btn-sm" onclick="decreaseCounter(this)" ></button>' +
             " </div> " +
-            '<input style="width:10px;" class="col foodItemqty" type="number"  id="inputQuantitySelectorSm"  value="0" min="0" readonly>' +
+            '<input class="col form-control form-control-sm foodItemqty" type="number"  id="inputQuantitySelectorSm"  value="0" min="0" readonly>' +
             ' <div class="col"> ' +
-            '<button type="button" class="btn bi-plus btn-secondary btn-sm" onclick="increasefooditemCounter(this,' +
+            '<button type="button" class="btn bi-plus btn-outline-secondary btn-sm" onclick="increasefooditemCounter(this,' +
             response.food_itemId +
             ')"></button>' +
-            " </div> " +
             "</div>" +
             " </div> " +
             "</div>" +
@@ -466,7 +503,7 @@ function showDiscountInput() {
     var inputDiv = document.getElementById("discountinput");
 
     var discountInput = document.createElement("input");
-    discountInput.classList.add("discountinput");
+    discountInput.classList.add("discountinput", "form-control","col");
     discountInput.id = "discountpercentageinput";
     discountInput.type = "number";
     discountInput.min = "0";
@@ -637,7 +674,7 @@ function displayfooditemavailableQty(fooditem_id, itemavailableqty, card) {
     if (foodcard_id == fooditem_id) {
       $(this)
         .find(".availableQty")
-        .html("Available :" + itemavailableqty);
+        .html("<p class='card-text'>Available :" + itemavailableqty+"</p>");
     }
   });
 }
@@ -747,11 +784,11 @@ function placeOrder() {
           sum = 0;
           displayTotal(sum);
           showAllOrders();
+          Swal.fire("Order placed succesfully.");
         },
       });
     }
   }
-  Swal.fire("Order placed succesfully.");
 }
 
 function reduceStock(foodItems, items) {
@@ -812,13 +849,12 @@ function showAllOrders() {
             var orderStatus = orderItems[i].status_name;
             var orderStatusId = orderItems[i].status_id;
             var orderCard = $(
-              '<div class="col-md-2 ">' +
-                '<button type="button" class="btn btn-outline-primary" onclick="getorderDetails(' +
+                '<button type="button" class="btn btn-outline-primary  pending-order-btns d-block mb-2" onclick="getorderDetails(' +
                 order_id +
                 "," +
                 orderStatusId +
                 ')">' +
-                '<h5 style="text-align: left;">' +
+                '<h5>' +
                 order_id +
                 "</h5>" +
                 "<p>" +
@@ -834,8 +870,7 @@ function showAllOrders() {
                 "<p>" +
                 orderStatus +
                 "</p>" +
-                "</button>" +
-                "</div>"
+                "</button>" 
             );
           }
 
@@ -1602,4 +1637,14 @@ $(document).ready(function () {
   setInterval(function () {
     showAllOrders();
   }, 15000); //call the function every 15seconds
+});
+
+$(document).ready(function() {
+  // Attach the popover initialization to a parent element (in this case, 'body')
+  $('body').on('click', '[data-bs-toggle="popover"]', function() {
+    $(this).popover('toggle');
+    //close all the popovers unless the last one toggled
+    var currentPopover = $(this);
+    $('[data-bs-toggle="popover"]').not(currentPopover).popover('hide');
+  });
 });
