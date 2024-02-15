@@ -26,6 +26,7 @@ $userResult = $userObj->getUserdetails();
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="../style/style.css">
+    <link rel="stylesheet" type="text/css" href="../style/colors.css">
 </head>
 
 <body>
@@ -34,31 +35,7 @@ $userResult = $userObj->getUserdetails();
     include 'header.php';
     ?>
 
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <?php
-    if (isset($_GET["msg"])) {
-        $msg = base64_decode($_GET["msg"]);
-        ?>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <p>
-            <div class="row">
-                <p>
-                    <?php echo $msg; ?>
-                </p>
-            </div>
-
-            </p>
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <?php
-    }
-    ?>
-    <hr>
+    
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -72,37 +49,52 @@ $userResult = $userObj->getUserdetails();
         include 'cashier-navigation.php';
     }
     ?>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <form id="reset-password" onsubmit="return resetPassword(<?php echo $userID ?>,event)">
-                                <h3 class="card-title text-center">Password Reset</h3>
-                                <div class="form-group">
-                                    <label for="currentPassword">Current Password</label>
-                                    <input type="password" class="form-control" id="currentPassword"
-                                        name="currentPassword" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="newPassword">New Password</label>
-                                    <input type="password" class="form-control" id="newPassword" name="newPassword"
-                                        onkeyup="checkPasswordStrength()" required>
-                                </div>
-                                <div class="row" id="password-strength-status"></div>
-                                <div class="form-group">
-                                    <label for="confirmPassword">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword"
-                                        name="confirmPassword" required>
-                                </div>
-                                <div class="password-match-status"></div>
-                                <button type="submit" class="btn btn-primary btn-block"
-                                    >Reset Password</button>
-                            </form>
+    <div class="container-fluid common-container  justify-content-center ">
+        <div class="d-flex resetCardRow  align-items-center justify-content-center">
+            <div class="col-auto   justify-content-center ">
+                    <div class="card  PasswordResetCard">
+                        <div class="card-header  ResetPassword-card-header p-2">
+                        <h3 class="card-title text-center">Password Reset</h3>
                         </div>
-                    </div>
+                        <div class="card-body mt-4">
+    <form id="reset-password" onsubmit="return resetPassword(<?php echo $userID ?>,event)">
+        <div class="row m-0 ">
+            <!-- Current Password -->
+            <div class="input-group  justify-content-center mb-4 ">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Current Password</span>
                 </div>
+                <input type="password" class="form-control row" id="currentPassword" name="currentPassword" required>  
+            </div>
+
+            <!-- New Password -->
+            <div class="input-group  justify-content-center mb-2 ">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">New Password</span>
+                </div>
+                <input  type="password" class="form-control row" id="newPassword" name="newPassword" onkeyup="checkPasswordStrength()" required>          
+            </div>
+            <div class="row " id="password-strength-status"></div>
+            <!-- Confirm Password -->
+            <div class="input-group justify-content-center mt-2 mb-2 ">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Confirm Password</span>
+                </div>
+             
+                <input type="password" class="form-control row" id="confirmPassword" name="confirmPassword" required>
+
+
+                </div>
+                <div class="row m-0 password-match-status mb-4"></div>
+        </div>
+
+        <div class="row justify-content-center">
+            <button type="submit" class="btn btn-outline-primary col-auto btn-block">Reset Password</button>
+        </div>
+    </form>
+</div>
+
+                    </div>
             </div>
         </div>
     </div>

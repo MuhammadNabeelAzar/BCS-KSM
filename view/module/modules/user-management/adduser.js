@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Keep the modal open
                     }
                 } catch (error) {
-                    Swal.fire('Enter your details in the form ! ');
+                    Swal.fire('Enter all the user details in the form ! ');
                 }
             }
         };

@@ -35,11 +35,11 @@
                         <h7>Account</h7>
                     </a>
                     <ul class="dropdown-menu mt-3" aria-labelledby="navbarDropdown" >
-                        <li><a class="dropdown-item" href="../../commons/reset-password.php"><Span><i
-                                        class="bi bi-lock"></i></Span>Password Settings</a>
+                        <li><a class="dropdown-item" href="http://localhost/BcsKSM/view/commons/reset-password.php"><Span><i
+                                        class="bi bi-lock"></i></Span >Password Settings</a>
                         </li>
                         <li><a class="dropdown-item" href="../../../controller/logout_controller.php"><span><i
-                                        class="bi bi-box-arrow-right"></i></span>Logout</a></li>
+                                        class="bi bi-box-arrow-right"></i></span> Logout</a></li>
                     </ul>
                 </li>
             </ul>

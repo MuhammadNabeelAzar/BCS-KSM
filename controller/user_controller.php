@@ -76,9 +76,9 @@ if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
                 throw new Exception("Email is invalid!");
             }
 
-            $patnic = "/^[0-9]{12}[vVxX]?$/";
+            $patnic = "/^[a-zA-Z0-9]{1,12}$/";
             if (!preg_match($patnic, $nic)) {
-                throw new Exception("Invalid NIC format!");
+                throw new Exception("NIC cannot be empty!");
             }
 
             $userObj->updateUser($firstname, $lastname, $email, $nic, $dob, $cno, $role, $user_id);

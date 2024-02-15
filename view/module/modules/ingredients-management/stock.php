@@ -63,13 +63,15 @@ $ingfactorResult = $ingredientObj->getfactors();
         <?php
       }
       ?>
-  <div class="row Allitems-container justify-content-start m-0">
-    <div class="row  searchBarRow justify-content-start  m-0 ">
-      <input class="form-control m-2 " type="search" id="seachBar" placeholder="Search" onkeyup="search()"
+  <div class="row Allitems-container  justify-content-start m-0">
+    <div class="row  searchBarRow ingredientStockSearchBarRow justify-content-start  m-0 ">
+      <div class="col-auto">
+      <input class="form-control m-2  " type="search" id="seachBar" placeholder="Search" onkeyup="search()"
         aria-label="Search">
+      </div>
 
     </div>
-    <div class="row itemcards justify-content-center">
+    <div class="row itemcards m-0 ingredientsStockRow justify-content-center">
       <?php
       while ($ingrow = $ingResult->fetch_assoc()) {
         $ing_id = $ingrow["ing_id"];
@@ -203,7 +205,7 @@ $ingfactorResult = $ingredientObj->getfactors();
                 <button type="button" class="btn btn-outline-danger" onclick="resetstock()">Reset</button>
               </div>
               <div class="col-auto">
-                <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                <button type="submit" class="btn btn-outline-primary">Update</button>
               </div>
 
 

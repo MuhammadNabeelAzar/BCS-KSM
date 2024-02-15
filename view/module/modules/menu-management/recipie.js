@@ -13,6 +13,7 @@ function addIngredientsToRecipe(formCheckInput) {
     var factor = document.createElement("select");
     factor.setAttribute("name", "factor[]");
     factor.setAttribute("class", "factor");
+  
 
     var g = document.createElement("option");
     g.value = "1";
@@ -58,27 +59,29 @@ function addIngredientsToRecipe(formCheckInput) {
   }
 }
 function moveIngtoOriginalContainer(formIngElement) {
-  //this function moves the ingredient back to the list
+  // This function moves the ingredient back to the list
   removeIngredientmodalpopup();
+   const IngredientContainer = $('.ingListRow');
   // Add an event listener to the button inside the popup
   $("#removeIngBtn").on("click", function () {
     // Move to the original container
-    formIngElement.appendTo("#list");
-    $("#list .qtyrequired").hide(); //hide the requiredqty  input  field
-    $("#list [id^=factorSelect]").hide(); //hide the factor options field
+    formIngElement.appendTo(IngredientContainer);
+
+    // Select .qtyrequired and elements with id starting with "factorSelect" inside formIngElement
+    formIngElement.find('.qtyrequired').prop("type", "hidden");
+    formIngElement.find('[id^=factorSelect]').css("display", "none");
 
     // Hide the modal
     $("#removeIngredientModal").modal("hide");
   });
 }
 
+
 function moveCheckedIngredients() {
-  // Function to move checked ingredients to the selected-ingredients container(The ingredients that are already present in the recipe)
-  $(".form-check-input:checked").each(function () {
+  // Function to move checked ingredients to the selected-ingredients container (The ingredients that are already present in the recipe)
+  $(".form-check-input:checked").each(function (index) {
     const formIngElement = $(this).closest(".form-check");
-    $("#selected-ingredients [id^=factorSelect]").css("display", "block");
-    $("#selected-ingredients .qtyrequired").prop("type", "text");
-    $("#selected-ingredients .qtyrequired").css("display", "block");;
+
     // Move to the selected-ingredients container
     $("#selected-ingredients").append(formIngElement);
 
@@ -87,6 +90,13 @@ function moveCheckedIngredients() {
     container.className = "col";
 
     formIngElement.append(container);
+
+    // If it's the last checked item, apply the additional changes
+    if (index === $(".form-check-input:checked").length - 1) {
+      $("#selected-ingredients [id^=factorSelect]").css("display", "block");
+      $("#selected-ingredients .qtyrequired").prop("type", "text");
+      $("#selected-ingredients .qtyrequired").css("display", "block");
+    }
   });
 }
 

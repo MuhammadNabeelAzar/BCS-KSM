@@ -28,7 +28,7 @@
       
 }
 body {
-    max-height: 100vh; /* Set maximum height to viewport height */
+    height: 100vh; /* Set maximum height to viewport height */
     overflow: hidden; /* Disable vertical overflow */
     margin: 0;
     padding: 0;
@@ -55,7 +55,9 @@ textarea{
  .offcanvas-body a {
     text-decoration: none;
 }
-
+.offcanvas-backdrop {
+    display: none !important; /* Set display property to none to hide the overlay */
+}
 .offcanvas .list-group-item {
     text-align: center;
     margin-bottom: 10px;
@@ -71,6 +73,10 @@ textarea{
 .offcanvas .offcanvas-body a {
     font-weight: bold;
 }
+.offcanvas .offcanvas-body .mainList{
+    margin-top: 100px;
+}
+
 
 .offcanvas .people-icon,
 .offcanvas .customer-icon,
@@ -130,7 +136,8 @@ textarea{
     overflow-x: auto;
 }
 .items-container {
-    height: calc(100vh - 70px)
+    height: calc(100vh - 70px);
+    width: 100%;
 }
 
 
@@ -186,6 +193,7 @@ textarea{
     overflow-x: auto;
     max-height: cal(100vh-70px) !important;
 }
+
 .recipeRow {
     margin: 0;
     overflow-x: auto;
@@ -200,7 +208,11 @@ textarea{
     max-height: calc(100vh - 70px);
 }
 
-
+.ingListRow{
+    padding: 10px;
+    overflow-y:auto;
+    max-height: 150px;
+}
 .items-list-row{
     overflow-x: auto;
     max-height: 750px;
@@ -208,6 +220,11 @@ textarea{
     margin-bottom: 100px;
     bottom: 0;
 }
+.selectedIngredientsRow {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
 .list-row{
     margin-top: 20px;
 }
@@ -255,7 +272,7 @@ textarea{
     width: fit-content;
 }
 .ItemNameCol{
-    width: fit-content;
+    width: 100%;
 }
 .edit-items-column{
    
@@ -263,13 +280,13 @@ textarea{
 }
 
 .recipecolumn {
-    max-height: 80vh;
+    height: calc(100vh-70px);
     overflow-y: auto;
+    margin-left: 10px;
 }
 
 .ing-list {
-    max-height: 60vh;
-    overflow-y: auto;
+    border: 1px solid #d0d0d0; 
 }
 .img-col #imgprev{
     min-height:200px;
@@ -279,7 +296,7 @@ textarea{
     overflow-y: auto;
     top: 0;
     z-index: 1;
-    height: 85vh;
+    height:93vh;
     width:100%;
     margin: 0;
     
@@ -288,11 +305,28 @@ textarea{
     width: 18rem;
     margin:10px;
     border-radius: 25px;
+    max-height: 400px;
+}
+.Otheritemscard{
+    width: 18rem;
+    margin:10px;
+    border-radius: 25px;
+    max-height: 300px;
+}
+.Otheritems-container{
+    height:100vh;
+}
+.OtherItemsRow{
+    height:100vh;
+    overflow: auto;
 }
 .FoodItemCashiercard{
     width: 15rem;
     margin:5px;
     border-radius: 25px;
+}
+.searchBarRow {
+    border-bottom: 1px solid #d0d0d0;
 }
 
 .cashierCatCard{
@@ -307,16 +341,27 @@ textarea{
 }
 
 
-.orders-card,.refillRequestCard{
+.refillRequestCard{
     width: 19rem;
-    max-height: 500px;
+    max-height: 400px;
     margin:10px;
     border-radius: 25px;
     overflow-y: auto;
 }
+.orders-card{
+    width: 19rem;
+    max-height: 350px;
+    margin:10px;
+    border-radius: 25px;
+}
+
+.orderControlButton{
+    border-radius: 25px !important;
+}
 .Ingredientcard{
     width: 18rem;
     margin:10px;
+    max-height: 400px;
     border-radius: 25px;
 }
 .refillRequestCard{
@@ -325,9 +370,13 @@ textarea{
     border-radius: 25px;
     overflow-x: hidden;
 }
-.stockrequests-container,.orders-container{
+.stockrequests-container{
     height: 70vh;
     overflow-y: auto;
+}
+.orders-container{
+    margin: 0;
+    height:calc(100vh-70px);
 }
 .allItem-card-header,.edit-user-card-header{
     border-top-left-radius: 25px !important;
@@ -395,7 +444,7 @@ font-weight: bold;
 
 .pending-order-btns{
     min-width: 130px;
-    min-height:140px;
+    min-height:150px;
 }
 #fooditems-container{
     margin: 0;
@@ -417,6 +466,36 @@ font-weight: bold;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     margin: 10px;
 }
+.edit-user-card-col{
+    border: 1px solid #d0d0d0; 
+margin: 100px;
+border-radius: 8px;
+}
+.PasswordResetCard{
+min-height: 600px;
+max-width: 500px;
+border-radius: 25px;
+}
+.PasswordResetCard .card-body{
+    padding-top: 120px;
+}
+.PasswordResetCard .input-group-prepend{
+width: 160px ;
+}
+.PasswordResetCard input{
+width: 80px ;
+}
+.resetCardRow{
+    margin: auto; 
+    margin-top:50px; 
+    max-width: 800px;
+    padding: 50px;
+    height: 80vh;
+}
+
+
+
+
 .cart{
     background-color: #ffffff; 
     border: 1px solid #d0d0d0; 
@@ -434,12 +513,36 @@ font-weight: bold;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
 }
+
 .cartcustomerDetailscard{
+    border-radius: 8px;
     border: 1px solid #d0d0d0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
     max-width: 280px;
     padding: 10px;
+}
+.cartTotalRow{
+    border: 1px solid #d0d0d0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    max-width: 280px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+.ingredientStockSearchBarRow{
+    border-bottom: 1px solid #d0d0d0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+.edit-items-column{
+    border-left: 1px solid #d0d0d0;
+}
+.searchBarRow{
+    height: fit-content;
 }
 .cartcustomerDetailscard .input-group-prepend {
     width: 100px;
@@ -450,6 +553,7 @@ font-weight: bold;
     background-color: #ffffff;
     max-width: 280px;
     padding: 10px;
+    border-radius: 8px;
 }
 .cartItemsCard {
     border: 1px solid #d0d0d0;
@@ -459,12 +563,20 @@ font-weight: bold;
     max-height: 290px;
     padding: 10px;
     overflow-y: auto;
+    border-radius: 8px;
 }
 .cartItem{
     border: 1px solid #d0d0d0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f6f1f1;
     padding:5px;
+    border-radius: 8px;
+}
+.FoodImageRecipe{
+    margin: 10px;
+    padding:10px ;
+    border: 2px solid #d0d0d0;
+    border-radius: 8px;
 }
 #discountName{
     width: 100px;
@@ -476,4 +588,44 @@ font-weight: bold;
 .cashier-container{
     height:calc(100vh-70px);
     overflow-y: auto;
+}
+.pending-order-btns{
+    border: 0;
+}
+.markOrderAsReadyConfirmationModal .btn{
+    height: fit-content;
+}
+.orders-container{
+    height:90vh;
+    overflow: auto;
+}
+.login-card{
+    margin-top:180px;
+     width:500px;
+    height: 350px;
+    border-radius: 75px;
+}
+
+.login-card .input-group-text{
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+.login-card .btn-outline-success{
+border-radius: 25px;
+width: 75px;
+}
+.alertRow{
+    min-height: 40px;
+}
+.login-card .form-control{
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.alertRow{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.loginBody .header-text{
+    font-weight: bolder;
 }

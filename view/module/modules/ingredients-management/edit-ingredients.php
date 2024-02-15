@@ -103,7 +103,7 @@ $ingfactorResult = $ingredientObj->getfactors();
             </div>
         </div>
         <div class="col edit-items-column d-flex align-items-center justify-content-center ">
-            <div class="card edit-items-card">
+            <div class="card edit-items-card ">
                 <div class="card-header edit-Item-card-header text-center">
                     <H3>Edit Ingredient</H3>
                 </div>

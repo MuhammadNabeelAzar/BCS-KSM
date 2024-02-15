@@ -49,19 +49,20 @@ function displayAllOrders(response) {
     }
 
     var Ordercard = $(
-      ' <div class="card orders-card" >' +
+      ' <div class="card orders-card mt-4" >' +
         '<div class="row card-header allItem-card-header text-center"><h5 class="card-title">' +
         "Order Id :" +
         orderId +
         "</h5></div>" +
         '<div class="card-body orders-card-body">'+
-        ' <div class="row customerName ">' +'<h6 class="col-auto" style="font-weight: bold;">Customer Name: </h6>'+'<p class="col-auto">'+customerName+'</p>'+
+        ' <div class="row justify-content-center customerName ">' +'<h6 class="row  justify-content-center" style="font-weight: bold;">Customer Name </h6>'+'<p class="row  justify-content-center">'+customerName+'</p>'+
         "</div>" +
-        ' <div class="row">' +
-        '<ul class="list-group list-group-flush fooditemDetails"></ul>'+
+        ' <div class="row" style="overflow-y: auto ;max-height:150px;" >' +
+        '<ul class="list-group list-group-flush fooditemDetails" ></ul>'+
         "</div>" +
-        '<div class ="row  orderControlButton justify-content-center "><div class="col-auto orderControlButtonDiv ">' +
         "</div>" +
+        '<div class =" row orderControlButton  justify-content-center align-items-center "><div class="col-auto orderControlButtonDiv mb-2">' +
+        
         "</div>" +
         "</div>" +
         " </div>" +

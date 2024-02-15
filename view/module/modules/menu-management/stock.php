@@ -47,8 +47,9 @@ $otherItemResult = $menuObj->getOtherItems();
 
     <!--user navigation-->
 
-    <div class="row Allitems-container justify-content-start">
-        <div class="row d-flex searchBarRow justify-content-start p-0">
+    <div class="row m-0 Otheritems-container justify-content-center">
+       <div class="col-md-12">
+       <div class="row d-flex searchBarRow justify-content-start ">
             <?php
             if (isset($_GET["msg"])) {
                 $msg = base64_decode($_GET["msg"]);
@@ -66,9 +67,12 @@ $otherItemResult = $menuObj->getOtherItems();
                 <?php
             }
             ?>
-            <input class="form-control m-2 " type="search" id="seachBar" placeholder="Search" onkeyup="search()"
+            <div class="col-auto">
+            <input class="form-control m-2" type="search" id="seachBar" placeholder="Search" onkeyup="search()"
                 aria-label="Search">
+            </div>
         </div>
+        <div class="row OtherItemsRow justify-content-center ">
         <?php
         while ($itemsrow = $otherItemResult->fetch_assoc()) {
             $item_id = $itemsrow["item_id"];
@@ -77,7 +81,7 @@ $otherItemResult = $menuObj->getOtherItems();
             //display the items where the
         
             ?>
-            <div class="card Allitemscard">
+            <div class="card col-auto otheritemscard">
                 <div class="row card-header allItem-card-header text-center">
                     <h5 class="card-title">
                         <?php echo $itemsrow["item_name"] ?>
@@ -102,17 +106,20 @@ $otherItemResult = $menuObj->getOtherItems();
                         </div>
 
                     </div>
-                    <div class="row">
-                        <button type="button" class="btn btn-outline-primary" id="editremQtybtn"
+                </div>
+                <div class=" row justify-content-center">
+                        <button type="button " class="btn col-auto btn-outline-primary mb-2" id="editremQtybtn"
                             onclick="updatestock('<?php echo base64_decode($item_id) ?>', '<?php echo $itemsrow['item_name'] ?>')">
                             Update
                         </button>
                     </div>
-                </div>
             </div>
+            
             <?php
         }
         ?>
+        </div>
+       </div>
     </div>
 
 

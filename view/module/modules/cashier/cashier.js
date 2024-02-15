@@ -908,7 +908,7 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
     );
     //create a table with the order details
     var table =
-      '<table class="table table-bordered"><thead><tr><th>#</th><th>Food Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
+      '<table class="table table-hover table-bordered  table-striped   "><thead class="table-header table-header-lg text-center" ><tr><th>#</th><th>Food Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
     for (var i = 0; i < orderDetails.length; i++) {
       const foodname = orderDetails[i].item_name;
       const pricePeritem = orderDetails[i].unit_price;
@@ -917,7 +917,7 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
       const discount = orderDetails[i].discount;
       total += priceAfterDiscount;
       var itemNumber = i + 1;
-      table += "<tr>";
+      table += "<tr class='userRow table-light text-center'>";
       table += "<td>" + itemNumber + "</td>";
       table += "<td>" + foodname + "</td>";
       table += "<td>" + pricePeritem + "</td>";
@@ -927,7 +927,7 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
       table += "</tr>";
     }
 
-    table += "<tr>";
+    table += "<tr class='userRow table-light text-center'>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
@@ -961,7 +961,7 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
     );
 
     var table =
-      '<table class="table table-bordered"><thead><tr><th>#</th><th>Food Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
+      '<table class="table table-hover  table-bordered table-striped"><thead class="table-header table-header-lg text-center"><tr><th>#</th><th>Food Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
 
     for (var i = 0; i < orderDetails.length; i++) {
       const foodname = orderDetails[i].item_name;
@@ -971,7 +971,7 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
       const discount = orderDetails[i].discount;
       total += priceAfterDiscount;
       var itemNumber = i + 1;
-      table += "<tr>";
+      table += "<tr class='userRow table-light text-center'>";
       table += "<td>" + itemNumber + "</td>";
       table += "<td>" + foodname + "</td>";
       table += "<td>" + pricePeritem + "</td>";
@@ -981,7 +981,7 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
       table += "</tr>";
     }
 
-    table += "<tr>";
+    table += "<tr class='userRow table-light text-center'>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
@@ -1070,7 +1070,7 @@ function switchToQuickSell() {
   //switch the sell button to quick sale instead of place order
   const placeOrderBtn = $("#placeOrderBtn");
   const quickSellBtn = $(
-    '<button class="btn btn-primary col-md-8" id="QuickSellBtn" onclick="quickSell()">' +
+    '<button class="btn col-auto btn-outline-success " id="QuickSellBtn" onclick="quickSell()">' +
       " <h7>Sell</h7>" +
       "</button>"
   );
@@ -1081,7 +1081,7 @@ function switchToOrder() {
   //switch the sell button to place order instead of quick sale
   const quickSellBtn = $("#QuickSellBtn");
   const placeOrderBtn = $(
-    '<button class="btn btn-primary col-md-8" id="placeOrderBtn" onclick="placeOrder()">' +
+    '<button class="btn col-auto btn-outline-success" id="placeOrderBtn" onclick="placeOrder()">' +
       " <h7>Place Order</h7>" +
       "</button>"
   );
@@ -1131,7 +1131,7 @@ function quickSell() {
     }
 
     var table =
-      '<table class="table table-bordered"><thead><tr><th>#</th><th>Item Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
+      '<table class="table table-hover table-bordered  table-striped  "><thead class="table-header table-header-lg text-center"><tr><th>#</th><th>Item Name</th><th>Price (Rs)</th><th>Quantity</th><th>Discount</th><th>Total</th></tr></thead><tbody>';
     var i = 0;
 
     //display food items and other items in the modal to confirm the sale
@@ -1146,7 +1146,7 @@ function quickSell() {
       var totalPriceAfterDiscount = priceAfterDiscount * quantity;
       sum += totalPriceAfterDiscount;
       i += 1;
-      table += "<tr>";
+      table += "<tr class='userRow table-light text-center'>";
       table += "<td>" + i + "</td>";
       table += "<td>" + foodname + "</td>";
       table += "<td>" + pricePeritem + "</td>";
@@ -1168,7 +1168,7 @@ function quickSell() {
       var totalPriceAfterDiscount = priceAfterDiscount * quantity;
       sum += totalPriceAfterDiscount;
       i += 1;
-      table += "<tr>";
+      table += "<tr class='userRow table-light text-center'>";
       table += "<td>" + i + "</td>";
       table += "<td>" + Itemname + "</td>";
       table += "<td>" + pricePeritem + "</td>";
@@ -1177,7 +1177,7 @@ function quickSell() {
       table += "<td>" + totalPriceAfterDiscount + "</td>";
       table += "</tr>";
     });
-    table += "<tr>";
+    table += "<tr class='userRow table-light text-center'>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
@@ -1648,3 +1648,21 @@ $(document).ready(function() {
     $('[data-bs-toggle="popover"]').not(currentPopover).popover('hide');
   });
 });
+
+function search() {
+  ///search function
+  const searchValue = $("#seachBar").val().toUpperCase();
+  const itemCards = $(".FoodItemCashiercard");
+
+  for (var i = 0; i < itemCards.length; i++) {
+    let match = $(itemCards[i]).find("h6");
+    if (match) {
+      let textValue = match.text().toUpperCase();
+      if (textValue.indexOf(searchValue) > -1) {
+        $(itemCards[i]).show();
+      } else {
+        $(itemCards[i]).hide();
+      }
+    }
+  }
+}

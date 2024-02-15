@@ -82,6 +82,10 @@ $categoryResult = $menuObj->getcategories();
         <div class="row ordersAndItemsRow" >
           <div class="customerPendingorderList d-flex flex-column align-items-center"></div>
           <div class="col itemcards   justify-content-center">
+                    <div class="row" style="margin-left:10px">
+                        <input type="text" id="seachBar" class="form-control" placeholder="Search"
+                            aria-label="searchbar" aria-describedby="search" onkeyup="search()">
+                    </div>
             <div class="row justify-content-center" id="fooditems-container"> </div>
           </div>
         </div>
@@ -148,18 +152,20 @@ $categoryResult = $menuObj->getcategories();
 
 
             </div>
-            <div class="row">
-              <div class="col">
+            <div class="row cartTotalRow justify-content-center">
+              <div class="col-auto">
                 <h5>Total :</h5>
               </div>
-              <div class="col" id="totalDiv">
+              <div class="col-auto" id="totalDiv">
                 <h5 id="totalAmount"></h5>
               </div>
             </div>
           </div>
-          <button class="btn btn-primary col-md-8" id="placeOrderBtn" onclick="placeOrder()">
-            <h7>Place Order</h7>
+          <div class="row orderBtnRow justify-content-center">
+          <button class="btn btn-outline-success col-auto" id="placeOrderBtn" onclick="placeOrder()">
+            Place Order
           </button>
+          </div>
         </div>
       </div>
     </div>
@@ -172,16 +178,15 @@ $categoryResult = $menuObj->getcategories();
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="confirmation-modal-title">Finish Order</h5>
-          <button type="button" class="close finishOrderconfirmationmodal-close-button" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+          <button type="button" class="btn-close modalclosetbtn finishOrderconfirmationmodal-close-button" aria-label="Close">
           </button>
         </div>
         <div class="modal-body" id="">
           <p>Are you sure you want to complete and close the order?</p>
+          <div class="row justify-content-end align-items-center">
+          <button type="button " class="btn btn-outline-secondary m-1 col-auto finishOrderconfirmationmodal-close-button">Close</button>
+          <button type="button " class="btn btn-outline-success m-1 col-auto finishOrderconfirmation-button">Confirm</button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary finishOrderconfirmationmodal-close-button">Close</button>
-          <button type="button" class="btn btn-success finishOrderconfirmation-button">Confirm</button>
         </div>
       </div>
     </div>
@@ -191,16 +196,15 @@ $categoryResult = $menuObj->getcategories();
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="confirmation-modal-title">Cancel Order</h5>
-          <button type="button" class="close close-confirmation-modal-button" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+          <button type="button" class="btn-close modalclosetbtn close-confirmation-modal-button" aria-label="Close">
           </button>
         </div>
         <div class="modal-body" id="">
           <p>Are you sure you want to cancel this order?</p>
+          <div class="row justify-content-end align-items-center">
+          <button type="button" class="btn btn-outline-secondary m-1 close-confirmation-modal-button  col-auto">Close</button>
+          <button type="button " class="btn btn-outline-danger m-1 cancel-order-button col-auto">Confirm</button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary close-confirmation-modal-button">Close</button>
-          <button type="button" class="btn btn-danger cancel-order-button">Confirm</button>
         </div>
       </div>
     </div>
@@ -211,19 +215,19 @@ $categoryResult = $menuObj->getcategories();
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title"></h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+          <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
           </button>
         </div>
-        <div class="modal-body" id="order-details-modal-body">
+        <div class="modal-body">
           <p id="fooditems"></p>
+          <div class="row" id="order-details-modal-body"></div>
+          <div class="row justify-content-end align-items-center">
+          <button type="button " class="btn btn-outline-danger ml-1 col-auto" id="cancelOrderButton" onclick="cancelorder()">Cancel
+            Order</button>
+          <button type="button " class="btn btn-outline-success ml-1 col-auto" id="finishOrderButton" onclick="finishorder()">Finish
+            Order</button>
+          <button type="button c" class="btn btn-outline-secondary m-1 col-auto" data-bs-dismiss="modal">Close</button>
         </div>
-        <div class="modal-footer ">
-          <button type="button" class="btn btn-danger" id="cancelOrderButton" onclick="cancelorder()">Cancel
-            Order</button>
-          <button type="button" class="btn btn-success" id="finishOrderButton" onclick="finishorder()">Finish
-            Order</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -233,16 +237,18 @@ $categoryResult = $menuObj->getcategories();
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="quick-sell-modal-title"></h5>
-          <button type="button closebtn" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+          <button type="button closebtn" class="btn-close modalclosetbtn" aria-label="Close">
           </button>
         </div>
-        <div class="quick-sell-modal-body" id="sales-details-modal-body">
+        <div class="modal-body">
           <p id="quick-sale-items"></p>
+          <div class="row" id="sales-details-modal-body">
+
+          </div>
+          <div class="row justify-content-end align-items-center">
+          <button type="button  closebtn" class="btn btn-outline-secondary ml-1 col-auto">Close</button>
+          <button type="button " class="btn btn-outline-success col-auto m-1" id="sellButton">Confirm</button>
         </div>
-        <div class="modal-footer ">
-          <button type="button" class="btn btn-success" id="sellButton">Confirm</button>
-          <button type="button closebtn" class="btn btn-secondary">Close</button>
         </div>
       </div>
     </div>

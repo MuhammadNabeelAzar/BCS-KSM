@@ -39,8 +39,8 @@ $userRoleID = $_SESSION['user']['role_id'];
     }
     ?>
       <!--user navigation-->
-    <div class="container-fluid orders-container justify-content-center">
-        <div class="row orders justify-content-center"></div>
+    <div class="container-fluid orders-container  justify-content-center">
+        <div class="row orders justify-content-center m-0"></div>
     </div>
   
     <div class="modal markOrderAsReadyConfirmationModal" tabindex="-1" role="dialog">

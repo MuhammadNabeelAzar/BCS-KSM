@@ -30,6 +30,7 @@ function resetPassword(userID, event) {
             $("#newPassword").val("");
             $("#confirmPassword").val("");
             $("#password-strength-status").text("");
+            $(".password-match-status").text("");
             Swal.fire(response);
           },
         });

@@ -3,12 +3,26 @@
     background-color: #001F3F;
     color: #FFFFFF;
 }
+.ResetPassword-card-header{
+    background-color: #001F3F;
+    color: #FFFFFF;
+    border-top-left-radius: 25px !important;
+    border-top-right-radius: 25px !important;
+}
 .cashierCatCard{
     background-color: #001F3F; 
 }
 .cashierCatCard:hover{
     background: radial-gradient(circle, rgba(143,175,200,1) 0%, rgba(79,144,149,1) 0%, rgba(35,26,43,1) 0%);
  
+}
+.pending-order-btns:hover{
+    background: radial-gradient(circle, rgba(143,175,200,1) 0%, rgba(79,144,149,1) 0%, rgba(35,26,43,1) 0%);
+ 
+}
+
+.recipecolumn {
+    border-left: 1px solid #d0d0d0;
 }
 .cashierCatCard a{
     color: #FFFFFF;  
@@ -34,24 +48,31 @@
 .offcanvas .list-group-item {
     color: #FFFFFF;
 }
+.offcanvas .offcanvas-body a:hover {
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color:black;
+    border-radius: 10px;
+}
+.offcanvas .list-group-item img{
+    filter: invert(1); 
+}
 
 .offcanvas .offcanvas-body a {
-    color: black;
+    color: white;
 }
 
-.offcanvas .list-group-item a:hover {
-    background-color: #001F3F;
-    color: white !important;
-}
-
-.offcanvas .sub-item:hover a {
-    background-color: #6789ab;
-    color:black !important;
-}
 
  .modal-body{
-    background-color:#ece2e2 ;
+    background-color:#FFFFFF ;
     
+}
+.modal-open{
+    border-radius: 20px;
+}
+.login-card .input-group-text{
+    background-color:#001F3F ;
+    color: #ffffff;
 }
 .modal-header{
     background-color: #001F3F; 
@@ -68,6 +89,9 @@
     background-color: #CEDBDC;
     color:black;
 }
+.ing-list{
+    background-color: #edf3f3;
+}
 .ItemNameCol{
     background-color: #001F3F; /* Background color on hover */
     color: #FFFFFF; 
@@ -77,13 +101,34 @@
     background: radial-gradient(circle, rgba(143,175,200,1) 0%, rgba(79,144,149,1) 0%, rgba(35,26,43,1) 0%);
      color: white;
 }
+.offcanvas , .offcanvas .list-group-item{
+    background: radial-gradient(circle, rgba(143,175,200,1) 0%, rgba(79,144,149,1) 0%, rgba(35,26,43,1) 0%);
+    color: white !important;
+}
+#TITLE{
+    
+    color:rgb(124, 27, 27);
+  
+}
 .searchBarRow{
 background: white;
+}
+
+.login-card{
+    background-color: #ffffff;
+    border: 3px solid #d0d0d0;
+}
+.loginBody{
+    background-color: #ebeef0; 
 }
 .cart-title{
     background-color: #001F3F; 
     color: #FFFFFF;
 }
 
+.pending-order-btns{
+    background-color: #001F3F; 
+    color: white;
+}
 
 

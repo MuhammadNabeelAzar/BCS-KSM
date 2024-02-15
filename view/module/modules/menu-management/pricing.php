@@ -65,8 +65,10 @@ $otheritemResult = $menuObj->getOtherItems();
         <?php
     }
     ?>
+    <div class="col-auto">
     <input class="form-control m-2 " type="search" id="seachBar" placeholder="Search" onkeyup="search()"
                     aria-label="Search">
+    </div>
         </div>
         <div class="row itemcards justify-content-center">
             <?php

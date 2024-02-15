@@ -33,7 +33,6 @@ $userrow = $userResult->fetch_assoc();
     <?php
     include '../../../commons/header.php';
     ?>
-    <a class="btn custom-outline-button back-btn btn-md" href="user.php"><i class="bi bi-arrow-return-left"></i></a>
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -67,7 +66,8 @@ $userrow = $userResult->fetch_assoc();
     }
     ?>
     <div class="container-fluid edit-user-container" >
-    <div class="col edit-user-column d-flex align-items-center justify-content-center">
+    <div class="row edit-user-column    align-items-center justify-content-center">
+            <div class="col-auto edit-user-card-col  p-5">
             <div class="card edit-user-profile-card">
             <div class="card-header edit-user-card-header text-center m-0">
                     <H3>Edit User</H3>
@@ -143,6 +143,7 @@ $userrow = $userResult->fetch_assoc();
                     </div>
                     <div class="row btnrow">
                         <div class="col text-center">
+        <button class="btn custom-outline-button back-btn btn-lg" href="user.php"><i class="bi bi-arrow-return-left"></i></button>
                             <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                 data-bs-target="#removeUserModal">Remove User
                             </button>
@@ -151,6 +152,7 @@ $userrow = $userResult->fetch_assoc();
                     </div>
                 </form>
                 </div>
+            </div>
             </div>
 
         </div>
@@ -169,8 +171,8 @@ $userrow = $userResult->fetch_assoc();
                     Are you sure you want to remove this user?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
-                    <a type="button" class="btn btn-danger"
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                    <a type="button" class="btn btn-outline-danger"
                         href="../../../../controller/user_controller.php?status=delete-user&userid=<?php echo $user_id ?>">Remove
                         User</a>
                 </div>

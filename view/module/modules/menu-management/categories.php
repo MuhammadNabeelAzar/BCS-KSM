@@ -77,15 +77,21 @@ $categoryResult = $menuObj->getcategories();
                     $fooditemResult = $menuObj->getfoodItems();
                     $otherItemResult = $menuObj->getOtherItems(); //get all the foodItems
                     ?>
-                    <div class="col-md-3 categorycard">
+                    <div class="col-md-3  categorycard">
                         <div class="card">
-                            <div class="card-header row">
+                            <div class="card-header ">
                                 <input type="hidden" id="hiddenField" name="HiddenFoodID"
                                     value="<?php echo $categoryrow['category_id']; ?>">
-                               <h4 class="col">  <?php echo $categoryrow['category_name']; ?> </h4>
-                                <button type="button" class="btn btn-outline-danger delete-category-btn col"
-                                    onclick="deletecategory(<?php echo $categoryid ?>)"><i class="bi bi-trash"></i></button>
-                </div>
+                                <div class="row">
+                                    <h4 class="col">
+                                        <?php echo $categoryrow['category_name']; ?>
+                                    </h4>
+                                    <button type="button" class="btn btn-outline-danger delete-category-btn col"
+                                        onclick="deletecategory(<?php echo $categoryid ?>)"><i
+                                            class="bi bi-trash"></i></button>
+
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <ul class="list-group">
                                     <div class="row">
@@ -95,7 +101,7 @@ $categoryResult = $menuObj->getcategories();
                                                 ?>
                                                 <li class="list-group-item">
                                                     <p>
-                                                        <?php echo $foodrow['item_name'] ."   "."Rs." . $foodrow['price'] . " " ?>
+                                                        <?php echo $foodrow['item_name'] . "   " . "Rs." . $foodrow['price'] . " " ?>
                                                     </p>
 
                                                 </li>
@@ -147,11 +153,12 @@ $categoryResult = $menuObj->getcategories();
                         </div>
                         <div class="row  justify-content-end mt-3">
                             <div class="col-auto">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Close</button>
                             </div>
-                           <div class="col-auto">
-                           <button type="submit" class="btn btn-outline-primary">Save changes</button>
-                           </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                            </div>
                         </div>
                     </form>
                 </div>

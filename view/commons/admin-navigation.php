@@ -1,10 +1,6 @@
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width:fit-content;">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel"></h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
+<div class="offcanvas offcanvas-start" data-bs-scroll="true"  tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width:fit-content;">
     <div class="offcanvas-body">
-        <ul class="list-group">
+        <ul class="list-group mainList "  data-bs-backdrop="false">
                         <li class="list-group-item "><img  src="http://localhost/BcsKSM/view/icons/home.png" alt="Group Icon" class="home-icon"><a href="http://localhost/BcsKSM/view/users/admin/admin.php">Home</a></li>          
                         <li class="list-group-item "><img  src="http://localhost/BcsKSM/view/icons/group.png" alt="Group Icon" class="people-icon"><a href="http://localhost/BcsKSM/view/module/modules/user-management/user.php">Users</a></li>       
             <li class="list-group-item">
