@@ -39,7 +39,7 @@ function addOtherItem() {
 function search() {
   //search function
   const searchValue = $("#seachBar").val().toUpperCase();
-  const Items = $(".list-group-item");
+  const Items = $('.items-column').find(".list-group-item");
 
   for (var i = 0; i < Items.length; i++) {
     let match = $(Items[i]).find("h5");

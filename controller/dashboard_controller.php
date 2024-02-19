@@ -14,7 +14,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-all-sold-items') {
       
         
 
-        $response = $orderSales +  $quickSales;
+        $response = array_merge($orderSales, $quickSales);
     
         header('Content-Type: application/json');
         echo json_encode($response);
@@ -31,7 +31,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-all-sold-categories') {
       
         
 
-        $response =  $orderSalesCategories +  $quickSalesCategories;
+        $response =  array_merge($orderSalesCategories,  $quickSalesCategories);
     
         header('Content-Type: application/json');
         echo json_encode($response);

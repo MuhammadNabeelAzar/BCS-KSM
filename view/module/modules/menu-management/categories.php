@@ -157,7 +157,7 @@ $categoryResult = $menuObj->getcategories();
                                     data-bs-dismiss="modal">Close</button>
                             </div>
                             <div class="col-auto">
-                                <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                                <button type="submit" class="btn btn-outline-primary">Add category</button>
                             </div>
                         </div>
                     </form>
@@ -172,9 +172,8 @@ $categoryResult = $menuObj->getcategories();
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteCategoryModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title" id="deleteCategoryModalLabel">Remove category</h5>
+                    <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
@@ -182,9 +181,13 @@ $categoryResult = $menuObj->getcategories();
                         enctype="multipart/form-data" method="post">
                         <input type="hidden" id="CategoryId" name="categoryId">
                         <p>Are you sure you want to delete this category ?</p>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Delete</button>
+                        <div class="row justify-content-end">
+                           <div class="col-auto">
+                           <button type="button " class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                           </div> 
+                           <div class="col-auto">
+                           <button type="submit " class="btn btn-outline-danger">Remove</button>
+                           </div>
                         </div>
                     </form>
                 </div>

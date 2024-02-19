@@ -187,7 +187,7 @@ $ingfactorResult = $ingredientObj->getfactors();
                 name="ingredient_id" id="ingredient_id">
               <input type="hidden" class="form-control" aria-label="Text input with dropdown button" name="factor_id"
                 id="factor_id">
-              <input type="number" class="form-control" aria-label="Text input with dropdown button"
+              <input type="number"  step="0.01" class="form-control" aria-label="Text input with dropdown button"
                 name="updatestockvalue" id="updatestockvalue" required>
               <div class="input-group-append">
                 <select class="form-select" name="calculation-selector" id="calculation-selector">

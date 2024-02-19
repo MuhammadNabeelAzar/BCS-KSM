@@ -45,23 +45,20 @@ $ingfactorResult = $ingredientObj->getfactors();
     }
     ?>
 
-    <?php
-    if (isset($_GET["msg"])) {
-        $msg = base64_decode($_GET["msg"]);
+<?php
+    if (isset($_GET["addmsg"])) {
+        $msg = base64_decode($_GET["addmsg"]);
         ?>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <p>
-            <div class="row">
-                <p>
+        <div class="alert alert-success alert-dismissible fade show " role="alert">
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="mb-0">
                     <?php echo $msg; ?>
                 </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
             </div>
-
-            </p>
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
+
         <?php
     }
     ?>

@@ -175,7 +175,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'accept-refill-requests') {
         $result = $ingredientObj->acceptRefillRequest($req_id);
         
         if($result){
-            $response  = "Completed successfully";
+            $response  = "Request accepted successfully";
         } else {
             $response  = "Unable to complete request.";
         } 
@@ -302,7 +302,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
                 $ingredientObj->addstock_nos($ing_id, $updateqty);
 
             }
-            $msg = "Ingredient qty succesfully added!";
+            $msg = "Ingredient stock level succesfully increased!";
             $msg = base64_encode($msg);
             header("location:../view/module/modules/ingredients-management/stock.php?msg=$msg");
 
@@ -330,7 +330,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
 
             }
 
-            $msg = "Ingredient qty succesfully subtracted!";
+            $msg = "Ingredient stock level succesfully reduced!";
             $msg = base64_encode($msg);
             header("location:../view/module/modules/ingredients-management/stock.php?msg=$msg");
         } else {

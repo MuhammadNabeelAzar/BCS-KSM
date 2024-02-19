@@ -68,7 +68,7 @@ $dashboardrObj = new dashboard();
 
                     <div class="card dashboardCard ">
                         <div class="row card-title-row ">
-                            <h5 class="card-title  dashboardTitle">Sales Items Chart</h5>
+                            <h5 class="card-title  dashboardTitle">Top Sales Items</h5>
                         </div>
                         <div class="card-body">
                             <div class="row salesItemsChart "></div>
@@ -93,7 +93,7 @@ $dashboardrObj = new dashboard();
             <div class="col-md-6 dashboardcol">
                 <div class="card dashboardCard">
                     <div class="row card-title-row">
-                        <h5 class="card-title  dashboardTitle">Average Purchase Time</h5>
+                        <h5 class="card-title  dashboardTitle">Day-Night Total Visitors</h5>
                     </div>
                     <div class="card-body AvgPurchaseTime"></div>
                 </div>

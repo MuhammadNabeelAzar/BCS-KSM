@@ -172,7 +172,7 @@ $otherItem = $otherItem->fetch_assoc();
                         <div class="row mt-5 justify-content-center">
                     <div class="col-auto">
 
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                         data-bs-target="#removeItemModal">Remove Item
                     </button>
                     </div>
@@ -204,8 +204,8 @@ $otherItem = $otherItem->fetch_assoc();
                     Are you sure you want to remove this this item ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a type="button" class="btn btn-primary"
+                    <button type="button" class="btn btn--outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <a type="button" class="btn btn-outline-danger"
                         href="../../../../controller/menu_controller.php?status=delete-item&itemId=<?php echo $Item_id ?>">Remove
                         item</a>
                 </div>

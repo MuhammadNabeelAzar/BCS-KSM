@@ -60,6 +60,8 @@ function displayRequests(data){
                                 return `<div class="row justify-content-center"><div class="col-auto"><button type="button " onclick="acceptRefillRequest(${request.req_Id})" class="btn btn-outline-primary">Accept</button></div></div>`;
                             case "accepted":
                                 return `<div class="row justify-content-center"><div class="col-auto"><button type="button " onclick="completeRefillRequest(${request.req_Id})" class="btn btn-outline-success">Ready</button></div></div>`;
+                                default:
+                                    return ``;
                         }
                     })()}
                 </div>

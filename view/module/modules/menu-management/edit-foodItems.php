@@ -202,9 +202,9 @@ $fooditemrow = $fooditem->fetch_assoc();
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-outline-danger"
+                    <a type="button" class="btn btn-outline-danger"
                         href="../../../../controller/menu_controller.php?status=delete-fooditem&foodId=<?php echo $foodItem_id ?>">Remove
-                        food item</button>
+                        food item</a>
                 </div>
             </div>
         </div>

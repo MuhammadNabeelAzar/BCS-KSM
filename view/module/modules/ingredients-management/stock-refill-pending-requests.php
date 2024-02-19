@@ -27,11 +27,6 @@ $userRoleID = $_SESSION['user']['role_id'];
 <?php 
     include '../../../commons/header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <hr>
     <!--user navigation-->
     <?php
     // Include the sidebar file
@@ -47,27 +42,24 @@ $userRoleID = $_SESSION['user']['role_id'];
     ?>
 
 <?php
-    if (isset($_GET["msg"])) {
+      if (isset($_GET["msg"])) {
         $msg = base64_decode($_GET["msg"]);
         ?>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <p>
-            <div class="row">
-                <p>
-                    <?php echo $msg; ?>
-                </p>
-            </div>
 
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="mb-0">
+              <?php echo $msg; ?>
             </p>
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             </button>
+          </div>
         </div>
         <?php
-    }
-    ?>
+      }
+      ?>
     <!--user navigation-->
-    <div class="container-fluid">
+    <div class="container-fluid common-container">
         <div class="row requestsCards"></div>
     </div>
    
@@ -76,15 +68,14 @@ $userRoleID = $_SESSION['user']['role_id'];
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="btn-close modalclosetbtn" data-bs-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="confirmBtn">Confirm</button>
+        <button type="button " class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-outline-Danger" id="confirmBtn">Confirm</button>
       </div>
     </div>
   </div>

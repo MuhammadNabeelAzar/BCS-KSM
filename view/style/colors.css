@@ -3,7 +3,7 @@
     background-color: #001F3F;
     color: #FFFFFF;
 }
-.ResetPassword-card-header{
+.ResetPassword-card-header,.RequestCardHeader{
     background-color: #001F3F;
     color: #FFFFFF;
     border-top-left-radius: 25px !important;

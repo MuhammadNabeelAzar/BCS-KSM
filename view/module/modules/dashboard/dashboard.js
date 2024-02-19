@@ -83,6 +83,7 @@ function displaytotal(total) {
 }
 
 function displayTopCategories(categoryDetails) {
+
   //this function shows the most selling category items and displays it in a bar chart
   var CategoryCount = {};
   categoryDetails.forEach(function (category) {
@@ -118,7 +119,6 @@ function displayTopCategories(categoryDetails) {
 }
 
 function displayAveragePurchasesDayAndNight(customerAndSalesTimeData) {
-
   //this function shows the most no of customers visited during day and night (day(8am-6pm),night(6pm Afterwards))
   var data = { Day: 0, Night: 0 };
 
@@ -174,7 +174,7 @@ function displayIngredientStockLevels(ingData) {
   var liquidItemsData = {};
   var solidIngredients = ingData.solidItems;
   var liquidIngredients = ingData.liquidItems;
-
+  
   solidIngredients.forEach(function (ingDetails) {
     var ingName = ingDetails.ing_name;
     var remainingQty = ingDetails["remaining_qty(kg)"];
@@ -186,19 +186,23 @@ function displayIngredientStockLevels(ingData) {
     var remainingQty = ingDetails["remaining_qty(l)"];
     liquidItemsData[ingName] = remainingQty;
   });
+  var allKeys = Array.from(new Set([...Object.keys(solidItemsData), ...Object.keys(liquidItemsData)]));
 
+  // Sort the keys to ensure solid items appear before liquid items
+  allKeys.sort();
+  
   var chartData = {
     series: [
       {
         name: "Kilograms",
-        data: Object.values(solidItemsData),
+        data: allKeys.map(key => solidItemsData[key] || 0),
       },
       {
         name: "Litres",
-        data: Object.values(liquidItemsData),
+        data: allKeys.map(key => liquidItemsData[key] || 0),
       },
     ],
-    labels: Object.keys(solidItemsData), // Assuming solidItemsData has the same keys as liquidItemsData
+    labels: allKeys,
   };
   var options = {
     chart: {

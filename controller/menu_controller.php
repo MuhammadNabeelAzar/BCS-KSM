@@ -61,7 +61,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-fooditem') {
 if (isset($_GET['status']) && $_GET['status'] === 'edit-fooditem') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // This function is to edit the details of the food items
-        $foodId = (isset($_GET['foodItemId']));
+        $foodId = $_POST['food_id'];
         $itemName = $_POST['food_Name'];
         $itemDescription = $_POST['food_descript'];
         $categoryId = $_POST['category'];
@@ -177,7 +177,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'delete-fooditem') {
         } 
     } catch (Exception $e) {
         // Exception occurred, likely due to foreign key constraint in the order table, therefore display the message
-        $msg = "Error: Unable to delete the food item because this item has been sold and deleting it will cause data inconsistencies, therefore please try deactivating this item.";
+        $msg = "Unable to delete the food item because this item has been sold and deleting it will cause data inconsistencies, therefore please try deactivating this item.";
         $msg = base64_encode($msg);
         header("location:../view/module/modules/menu-management/items.php?msg=$msg");
     }
@@ -201,7 +201,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'delete-item') {
         } 
     } catch (Exception $e) {
         // Exception occurred, likely due to foreign key constraint in the order table, therefore display the message
-        $msg = "Error: Unable to delete the food item because this item has been sold and deleting it will cause data inconsistencies, therefore please try deactivating this item.";
+        $msg = "Unable to delete the food item because this item has been sold and deleting it will cause data inconsistencies, therefore please try deactivating this item.";
         $msg = base64_encode($msg);
         header("location:../view/module/modules/menu-management/items.php?msg=$msg");
     }

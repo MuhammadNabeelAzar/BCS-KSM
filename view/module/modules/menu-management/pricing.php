@@ -102,8 +102,7 @@ $otheritemResult = $menuObj->getOtherItems();
                             </div>
                         </div>
                         <div class="row mt-2">
-
-                            <div class="row mt-4">
+                            <div class="row m-0 mt-4">
                                 <button type="button" class="btn btn-outline-primary" id="editremQtybtn"
                                     onclick="setprice('<?php echo $foodid ?>')">
                                     Change price
@@ -143,9 +142,9 @@ $otheritemResult = $menuObj->getOtherItems();
                                 </button>
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="row mt-4">
-                                <button type="button" class="btn btn-outline-primary" id="editremQtybtn"
+                        <div class="row  mt-2">
+                            <div class="row m-0 mt-4">
+                                <button type="button" class="btn btn-outline-danger" id="editremQtybtn"
                                     onclick="setItemprice('<?php echo base64_decode($item_id) ?>')">
                                     Change price
                                 </button>

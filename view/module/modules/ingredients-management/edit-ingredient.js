@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     selectElement.addEventListener('change', function () {
         if (selectElement.value !== originalValue) {
-            Swal.fire('Note ! Changing ingredient measurement factor may cause inconsistencies in displaying the remaining quantity therefore make sure you update the remaining stock values that is related to the measurement factor ');
+            Swal.fire('Note: Modifying the ingredient measurement factor may lead to discrepancies in the displayed remaining quantity. Ensure that you update the corresponding stock values accordingly to maintain accuracy.');
 
         }
     });
