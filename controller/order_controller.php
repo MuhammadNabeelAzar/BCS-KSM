@@ -5,14 +5,18 @@ $orderObj = new order();
 
 if (isset($_GET['status']) && $_GET['status'] === 'update-stock') {
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //this automatically reduces the ingredient stock values  in the database when an item is ordered or sold depending on the recipe
+
     $fooditem_id = $_POST['fooditem_id'];
     $fooditem_qty = $_POST['fooditem_qty'];
 
-    //the model handles the deduction
-    $orderObj->updateStock($fooditem_id, $fooditem_qty);
-    $response = "successfully updated the stock";
-    // Send a JSON response
+    //the model handles the stock update
+    $result = $orderObj->updateStock($fooditem_id, $fooditem_qty);
+    if ($result) {
+      $response = "successfully updated the stock";
+      // Send a JSON response
+    } else {
+      $response = "Failed to update the stock";
+    }
     header('Content-Type: application/json');
     echo json_encode($response);
   }
@@ -56,7 +60,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-order') {
       $orderObj->addorder($customer_id, $status_id, $date, $time);
       $order_id = $orderObj->getLastInsertedOrderId();
 
-    } else { 
+    } else {
       //place the order with the customer id
       $orderObj->addorder($customer_id, $status_id, $date, $time);
       $order_id = $orderObj->getLastInsertedOrderId();
@@ -103,7 +107,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'quick-sell') {
     $time = $_POST['time'];
     $discount = $_POST['discount'] ?? 0;
     $status_id = '1';
-     //get the customer id 
+    //get the customer id 
     if ($customer_id === '') {
       $result = $orderObj->getlastcustomerId();
       $lastcustomerid = $result->fetch_assoc();
@@ -114,7 +118,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'quick-sell') {
 
     if (isset($fooditems) && is_array($fooditems)) {
       foreach ($fooditems as $item) {
-         //add every food item
+        //add every food item
         $food_itemId = $item[0];
         $qty = $item[1];
         $priceperitem = $item[2];
@@ -126,7 +130,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'quick-sell') {
       }
     }
     if (isset($items) && is_array($items)) {
-       //add every other item
+      //add every other item
       foreach ($items as $item) {
         $itemId = $item[0];
         $qty = $item[1];
@@ -163,6 +167,42 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-processing-orders') {
   }
   header('Content-Type: application/json');
   echo json_encode($rows);
+}
+
+if (isset($_GET['status']) && $_GET['status'] === 'get-orderSales-details') {
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //gets all the ordersales data
+    $ID = $_POST['order_id'];
+    $item_id;
+    $salesResult = $orderObj->getOrderItems($ID);
+    $salesDetails = $salesResult->fetch_all(MYSQLI_ASSOC);
+
+
+    $otherItemsarray = [];
+    $foodItemsarray = [];
+
+    foreach ($salesDetails as $row) {
+      $fooditemId = $row["food_itemId"];
+      //checks the types of items and pushes them to their respective array
+      if ($fooditemId !== NULL) {
+        $item_id = $fooditemId;
+        $FoodItemsresult = $orderObj->getOrderSalesFoodItemsInfo($ID, $item_id);
+        $foodItemsarray[] = $FoodItemsresult->fetch_assoc();
+      } else if ($fooditemId === NULL) {
+        $item_id = $row['item_id'];
+        $OtherItemsresult = $orderObj->getOrderSalesOtherItemsInfo($ID, $item_id);
+        $otherItemsarray[] = $OtherItemsresult->fetch_assoc();
+      }
+
+      $response = array(
+        "otherItems" => $otherItemsarray,
+        "foodItems" => $foodItemsarray
+      );
+    }
+  }
+  header('Content-Type: application/json');
+  echo json_encode($response);
+
 }
 
 if (isset($_GET['status']) && $_GET['status'] === 'get-placed-orders') {
@@ -202,7 +242,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-order-details') {
 
 if (isset($_GET['status']) && $_GET['status'] === 'get-quick-sale-details') {
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-     //this gets all the quick sales details to generate an invoice
+    //this gets all the quick sales details to generate an invoice
     $sale_id = $_POST['sale_id'];
     $itemArray = array();
     $fooditemArray = array();
@@ -219,7 +259,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-quick-sale-details') {
     foreach ($salesItemsDetailsResult as $foodrow) {
       if ($foodrow['food_itemId'] !== null) {
         $foodItemFound = true; //returns true if an item has been found to get the details
-        break; 
+        break;
       }
     }
     foreach ($salesItemsDetailsResult as $otherItemrow) {
@@ -228,7 +268,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'get-quick-sale-details') {
         break;
       }
     }
-//get the details if items are found
+    //get the details if items are found
     if ($foodItemFound) {
       $fooditemResult = $orderObj->getSalesFoodItemsDetails($sale_id);
       $foodresult = $fooditemResult->fetch_all(MYSQLI_ASSOC);

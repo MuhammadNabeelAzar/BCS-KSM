@@ -6,8 +6,20 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role_id'])) {
     header("Location: http://localhost/BcsKSM/view/login/login.php");
     exit(); // Make sure to exit after a header redirect
 }
-
 $userRoleID = $_SESSION['user']['role_id'];
+    // Redirect to the admin page
+    switch ($userRoleID) {
+        case 2:
+            header("Location: http://localhost/BcsKSM/view/users/chef/chef.php");
+            break;
+        case 3:
+            header("Location: http://localhost/BcsKSM/view/users/stock-manager/stockmanager.php");
+            break;
+        case 4:
+            header("Location: http://localhost/BcsKSM/view/users/cashier/cashier.php");
+            break;
+        }
+
 include_once '../../../../model/user_model.php';
 $userObj = new user();
 $editroleResult = $userObj->getroles();

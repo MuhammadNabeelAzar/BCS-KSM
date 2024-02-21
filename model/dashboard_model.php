@@ -7,11 +7,13 @@ class dashboard{
     public function getAllOrderSalesItems()
     {
         $con = $GLOBALS["con"];
-        $sql = "SELECT order_items.food_itemId,order_items.item_id,order_items.final_price AS price, 
+        $sql = "SELECT order_items.food_itemId,order_items.item_id,order_items.final_price AS price, order.status_id,
         COALESCE(food_items.item_name, other_items.item_name) AS item_name 
         FROM order_items
+        JOIN `order` ON order_items.order_id = order.order_id
         LEFT JOIN food_items ON order_items.food_itemId = food_items.food_itemId
-        LEFT JOIN other_items ON order_items.item_id = other_items.item_id";
+        LEFT JOIN other_items ON order_items.item_id = other_items.item_id 
+        WHERE order.status_id NOT IN (1,2,3,5)";
 
         $result = $con->query($sql) or die($con->error);
         

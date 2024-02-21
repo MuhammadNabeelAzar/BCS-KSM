@@ -13,10 +13,7 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-user') {
         $dob = $_POST['Userdob'];
         $cno = $_POST['Contact'];
         $role = $_POST['userRole'];
-
         // Data validation before adding the user
-        $response = array('status' => 'success', 'message' => 'User Added Successfully');
-
         try {
             if ($firstname == '') {
                 throw new Exception("First Name cannot be empty!");
@@ -27,31 +24,26 @@ if (isset($_GET['status']) && $_GET['status'] === 'add-user') {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 throw new Exception("Email is invalid!");
             }
-
             $patnic = "/^[0-9]{12}[vVxX]?$/";
             if (!preg_match($patnic, $nic)) {
                 throw new Exception("Invalid NIC format!");
             }
-
             $user_id = $userObj->addUser($firstname, $lastname, $dob, $email, $nic, $cno, $role, );
             if ($user_id) {
                 $nic = password_hash($nic, PASSWORD_DEFAULT);
                 $userObj->addUserLogin($email, $nic, $user_id);
             }
+            $response = array('status' => 'success', 'message' => 'User Added Successfully');
         } catch (Exception $ex) {
-            $response = array('status' => 'error', 'message' => $ex->getMessage());
+            $response = array('status' => 'error', 'message' => $ex->getMessage()); //handles the error and send the error message as a response
         }
-
         // Send the response as JSON
         header('Content-Type: application/json');
         echo json_encode($response);
 
-
     }
-
-
-
 }
+
 if (isset($_GET['status']) && $_GET['status'] === 'edit-user') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Getting the user details from the add-user form

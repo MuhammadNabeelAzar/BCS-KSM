@@ -327,7 +327,48 @@ class order
 
     return $result;
   }
+  public function getOrderItems($ID)
+  {
+    $con = $GLOBALS["con"];
+    $sql = "SELECT food_itemId, item_id FROM order_items WHERE order_items.order_id = $ID";
 
+    $result = $con->query($sql) or die($con->error);
+
+    return $result;
+  }
+  public function getOrderSalesFoodItemsInfo($ID,$item_id)
+  {
+    $con = $GLOBALS["con"];
+    $sql = "SELECT  `order`.*,
+         order_items.*,  
+        food_items.item_name AS item_name FROM `order`
+        JOIN order_items ON `order`.order_id = order_items.order_id
+        LEFT JOIN food_items ON order_items.food_itemId = food_items.food_itemId
+          WHERE `order`.order_id = $ID  AND order_items.food_itemId = $item_id ";
+    $result = $con->query($sql) or die($con->error);
+
+    return $result;
+  }
+  public function getOrderSalesOtherItemsInfo($ID,$item_id)
+  {
+      $con = $GLOBALS["con"];
+      $sql = "SELECT  
+                  `order`.*, 
+                  `order_items`.*, 
+                  other_items.item_name AS item_name 
+              FROM 
+                  `order`
+              JOIN 
+                  `order_items` ON `order`.order_id = `order_items`.order_id
+              LEFT JOIN 
+                  other_items ON order_items.item_id = other_items.item_id
+              WHERE 
+                  `order`.order_id = $ID AND order_items.item_id = $item_id ";
+  
+      $result = $con->query($sql) or die($con->error);
+  
+      return $result;
+  }
 
 
 }

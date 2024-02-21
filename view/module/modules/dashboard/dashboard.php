@@ -8,6 +8,18 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role_id'])) {
 }
 
 $userRoleID = $_SESSION['user']['role_id'];
+    // Redirect to the home page
+    switch ($userRoleID) {
+        case 2:
+            header("Location: http://localhost/BcsKSM/view/users/chef/chef.php");
+            break;
+        case 3:
+            header("Location: http://localhost/BcsKSM/view/users/stock-manager/stockmanager.php");
+            break;
+        case 4:
+            header("Location: http://localhost/BcsKSM/view/users/cashier/cashier.php");
+            break;
+        }
 include_once '../../../../model/dashboard_model.php';
 $dashboardrObj = new dashboard();
 

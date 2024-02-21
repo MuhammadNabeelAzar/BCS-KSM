@@ -8,6 +8,15 @@
 }
 
 $userRoleID = $_SESSION['user']['role_id'];
+    // Redirect to the home page
+    switch ($userRoleID) {
+        case 2:
+            header("Location: http://localhost/BcsKSM/view/users/chef/chef.php");
+            break;
+        case 4:
+            header("Location: http://localhost/BcsKSM/view/users/cashier/cashier.php");
+            break;
+        }
 ?>
 <html>
 

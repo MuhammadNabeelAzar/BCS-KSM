@@ -1,7 +1,13 @@
 <?php
 session_start();
 include_once '../../../model/role_model.php';
-$userRoleID = isset($_SESSION['user']['role_id']) ? $_SESSION['user']['role_id'] : null;
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role_id'])) {
+    // Redirect to the login page
+    header("Location: http://localhost/BcsKSM/view/login/login.php");
+    exit(); // Make sure to exit after a header redirect
+}
+
+$userRoleID = $_SESSION['user']['role_id'];
 ?>
 
 <html>
@@ -19,11 +25,6 @@ $userRoleID = isset($_SESSION['user']['role_id']) ? $_SESSION['user']['role_id']
 <?php 
     include '../../commons/home-header.php';
     ?>
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="bi bi-list"></i>
-    </a>
-    <hr>
     <!--user navigation-->
     <?php
     // Include the sidebar file

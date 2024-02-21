@@ -95,19 +95,63 @@ function displayAllOrders(response) {
 }
 
 function acceptOrder(orderId) {
-  //this is the ajax call to mark the order as accepted
+  //this is the ajax call sent to the controller to mark the order as accepted
   $.ajax({
     type: "POST",
     url: "../../../../controller/order_controller.php?status=accept-order",
     data: { order_id: orderId },
     dataType: "JSON",
     success: function (response) {
-      console.log(response);
       getAllOrders();
+    },
+  });
+  //then a request is sent to the controller to fetch the items placed in the order to pass it down to the reduce stock function
+  $.ajax({
+    type: "POST",
+    url: "../../../../controller/order_controller.php?status=get-orderSales-details",
+    data: { order_id: orderId },
+    dataType: "JSON",
+    success: function (response) {
+reduceStock(response);
     },
   });
 }
 
+function reduceStock(orderItems) {
+  const foodItems = orderItems.foodItems;
+  const items = orderItems.otherItems;
+
+  //loop through the food items to reduce the stock
+  for (var i = 0; i < foodItems.length; i++) {
+    var foodItem = foodItems[i];
+    var fooditem_id = foodItem.food_itemId;
+    var fooditemqty = foodItem.quantity;
+
+    //send the request to reduce the stock
+    $.ajax({
+      type: "POST",
+      url: "../../../../controller/order_controller.php?status=update-stock",
+      data: { fooditem_id: fooditem_id, fooditem_qty: fooditemqty },
+      dataType: "text",
+      success: function (response) {},
+    });
+  }
+
+  //loop through the other items and reduce the stock value
+  for (var i = 0; i < items.length; i++) {
+    var Item = items[i];
+    var item_id = Item.item_id;
+    var qty = Item.quantity;
+    //send the request
+    $.ajax({
+      type: "POST",
+      url: "../../../../controller/order_controller.php?status=update-other-items-stock",
+      data: { item_id: item_id, qty: qty },
+      dataType: "text",
+      success: function (response) {},
+    });
+  }
+}
 function markOrderAsReady(orderId) {
   // A confirmation modal is opened to confirm  that the user wants to set this order as ready
   $(".markOrderAsReadyConfirmationModal").modal("show");

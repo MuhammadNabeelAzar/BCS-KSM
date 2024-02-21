@@ -1,7 +1,21 @@
 <?php
 session_start();
 include_once '../../../../model/role_model.php';
-$userRoleID = isset($_SESSION['user']['role_id']) ? $_SESSION['user']['role_id'] : null;
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role_id'])) {
+    // Redirect to the login page
+    header("Location: http://localhost/BcsKSM/view/login/login.php");
+    exit(); // Make sure to exit after a header redirect
+}
+$userRoleID = $_SESSION['user']['role_id'];
+    // Redirect to the home page
+    switch ($userRoleID) {
+        case 2:
+            header("Location: http://localhost/BcsKSM/view/users/chef/chef.php");
+            break;
+        case 3:
+            header("Location: http://localhost/BcsKSM/view/users/stock-manager/stockmanager.php");
+            break;
+        }
 include_once '../../../../model/menu_model.php';
 $menuObj = new menu();
 $categoryResult = $menuObj->getcategories();

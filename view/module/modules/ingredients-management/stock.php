@@ -6,8 +6,13 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role_id'])) {
   header("Location: http://localhost/BcsKSM/view/login/login.php");
   exit(); // Make sure to exit after a header redirect
 }
-
 $userRoleID = $_SESSION['user']['role_id'];
+    // Redirect to the home page
+    switch ($userRoleID) {
+        case 4:
+            header("Location: http://localhost/BcsKSM/view/users/cashier/cashier.php");
+            break;
+        }
 include_once '../../../../model/ingredients_model.php';
 $ingredientObj = new ingredient();
 $ingResult = $ingredientObj->getAllingredients();

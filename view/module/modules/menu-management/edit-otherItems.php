@@ -8,6 +8,15 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['role_id'])) {
 }
 
 $userRoleID = $_SESSION['user']['role_id'];
+    // Redirect to the home page
+    switch ($userRoleID) {
+        case 3:
+            header("Location: http://localhost/BcsKSM/view/users/stock-manager/stockmanager.php");
+            break;
+        case 4:
+            header("Location: http://localhost/BcsKSM/view/users/cashier/cashier.php");
+            break;
+        }
 include_once '../../../../model/menu_model.php';
 $menuObj = new menu();
 $Item_id = base64_decode($_GET['itemId']);

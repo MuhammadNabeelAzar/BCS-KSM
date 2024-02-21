@@ -733,6 +733,8 @@ function placeOrder() {
         item.push(food_itemId, qty, priceperitem);
         fooditems.push(item);
       }
+     
+      
       //add the customer details or update it if there is any change or just leave it as it is
       $.ajax({
         type: "POST",
@@ -747,11 +749,7 @@ function placeOrder() {
         dataType: "text",
         success: function (response) {
           //the response send a message saying succesfully inserted else returns nothing
-          // Check if the response isnt empty before calling reduceStock
-          if (response.trim() !== "") {
-            //then call the function to reduce the ingredient stock levels
-            reduceStock(foodItemsList, items);
-          }
+  
         },
       });
 
@@ -912,10 +910,10 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
     for (var i = 0; i < orderDetails.length; i++) {
       const foodname = orderDetails[i].item_name;
       const pricePeritem = orderDetails[i].unit_price;
-      const priceAfterDiscount = parseInt(orderDetails[i].final_price);
+      const priceAfterDiscount = orderDetails[i].final_price;
       const quantity = orderDetails[i].quantity;
       const discount = orderDetails[i].discount;
-      total += priceAfterDiscount;
+      total += parseFloat(priceAfterDiscount);
       var itemNumber = i + 1;
       table += "<tr class='userRow table-light text-center'>";
       table += "<td>" + itemNumber + "</td>";
@@ -926,6 +924,7 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
       table += "<td>" + priceAfterDiscount + "</td>";
       table += "</tr>";
     }
+    total = parseFloat(total.toFixed(2));
 
     table += "<tr class='userRow table-light text-center'>";
     table += "<td>" + "</td>";
@@ -966,10 +965,10 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
     for (var i = 0; i < orderDetails.length; i++) {
       const foodname = orderDetails[i].item_name;
       const pricePeritem = orderDetails[i].unit_price;
-      const priceAfterDiscount = parseInt(orderDetails[i].final_price);
+      const priceAfterDiscount = orderDetails[i].final_price;
       const quantity = orderDetails[i].quantity;
       const discount = orderDetails[i].discount;
-      total += priceAfterDiscount;
+      total += parseFloat(priceAfterDiscount);
       var itemNumber = i + 1;
       table += "<tr class='userRow table-light text-center'>";
       table += "<td>" + itemNumber + "</td>";
@@ -980,7 +979,7 @@ function displayOrderDetails(orderDetails, order_id, orderStatusId) {
       table += "<td>" + priceAfterDiscount + "</td>";
       table += "</tr>";
     }
-
+    total = parseFloat(total.toFixed(2));
     table += "<tr class='userRow table-light text-center'>";
     table += "<td>" + "</td>";
     table += "<td>" + "</td>";
@@ -1139,12 +1138,12 @@ function quickSell() {
       var foodname = $(foodItem).find(".food_item_name").text();
       var pricePeritem = $(foodItem).find(".pricePeritem").text();
       pricePeritem = parseFloat(pricePeritem.replace("Rs.", "").trim());
-      var priceAfterDiscount = parseInt(pricePeritem);
+      var priceAfterDiscount = parseFloat(pricePeritem);
       var discountValue = (priceAfterDiscount * discount) / 100;
       priceAfterDiscount = priceAfterDiscount - discountValue;
       var quantity = $(foodItem).find(".foodItemqty").val();
       var totalPriceAfterDiscount = priceAfterDiscount * quantity;
-      sum += totalPriceAfterDiscount;
+      sum += parseFloat(totalPriceAfterDiscount.toFixed(2));
       i += 1;
       table += "<tr class='userRow table-light text-center'>";
       table += "<td>" + i + "</td>";
@@ -1157,16 +1156,15 @@ function quickSell() {
     });
 
     itemList.forEach(function (Item) {
-      console.log("---->");
       var Itemname = $(Item).find(".food_item_name").text();
       var pricePeritem = $(Item).find(".pricePeritem").text();
       pricePeritem = parseFloat(pricePeritem.replace("Rs.", "").trim());
       var quantity = $(Item).find(".foodItemqty").val();
-      var priceAfterDiscount = parseInt(pricePeritem);
+      var priceAfterDiscount = parseFloat(pricePeritem);
       var discountValue = (priceAfterDiscount * discount) / 100;
       priceAfterDiscount = priceAfterDiscount - discountValue;
       var totalPriceAfterDiscount = priceAfterDiscount * quantity;
-      sum += totalPriceAfterDiscount;
+      sum += parseFloat(totalPriceAfterDiscount.toFixed(2));
       i += 1;
       table += "<tr class='userRow table-light text-center'>";
       table += "<td>" + i + "</td>";
@@ -1344,9 +1342,9 @@ function displayOrderReceiptDetails(response) {
     var quantity = foodArray.quantity;
     var unitPrice = foodArray.unit_price;
     var itemName = foodArray.item_name;
-    var totalperitem = parseInt(foodArray.final_price);
+    var totalperitem = parseFloat(foodArray.final_price);
     count++;
-    sum += totalperitem;
+    sum += parseFloat(totalperitem,toFixed(2));
     var item = {
       count: count,
       name: itemName,
@@ -1361,9 +1359,9 @@ function displayOrderReceiptDetails(response) {
     var quantity = itemArray.quantity;
     var unitPrice = itemArray.unit_price;
     var itemName = itemArray.item_name;
-    var totalperitem = parseInt(itemArray.final_price);
+    var totalperitem = parseFloat(itemArray.final_price);
     count++;
-    sum += totalperitem;
+    sum += parseFloat(totalperitem,toFixed(2));
     var item = {
       count: count,
       name: itemName,
@@ -1502,9 +1500,9 @@ function displayReceiptDetails(response) {
     var quantity = foodArray.qty;
     var unitPrice = foodArray.unit_price;
     var itemName = foodArray.item_name;
-    var totalperitem = parseInt(foodArray.total);
+    var totalperitem = parseFloat(foodArray.total);
     count++;
-    sum += totalperitem;
+    sum += parseFloat(totalperitem.toFixed(2));
     var item = {
       count: count,
       name: itemName,
@@ -1519,9 +1517,9 @@ function displayReceiptDetails(response) {
     var quantity = itemArray.qty;
     var unitPrice = itemArray.unit_price;
     var itemName = itemArray.item_name;
-    var totalperitem = parseInt(itemArray.total);
+    var totalperitem = parseFloat(itemArray.total);
     count++;
-    sum += totalperitem;
+    sum += parseFloat(totalperitem.toFixed(2));
     var item = {
       count: count,
       name: itemName,

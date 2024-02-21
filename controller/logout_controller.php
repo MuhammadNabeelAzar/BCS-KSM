@@ -1,4 +1,7 @@
 <?php
+//clear the sessiona array
+$_SESSION = array();
+
 //destroys the session from the server
 session_destroy();
 //destroys the session from the client side
