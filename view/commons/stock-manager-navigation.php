@@ -8,8 +8,8 @@
     <div class="offcanvas-body">
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="#" data-bs-toggle="collapse" data-bs-target="#ingredientsManagementSubMenu">Ingredients
-                    Management</a>
+            <img  src="http://localhost/BcsKSM/view/icons/ingredient.png" alt="Group Icon" class="ingredient-icon"><a href="#" data-bs-toggle="collapse" data-bs-target="#ingredientsManagementSubMenu">Ingredients Management</a>
+           
                 <!-- Sublist -->
                 <div id="ingredientsManagementSubMenu" class="collapse">
                     <ul class="list-group">
@@ -23,7 +23,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="http://localhost/BcsKSM/view/module/modules/dashboard/dashboard.php">Dashboard</a>
+              <img  src="http://localhost/BcsKSM/view/icons/business.png" alt="Group Icon" class="dashboard-icon">  <a href="http://localhost/BcsKSM/view/module/modules/dashboard/dashboard.php">Dashboard</a>
             </li>
         </ul>
     </div>
