@@ -1,7 +1,16 @@
 ## Restaurant Management System
 
   A Restaurant Management System developed as part of the BCS PGD level Professional Project, with a primary focus on an automated ingredients management system. This project aims to streamline restaurant operations by efficiently managing ingredient inventory, enhancing workflow, and optimizing resource utilization. Through meticulous design and implementation, the system aims to elevate the management standards at the professional level, ensuring seamless operations and improved productivity within restaurant establishments.
-
+  
+Programming languages and Technologies used:
+- PHP 
+- JavaScript 
+- HTML
+- CSS
+- Bootstrap 5
+- SweetAlerts
+- jQuery
+- MySQL
 
 <img src="https://github.com/nabeel0170/BcsKSM/assets/105811891/a060d25a-b94f-4c8d-9a16-8ed3e8d62429" width="600">
 
