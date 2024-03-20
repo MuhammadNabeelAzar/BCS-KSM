@@ -1,9 +1,13 @@
 # Restaurant Management System
 
 A Restaurant Management System developed as part of the BCS PGD level Professional Project, with a primary focus on an automated ingredients management system. This project aims to streamline restaurant operations by efficiently managing ingredient inventory, enhancing workflow, and optimizing resource utilization. Through meticulous design and implementation, the system aims to elevate the management standards at the professional level, ensuring seamless operations and improved productivity within restaurant establishments.
-(https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/a060d25a-b94f-4c8d-9a16-8ed3e8d62429.png =600x)
-(https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/9ea1cbec-10db-493e-a033-0611b3acadd7.png =600x)
-(https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/e6dbc546-62b6-490f-a1ab-d2197fb919db.png =600x)
+![Image Description](https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/a060d25a-b94f-4c8d-9a16-8ed3e8d62429.png)
+<img src="https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/a060d25a-b94f-4c8d-9a16-8ed3e8d62429.png" alt="Image Description" width="600">
+![Image Description](https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/9ea1cbec-10db-493e-a033-0611b3acadd7.png)
+<img src="https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/9ea1cbec-10db-493e-a033-0611b3acadd7.png" alt="Image Description" width="600">
+![Image Description](https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/e6dbc546-62b6-490f-a1ab-d2197fb919db.png)
+<img src="https://github.com/nabeel0170/BcsKSM/blob/main/assets/105811891/e6dbc546-62b6-490f-a1ab-d2197fb919db.png" alt="Image Description" width="600">
+
 
 
 
