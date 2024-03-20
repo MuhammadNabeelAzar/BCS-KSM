@@ -1,6 +1,6 @@
-# Project Title
+# Restaurant Management System
 
-Brief description or introduction of your project.
+A Restaurant Management System developed as part of the BCS PGD level Professional Project, with a primary focus on an automated ingredients management system. This project aims to streamline restaurant operations by efficiently managing ingredient inventory, enhancing workflow, and optimizing resource utilization. Through meticulous design and implementation, the system aims to elevate the management standards at the professional level, ensuring seamless operations and improved productivity within restaurant establishments.
 
 ## Table of Contents
 
