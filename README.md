@@ -96,4 +96,11 @@ Thank you for your interest in contributing to the Restaurant Management System 
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+The following description outlines the terms of the MIT License, a permissive open-source software license:
+
+"The MIT License is a permissive open-source software license that grants users permission to use, modify, and distribute the software for any purpose, including commercial purposes, without requiring payment or attribution to the original authors. The license also includes a disclaimer of liability, stating that the software is provided 'as is' without any warranty. Users are free to sublicense, merge, and distribute derivative works under the same license terms. However, they must include a copy of the original license and copyright notice in all copies or substantial portions of the software."
+
+This license is often chosen by developers who want to encourage widespread adoption and collaboration on their projects while maintaining some level of legal protection and ensuring that users understand their rights and responsibilities.
+
+For the full text of the MIT License, please see [here](https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt).
+
