@@ -52,7 +52,7 @@ The development of this Restaurant Management System was driven by the need for 
 - Customer Management
 - Order Management
 - Sales Analytics
-- Sales Analytics Dashboard
+- Sales Analytics & Stock Level Dashboard
 - Point-Of-Sales (POS) System
 
 ## Installation
